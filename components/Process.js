@@ -11,7 +11,7 @@ const steps = [
 export default function Process() {
   return (
     <section className="relative overflow-hidden bg-brand-navy px-4 py-16 text-white sm:px-6 md:py-20 xl:px-0">
-           <Image src="/images/process/process-bg.jpg" alt="" fill sizes="100vw" className="object-cover animate-slow-zoom motion-reduce:animate-none" />
+           <Image src="/images/process/process-bg.png" alt="" fill sizes="100vw" className="object-cover animate-slow-zoom motion-reduce:animate-none" />
       <div className="absolute inset-0 bg-gradient-to-b from-brand-navy/80 via-black/20 to-brand-navy/70" aria-hidden="true" />
       <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/50 to-transparent" aria-hidden="true" />
 
