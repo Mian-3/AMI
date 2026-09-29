@@ -1,26 +1,69 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --color-brand-orange: #f28f3b;
+  --color-brand-navy: #0f1f4b;
+  --color-cream: #f1ebe0;
+  --color-offwhite: #fcfbf8;
+  --color-ink: #222222;
+  --color-step-red: #e5312b;
+  --color-event-amber: #f5a623;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --animate-fade-down: fade-down 0.6s ease-out both;
+  --animate-marquee: marquee 70s linear infinite;
+  --animate-slow-zoom: slow-zoom 18s ease-in-out infinite alternate;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  @keyframes fade-down {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes slow-zoom {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.08);
+    }
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: #ffffff;
+  color: #000000;
+}
+::selection {
+  background: var(--color-brand-orange);
+  color: #ffffff;
+}
+
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .marquee-track:has(.marquee-item:hover) {
+    animation-play-state: paused;
+  }
 }
