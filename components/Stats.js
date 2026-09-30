@@ -10,60 +10,62 @@ function Icon({ children }) {
   );
 }
 
-const stats = [
-  {
-    value: "2004",
-    label: "Established",
-    icon: (
-      <Icon>
-        <path d="M4 21V5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v16" />
-        <path d="M15 10h4a1 1 0 0 1 1 1v10" />
-        <path d="M8 8h3M8 12h3M8 16h3M3 21h18" />
-      </Icon>
-    ),
-  },
-  {
-    value: "2500+",
-    label: "Products",
-    icon: (
-      <Icon>
-        <path d="M21 8 12 3 3 8v8l9 5 9-5z" />
-        <path d="m3 8 9 5 9-5M12 13v8" />
-      </Icon>
-    ),
-  },
-  {
-    value: "3000+",
-    label: "Clients",
-    icon: (
-      <Icon>
-        <circle cx="9" cy="8" r="3.5" />
-        <path d="M2.5 20a6.5 6.5 0 0 1 13 0" />
-        <path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5" />
-      </Icon>
-    ),
-  },
-  {
-    value: "6",
-    label: "Countries",
-    icon: (
-      <Icon>
-        <circle cx="12" cy="12" r="9" />
-        <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
-      </Icon>
-    ),
-  },
-  {
-    value: "10+",
-    label: "Tons/ Day",
-    icon: (
-      <Icon>
-        <circle cx="12" cy="12" r="9" />
-        <path d="M12 7v5l3 2" />
-      </Icon>
-    ),
-  },
-];
+function getStats(dict) {
+  return [
+    {
+      value: "2004",
+      label: dict.stats.established,
+      icon: (
+        <Icon>
+          <path d="M4 21V5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v16" />
+          <path d="M15 10h4a1 1 0 0 1 1 1v10" />
+          <path d="M8 8h3M8 12h3M8 16h3M3 21h18" />
+        </Icon>
+      ),
+    },
+    {
+      value: "2500+",
+      label: dict.stats.products,
+      icon: (
+        <Icon>
+          <path d="M21 8 12 3 3 8v8l9 5 9-5z" />
+          <path d="m3 8 9 5 9-5M12 13v8" />
+        </Icon>
+      ),
+    },
+    {
+      value: "3000+",
+      label: dict.stats.clients,
+      icon: (
+        <Icon>
+          <circle cx="9" cy="8" r="3.5" />
+          <path d="M2.5 20a6.5 6.5 0 0 1 13 0" />
+          <path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5" />
+        </Icon>
+      ),
+    },
+    {
+      value: "6",
+      label: dict.stats.countries,
+      icon: (
+        <Icon>
+          <circle cx="12" cy="12" r="9" />
+          <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+        </Icon>
+      ),
+    },
+    {
+      value: "10+",
+      label: dict.stats.tonsPerDay,
+      icon: (
+        <Icon>
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 7v5l3 2" />
+        </Icon>
+      ),
+    },
+  ];
+}
 
 function StatCard({ item }) {
   return (
@@ -77,7 +79,9 @@ function StatCard({ item }) {
   );
 }
 
-export default function Stats() {
+export default function Stats({ dict }) {
+  const stats = getStats(dict);
+
   return (
     <section className="relative bg-offwhite pb-10">
       <div className="absolute inset-x-0 bottom-0 top-[calc(50%-20px)] bg-cream max-lg:hidden" aria-hidden="true" />

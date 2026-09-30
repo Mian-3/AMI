@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 const languages = [
-  { code: "EN", label: "English" },
-  { code: "AR", label: "العربية" },
+  { code: "en", label: "English", short: "EN" },
+  { code: "ar", label: "العربية", short: "AR" },
 ];
 
 function GlobeIcon() {
@@ -24,10 +25,15 @@ function ChevronIcon({ open }) {
   );
 }
 
-export default function LanguageSwitcher() {
+export default function LanguageSwitcher({ variant = "light" }) {
   const [open, setOpen] = useState(false);
-  const [current, setCurrent] = useState(languages[0]);
   const ref = useRef(null);
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const segments = pathname.split("/");
+  const currentCode = segments[1] === "ar" ? "ar" : "en";
+  const current = languages.find((l) => l.code === currentCode) || languages[0];
 
   useEffect(() => {
     const onClickOutside = (e) => {
@@ -37,21 +43,31 @@ export default function LanguageSwitcher() {
     return () => document.removeEventListener("mousedown", onClickOutside);
   }, []);
 
+  const switchTo = (code) => {
+    setOpen(false);
+    if (code === currentCode) return;
+    document.cookie = "preferred_locale=" + code + ";path=/;max-age=31536000";
+    const rest = segments.slice(2).join("/");
+    router.push("/" + code + (rest ? "/" + rest : ""));
+  };
+
+  const isDark = variant === "dark";
+
   return (
     <div ref={ref} className="relative">
-      <button type="button" onClick={() => setOpen(!open)} aria-haspopup="listbox" aria-expanded={open} className="flex items-center gap-1.5 transition-opacity hover:opacity-80">
+      <button type="button" onClick={() => setOpen(!open)} aria-haspopup="listbox" aria-expanded={open} className={"flex items-center gap-1.5 transition-opacity hover:opacity-80 " + (isDark ? "text-white" : "text-brand-navy")}>
         <GlobeIcon />
-        <span>{current.code}</span>
+        <span>{current.short}</span>
         <ChevronIcon open={open} />
       </button>
 
       {open && (
-        <ul role="listbox" className="absolute right-0 top-full z-10 mt-2 w-28 overflow-hidden rounded-md border border-white/10 bg-brand-navy shadow-lg">
+        <ul role="listbox" className={"absolute end-0 top-full z-10 mt-2 w-28 overflow-hidden rounded-md border shadow-lg " + (isDark ? "border-white/10 bg-brand-navy" : "border-brand-navy/10 bg-white")}>
           {languages.map((lang) => (
             <li key={lang.code}>
-              <button type="button" onClick={() => { setCurrent(lang); setOpen(false); }} className={"flex w-full items-center justify-between px-3 py-2 text-left text-[11px] transition-colors hover:bg-white/10 " + (lang.code === current.code ? "text-brand-orange" : "text-white")}>
+              <button type="button" onClick={() => switchTo(lang.code)} className={"flex w-full items-center justify-between px-3 py-2 text-left text-[11px] transition-colors " + (isDark ? "hover:bg-white/10" : "hover:bg-brand-navy/5") + " " + (lang.code === currentCode ? "text-brand-orange" : isDark ? "text-white" : "text-brand-navy")}>
                 {lang.label}
-                {lang.code === current.code && <span>✓</span>}
+                {lang.code === currentCode && <span>✓</span>}
               </button>
             </li>
           ))}

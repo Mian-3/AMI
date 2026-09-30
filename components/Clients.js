@@ -28,12 +28,14 @@ function LogoRow({ hidden = false }) {
   );
 }
 
-export default function Clients() {
+export default function Clients({ dict, locale }) {
+  const isRtl = locale === "ar";
+
   return (
     <section className="bg-cream pb-14 pt-6">
-      <Reveal as="p" className="mb-6 text-center text-[10px] font-medium uppercase tracking-[0.08em] text-brand-navy">Trusted by leading manufacturers</Reveal>
-      <div className="marquee-mask overflow-hidden">
-        <div className="marquee-track flex w-max animate-marquee motion-reduce:animate-none">
+      <Reveal as="p" className="mb-6 text-center text-[10px] font-medium uppercase tracking-[0.08em] text-brand-navy">{dict.clients.label}</Reveal>
+      <div className="marquee-mask overflow-hidden" dir="ltr">
+        <div className={"marquee-track flex w-max motion-reduce:animate-none " + (isRtl ? "animate-marquee-reverse" : "animate-marquee")}>
           <LogoRow />
           <LogoRow hidden />
         </div>

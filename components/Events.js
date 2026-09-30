@@ -12,28 +12,32 @@ function PinIcon() {
 
 function ArrowIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="rtl:-scale-x-100">
       <path d="M7 17 17 7M7 7h10v10" />
     </svg>
   );
 }
 
-const events = [
-  { date: "18 Jun 2026", title: "Connecting. Collaborating. Growing.", venue: "Expo Center in Lahore", src: "/images/events/event-1.jpg" },
-  { date: "18 Jun 2026", title: "Food Flavors Event", venue: "Expo Center in Lahore", src: "/images/events/event-2.jpg" },
-  { date: "18 Jun 2026", title: "IFTECH 2026", venue: "Expo Center in Lahore", src: "/images/events/event-3.jpg" },
-];
+function getEvents(dict) {
+  return [
+    { date: dict.events.items.event1.date, title: dict.events.items.event1.title, venue: dict.events.items.event1.venue, src: "/images/events/event-1.jpg" },
+    { date: dict.events.items.event2.date, title: dict.events.items.event2.title, venue: dict.events.items.event2.venue, src: "/images/events/event-2.jpg" },
+    { date: dict.events.items.event3.date, title: dict.events.items.event3.title, venue: dict.events.items.event3.venue, src: "/images/events/event-3.jpg" },
+  ];
+}
 
-export default function Events() {
+export default function Events({ dict }) {
+  const events = getEvents(dict);
+
   return (
     <section className="bg-ink px-4 py-16 sm:px-6 md:py-20 xl:px-0">
       <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-10 lg:grid-cols-[2fr_3fr] lg:gap-8">
         <div>
-          <Reveal as="p" className="mb-3 text-[11px] font-medium uppercase tracking-[0.08em] text-brand-orange">Events</Reveal>
-          <Reveal as="h2" delay={100} className="text-[26px] font-semibold leading-[1.25] text-white md:text-[32px] md:leading-[40px]">Meet Us. Connect. Discover.</Reveal>
-          <Reveal as="p" delay={200} className="mt-4 max-w-[380px] text-[14px] leading-[22px] text-white/60">We participate in industry events, exhibitions and professional gatherings where ideas, opportunities and partnerships come together.</Reveal>
+          <Reveal as="p" className="mb-3 text-[11px] font-medium uppercase tracking-[0.08em] text-brand-orange">{dict.events.eyebrow}</Reveal>
+          <Reveal as="h2" delay={100} className="text-[26px] font-semibold leading-[1.25] text-white md:text-[32px] md:leading-[40px]">{dict.events.heading}</Reveal>
+          <Reveal as="p" delay={200} className="mt-4 max-w-[380px] text-[14px] leading-[22px] text-white/60">{dict.events.paragraph}</Reveal>
           <Reveal delay={300}>
-            <a href="#" className="mt-6 flex h-9 w-fit items-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">See All Events →</a>
+            <a href="#" className="mt-6 flex h-9 w-fit items-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.buttons.seeAllEvents}</a>
           </Reveal>
         </div>
 

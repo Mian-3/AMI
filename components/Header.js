@@ -2,16 +2,18 @@ import Image from "next/image";
 import MobileMenu from "@/components/MobileMenu";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
-const navItems = [
-  { label: "Home", href: "#", active: true },
-  { label: "About Us", href: "#" },
-  { label: "Management", href: "#" },
-  { label: "Our Process", href: "#" },
-  { label: "Downloads", href: "#" },
-  { label: "Events", href: "#" },
-  { label: "Our Clients", href: "#" },
-  { label: "Contact Us", href: "#" },
-];
+function getNavItems(dict) {
+  return [
+    { label: dict.nav.home, href: "#", active: true },
+    { label: dict.nav.about, href: "#" },
+    { label: dict.nav.management, href: "#" },
+    { label: dict.nav.process, href: "#" },
+    { label: dict.nav.downloads, href: "#" },
+    { label: dict.nav.events, href: "#" },
+    { label: dict.nav.clients, href: "#" },
+    { label: dict.nav.contact, href: "#" },
+  ];
+}
 
 function Icon({ children }) {
   return (
@@ -58,17 +60,19 @@ function LinkedinIcon() {
   );
 }
 
-export default function Header() {
-  return (
-    <header className="relative z-50 w-full animate-fade-down motion-reduce:animate-none">      {/* Utility bar */}
-      <div className="bg-brand-navy text-white">
-        <div className="mx-auto flex h-10 max-w-[1200px] items-center justify-end gap-5 px-4 text-[11px] sm:px-6 xl:px-0">
-          <a href="#" className="hidden transition-opacity hover:opacity-80 sm:inline">Request for Sample</a>
-          <a href="#" className="hidden transition-opacity hover:opacity-80 sm:inline">Download Catalogue</a>
-          <div className="flex items-center gap-3">
-                                    <LanguageSwitcher />
+export default function Header({ dict, locale }) {
+  const navItems = getNavItems(dict);
 
-            <a href="#" aria-label="Search" className="transition-opacity hover:opacity-80"><SearchIcon /></a>
+  return (
+    <header className="relative z-50 w-full animate-fade-down motion-reduce:animate-none">
+      {/* Utility bar */}
+      <div className="hidden bg-brand-navy text-white xl:block">
+        <div className="mx-auto flex h-10 max-w-[1200px] items-center justify-end gap-5 px-4 text-[11px] sm:px-6 xl:px-0">
+          <a href="#" className="hidden transition-opacity hover:opacity-80 sm:inline">{dict.buttons.requestSample}</a>
+          <a href="#" className="hidden transition-opacity hover:opacity-80 sm:inline">{dict.buttons.downloadCatalogue}</a>
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher variant="dark" />   
+                     <a href="#" aria-label="Search" className="transition-opacity hover:opacity-80"><SearchIcon /></a>
             <a href="#" aria-label="Facebook" className="transition-opacity hover:opacity-80"><FacebookIcon /></a>
             <a href="#" aria-label="Instagram" className="transition-opacity hover:opacity-80"><InstagramIcon /></a>
             <a href="#" aria-label="LinkedIn" className="transition-opacity hover:opacity-80"><LinkedinIcon /></a>
@@ -83,7 +87,7 @@ export default function Header() {
             <Image src="/images/logo/am-international-logo.png" alt="AM International" width={240} height={76} priority className="h-auto w-[140px] xl:w-[176px]" />
           </a>
 
-          <nav aria-label="Main navigation" className="ml-3 hidden xl:block">
+          <nav aria-label="Main navigation" className="ms-3 hidden xl:block">
             <ul className="flex items-center gap-[17px] text-[13px] text-ink">
               {navItems.map((item) => (
                 <li key={item.label}>
@@ -93,13 +97,13 @@ export default function Header() {
             </ul>
           </nav>
 
-          <div className="ml-auto hidden shrink-0 items-center gap-2 xl:flex">
-            <a href="#" className="flex h-9 items-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">Request for Sample</a>
-            <a href="#" className="flex h-9 items-center whitespace-nowrap rounded-md border border-brand-navy/20 px-4 text-[12px] font-medium text-brand-navy transition duration-200 hover:-translate-y-0.5 hover:bg-brand-navy/5 motion-reduce:transition-none motion-reduce:hover:translate-y-0">Download Catalogue →</a>
+          <div className="ms-auto hidden shrink-0 items-center gap-2 xl:flex">
+            <a href="#" className="flex h-9 items-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.buttons.requestSample}</a>
+            <a href="#" className="flex h-9 items-center whitespace-nowrap rounded-md border border-brand-navy/20 px-4 text-[12px] font-medium text-brand-navy transition duration-200 hover:-translate-y-0.5 hover:bg-brand-navy/5 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.buttons.downloadCatalogueArrow}</a>
           </div>
 
-          <div className="ml-auto xl:hidden">
-            <MobileMenu items={navItems} />
+          <div className="ms-auto xl:hidden">
+            <MobileMenu items={navItems} dict={dict} />
           </div>
         </div>
       </div>

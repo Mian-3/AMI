@@ -1,4 +1,5 @@
 import Image from "next/image";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 function PinIcon() {
   return (
@@ -54,30 +55,26 @@ function LinkedinIcon() {
   );
 }
 
-const fragranceLinks = ["Detergents", "Shampoos", "Paints", "Cosmetics", "Body / Skin Care"];
-const flavourLinks = ["Savoury Products", "Pharmaceuticals", "Dairy Products", "Confectionries", "Beverages", "Bakery"];
-const quickLinks = ["About Us", "Management", "Our Process", "Events", "Contact Us"];
-
-export default function Footer() {
+export default function Footer({ dict, locale }) {
   return (
     <footer className="bg-cream">
       <div className="mx-auto max-w-[1200px] px-4 py-16 sm:px-6 md:py-20 xl:px-0">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[300px_1fr]">
           <div>
             <Image src="/images/logo/am-international-logo.png" alt="AM International" width={200} height={64} className="h-10 w-auto" />
-            <p className="mt-5 text-[12px] font-medium uppercase tracking-[0.06em] text-brand-navy/70">Contact</p>
+            <p className="mt-5 text-[12px] font-medium uppercase tracking-[0.06em] text-brand-navy/70">{dict.footer.contactLabel}</p>
             <ul className="mt-3 space-y-3 text-[13px] text-ink/70">
               <li className="flex items-start gap-2">
                 <PinIcon />
-                <span>10.5 Km, Raiwind Road, Near Coca Cola Factory, Lahore, Pakistan</span>
+                <span>{dict.footer.address}</span>
               </li>
               <li className="flex items-center gap-2">
                 <MailIcon />
-                <a href="mailto:sales@aminternational.pk" className="transition-colors hover:text-brand-orange">sales@aminternational.pk</a>
+                <a href={"mailto:" + dict.footer.email} dir="ltr" className="transition-colors hover:text-brand-orange">{dict.footer.email}</a>
               </li>
               <li className="flex items-center gap-2">
                 <PhoneIcon />
-                <a href="tel:+924235459524" className="transition-colors hover:text-brand-orange">+92 42 354 595 24</a>
+                <a href={"tel:" + dict.footer.phone.replace(/\s/g, "")} dir="ltr" className="transition-colors hover:text-brand-orange">{dict.footer.phone}</a>
               </li>
             </ul>
             <div className="mt-5 flex items-center gap-3 text-brand-navy">
@@ -89,25 +86,25 @@ export default function Footer() {
 
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
             <div>
-              <p className="text-[12px] font-semibold uppercase tracking-[0.04em] text-brand-navy">Fragrances</p>
+              <p className="text-[12px] font-semibold uppercase tracking-[0.04em] text-brand-navy">{dict.footer.fragrancesHeading}</p>
               <ul className="mt-4 space-y-2.5 text-[13px] text-ink/70">
-                {fragranceLinks.map((label) => (
+                {dict.footer.fragrancesLinks.map((label) => (
                   <li key={label}><a href="#" className="transition-colors hover:text-brand-orange">{label}</a></li>
                 ))}
               </ul>
             </div>
             <div>
-              <p className="text-[12px] font-semibold uppercase tracking-[0.04em] text-brand-navy">Food Flavours</p>
+              <p className="text-[12px] font-semibold uppercase tracking-[0.04em] text-brand-navy">{dict.footer.foodFlavoursHeading}</p>
               <ul className="mt-4 space-y-2.5 text-[13px] text-ink/70">
-                {flavourLinks.map((label) => (
+                {dict.footer.foodFlavoursLinks.map((label) => (
                   <li key={label}><a href="#" className="transition-colors hover:text-brand-orange">{label}</a></li>
                 ))}
               </ul>
             </div>
             <div>
-              <p className="text-[12px] font-semibold uppercase tracking-[0.04em] text-brand-navy">Quick Links</p>
+              <p className="text-[12px] font-semibold uppercase tracking-[0.04em] text-brand-navy">{dict.footer.quickLinksHeading}</p>
               <ul className="mt-4 space-y-2.5 text-[13px] text-ink/70">
-                {quickLinks.map((label) => (
+                {dict.footer.quickLinks.map((label) => (
                   <li key={label}><a href="#" className="transition-colors hover:text-brand-orange">{label}</a></li>
                 ))}
               </ul>
@@ -118,11 +115,8 @@ export default function Footer() {
 
       <div className="border-t border-brand-navy/10">
         <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-3 px-4 py-5 text-[12px] text-ink/60 sm:flex-row sm:px-6 xl:px-0">
-          <p>©2026 AM International. All rights reserved.</p>
-          <div className="flex items-center overflow-hidden rounded-full border border-brand-navy/15 text-[11px] font-medium">
-            <span className="bg-brand-navy px-3 py-1 text-white">EN</span>
-            <span className="px-3 py-1 text-brand-navy/60">العربية</span>
-          </div>
+          <p>{dict.footer.copyright}</p>
+          <LanguageSwitcher />
         </div>
       </div>
     </footer>
