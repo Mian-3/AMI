@@ -1,3 +1,4 @@
+import ScrollFx from "@/components/ScrollFx";
 import Header from "@/components/Header";
 import { getDictionary } from "@/lib/getDictionary";import Hero from "@/components/Hero";
 import Intro from "@/components/Intro";
@@ -15,7 +16,9 @@ export default async function Home({ params }) {
 
   return (
     <>
-        <Header dict={dict} locale={locale} />      <main>
+        <Header dict={dict} locale={locale} />  
+                      
+            <main>
                <Hero dict={dict} locale={locale} />
                <Intro dict={dict} />
         <Stats dict={dict} />
