@@ -116,8 +116,7 @@ export default function Footer({ dict, locale }) {
       <div className="border-t border-brand-navy/10">
         <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-3 px-4 py-5 text-[12px] text-ink/60 sm:flex-row sm:px-6 xl:px-0">
           <p>{dict.footer.copyright}</p>
-          <LanguageSwitcher />
-        </div>
+          <LanguageSwitcher openUpward />        </div>
       </div>
     </footer>
   );
