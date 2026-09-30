@@ -1,4 +1,13 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Reveal from "@/components/Reveal";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 function Icon({ children }) {
   return (
@@ -21,8 +30,109 @@ function getIndustries(dict) {
   ];
 }
 
+function IndustryCell({ item, cellRef, iconRef, labelRef, glowRef }) {
+  const isTouch = useRef(false);
+
+  useEffect(() => {
+    isTouch.current = window.matchMedia("(hover: none)").matches;
+  }, []);
+
+  const playIn = () => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    gsap.killTweensOf([iconRef.current, labelRef.current]);
+    gsap.to(iconRef.current, { y: -4, rotate: 8, scale: 1.1, duration: 0.35, ease: "back.out(2.2)" });
+    gsap.to(labelRef.current, { y: -2, duration: 0.3, ease: "power2.out" });
+  };
+
+  const playOut = () => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    gsap.to(iconRef.current, { y: 0, rotate: 0, scale: 1, duration: 0.4, ease: "power3.out" });
+    gsap.to(labelRef.current, { y: 0, duration: 0.3, ease: "power2.out" });
+  };
+
+  const playRipple = () => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    gsap.killTweensOf(glowRef.current);
+    gsap.fromTo(
+      glowRef.current,
+      { scale: 0.3, opacity: 0.5 },
+      { scale: 2.2, opacity: 0, duration: 0.6, ease: "power2.out" }
+    );
+  };
+
+  const handleTap = () => {
+    if (!isTouch.current) return;
+    playIn();
+    playRipple();
+    setTimeout(playOut, 350);
+  };
+
+  return (
+    <div
+      ref={cellRef}
+      onMouseEnter={!isTouch.current ? playIn : undefined}
+      onMouseLeave={!isTouch.current ? playOut : undefined}
+      onTouchStart={handleTap}
+      className="group relative flex flex-col items-center justify-center gap-3 overflow-hidden px-4 py-9 text-center transition-colors duration-300 hover:bg-brand-orange/10"
+    >
+      <span ref={glowRef} className="pointer-events-none absolute h-11 w-11 rounded-full bg-brand-orange/40 opacity-0" aria-hidden="true" />
+      <span ref={iconRef} className="relative flex h-11 w-11 items-center justify-center rounded-full bg-brand-orange/10 text-brand-orange transition-colors duration-300 group-hover:bg-brand-orange group-hover:text-white">
+        {item.icon}
+      </span>
+      <span ref={labelRef} className="relative text-[13px] font-medium text-ink transition-colors duration-300 group-hover:text-brand-orange">{item.label}</span>
+    </div>
+  );
+}
+
 export default function Industries({ dict }) {
   const industries = getIndustries(dict);
+  const gridRef = useRef(null);
+  const cellRefs = useRef([]);
+  const iconRefs = useRef([]);
+  const labelRefs = useRef([]);
+  const glowRefs = useRef([]);
+
+  useEffect(() => {
+    const cells = cellRefs.current.filter(Boolean);
+    if (!cells.length) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reduceMotion) {
+      gsap.set(cells, { opacity: 1, scale: 1 });
+      return;
+    }
+
+    gsap.set(cells, { opacity: 0, scale: 0.85 });
+
+    const dividers = gridRef.current.querySelectorAll(".divider-line");
+    gsap.set(dividers, { scaleY: 0, scaleX: 0 });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: gridRef.current,
+        start: "top 85%",
+        once: true,
+      },
+    });
+
+    tl.to(cells, {
+      opacity: 1,
+      scale: 1,
+      duration: 0.5,
+      ease: "back.out(1.6)",
+      stagger: { each: 0.07, from: "start" },
+    }).to(
+      dividers,
+      { scaleY: 1, scaleX: 1, duration: 0.5, ease: "power2.out", stagger: 0.03 },
+      "-=0.3"
+    );
+
+    return () => {
+      tl.scrollTrigger?.kill();
+      tl.kill();
+    };
+  }, [dict]);
 
   return (
     <section className="bg-white px-4 py-16 sm:px-6 md:py-20 xl:px-0">
@@ -33,14 +143,23 @@ export default function Industries({ dict }) {
           <Reveal as="p" delay={200} className="mt-4 max-w-[560px] text-[14px] leading-[22px] text-ink/60">{dict.industries.paragraph}</Reveal>
         </div>
 
-        <Reveal delay={300} className="mt-10 grid grid-cols-2 divide-x divide-y divide-brand-navy/10 md:grid-cols-4">
-          {industries.map((item) => (
-            <div key={item.label} className="group flex flex-col items-center justify-center gap-3 px-4 py-9 text-center transition-colors duration-300 hover:bg-brand-orange/10">
-              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-orange/10 text-brand-orange transition-colors duration-300 group-hover:bg-brand-orange group-hover:text-white">{item.icon}</span>
-              <span className="text-[13px] font-medium text-ink">{item.label}</span>
+        <div ref={gridRef} className="relative mt-10 grid grid-cols-2 md:grid-cols-4">
+          {industries.map((item, index) => (
+            <div key={item.label} className="relative">
+              {index % 2 !== 0 && <span className="divider-line absolute inset-y-0 start-0 w-px origin-top bg-brand-navy/10 md:hidden" aria-hidden="true" />}
+              {index % 4 !== 0 && <span className="divider-line hidden md:block absolute inset-y-0 start-0 w-px origin-top bg-brand-navy/10" aria-hidden="true" />}
+              {index >= 2 && <span className="divider-line absolute inset-x-0 top-0 h-px origin-left bg-brand-navy/10 md:hidden" aria-hidden="true" />}
+              {index >= 4 && <span className="divider-line hidden md:block absolute inset-x-0 top-0 h-px origin-left bg-brand-navy/10" aria-hidden="true" />}
+              <IndustryCell
+                item={item}
+                cellRef={(el) => (cellRefs.current[index] = el)}
+                iconRef={(el) => (iconRefs.current[index] = el)}
+                labelRef={(el) => (labelRefs.current[index] = el)}
+                glowRef={(el) => (glowRefs.current[index] = el)}
+              />
             </div>
           ))}
-        </Reveal>
+        </div>
 
         <Reveal delay={450} className="mt-9 flex flex-wrap items-center justify-center gap-3">
           <a href="#" className="flex h-9 items-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.buttons.exploreProcess}</a>
