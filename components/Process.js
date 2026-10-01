@@ -4,12 +4,11 @@ import Reveal from "@/components/Reveal";
 function getSteps(dict) {
   return [
     { number: "01", title: dict.process.steps.rd.title, desc: dict.process.steps.rd.desc, tint: "from-amber-300/45 to-amber-600/10", ring: "hover:ring-amber-300/40" },
-    { number: "02", title: dict.process.steps.production.title, desc: dict.process.steps.production.desc, tint: "from-sky-400/45 to-sky-700/10", ring: "hover:ring-sky-300/40" },
-    { number: "03", title: dict.process.steps.qc.title, desc: dict.process.steps.qc.desc, tint: "from-emerald-400/45 to-emerald-700/10", ring: "hover:ring-emerald-300/40" },
-    { number: "04", title: dict.process.steps.application.title, desc: dict.process.steps.application.desc, tint: "from-fuchsia-400/45 to-fuchsia-700/10", ring: "hover:ring-fuchsia-300/40" },
+    { number: "02", title: dict.process.steps.application.title, desc: dict.process.steps.application.desc, tint: "from-fuchsia-400/45 to-fuchsia-700/10", ring: "hover:ring-fuchsia-300/40" },
+    { number: "03", title: dict.process.steps.production.title, desc: dict.process.steps.production.desc, tint: "from-sky-400/45 to-sky-700/10", ring: "hover:ring-sky-300/40" },
+    { number: "04", title: dict.process.steps.qc.title, desc: dict.process.steps.qc.desc, tint: "from-emerald-400/45 to-emerald-700/10", ring: "hover:ring-emerald-300/40" },
   ];
 }
-
 export default function Process({ dict }) {
   const steps = getSteps(dict);
 

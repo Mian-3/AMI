@@ -34,7 +34,7 @@ function getStats(dict) {
       ),
     },
     {
-      value: "3000+",
+       value: "3500+",
       label: dict.stats.clients,
       icon: (
         <Icon>
@@ -44,9 +44,9 @@ function getStats(dict) {
         </Icon>
       ),
     },
-    {
+        {
       value: "6",
-      label: dict.stats.countries,
+      label: dict.stats.countriesInOperations,
       icon: (
         <Icon>
           <circle cx="12" cy="12" r="9" />
@@ -55,12 +55,14 @@ function getStats(dict) {
       ),
     },
     {
-      value: "10+",
-      label: dict.stats.tonsPerDay,
+      value: "100+",
+      label: dict.stats.teamMembers,
       icon: (
         <Icon>
-          <circle cx="12" cy="12" r="9" />
-          <path d="M12 7v5l3 2" />
+          <circle cx="9" cy="8" r="3.5" />
+          <path d="M2.5 20a6.5 6.5 0 0 1 13 0" />
+          <path d="M16.5 8.5a3 3 0 1 0 0-6" />
+          <path d="M19 14.5a5.5 5.5 0 0 1 3 5" />
         </Icon>
       ),
     },

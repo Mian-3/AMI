@@ -6,11 +6,11 @@ function getNavItems(dict) {
   return [
     { label: dict.nav.home, href: "#", active: true },
     { label: dict.nav.about, href: "#" },
-    { label: dict.nav.management, href: "#" },
+    { label: dict.nav.flavoursFragrances, href: "#" },
     { label: dict.nav.process, href: "#" },
     { label: dict.nav.downloads, href: "#" },
     { label: dict.nav.events, href: "#" },
-    { label: dict.nav.clients, href: "#" },
+    { label: dict.nav.insights, href: "#" },
     { label: dict.nav.contact, href: "#" },
   ];
 }

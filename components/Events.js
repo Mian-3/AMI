@@ -10,6 +10,15 @@ function PinIcon() {
   );
 }
 
+function CalendarIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="3" y="4" width="18" height="18" rx="2" />
+      <path d="M16 2v4M8 2v4M3 10h18" />
+    </svg>
+  );
+}
+
 function ArrowIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="rtl:-scale-x-100">
@@ -22,7 +31,6 @@ function getEvents(dict) {
   return [
     { date: dict.events.items.event1.date, title: dict.events.items.event1.title, venue: dict.events.items.event1.venue, src: "/images/events/event-1.jpg" },
     { date: dict.events.items.event2.date, title: dict.events.items.event2.title, venue: dict.events.items.event2.venue, src: "/images/events/event-2.jpg" },
-    { date: dict.events.items.event3.date, title: dict.events.items.event3.title, venue: dict.events.items.event3.venue, src: "/images/events/event-3.jpg" },
   ];
 }
 
@@ -31,30 +39,32 @@ export default function Events({ dict }) {
 
   return (
     <section className="bg-ink px-4 py-16 sm:px-6 md:py-20 xl:px-0">
-      <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-10 lg:grid-cols-[2fr_3fr] lg:gap-8">
-        <div>
-          <Reveal as="p" className="mb-3 text-[11px] font-medium uppercase tracking-[0.08em] text-brand-orange">{dict.events.eyebrow}</Reveal>
-          <Reveal as="h2" delay={100} className="text-[26px] font-semibold leading-[1.25] text-white md:text-[32px] md:leading-[40px]">{dict.events.heading}</Reveal>
-          <Reveal as="p" delay={200} className="mt-4 max-w-[380px] text-[14px] leading-[22px] text-white/60">{dict.events.paragraph}</Reveal>
-          <Reveal delay={300}>
-            <a href="#" className="mt-6 flex h-9 w-fit items-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.buttons.seeAllEvents}</a>
+      <div className="mx-auto max-w-[1200px]">
+        <div className="flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
+          <Reveal>
+            <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.08em] text-brand-orange">{dict.events.eyebrow}</p>
+            <h2 className="text-[26px] font-semibold leading-[1.25] text-white md:text-[32px] md:leading-[40px]">{dict.events.heading}</h2>
+            <p className="mt-4 max-w-[460px] text-[14px] leading-[22px] text-white/60">{dict.events.paragraph}</p>
+          </Reveal>
+          <Reveal delay={150}>
+            <a href="#" className="flex h-9 w-fit shrink-0 items-center gap-2 whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0"><CalendarIcon />{dict.buttons.seeAllEvents}</a>
           </Reveal>
         </div>
 
-        <div className="flex flex-col gap-3">
+        <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
           {events.map((event, index) => (
-            <Reveal key={event.title} delay={350 + index * 130}>
+            <Reveal key={event.title} delay={250 + index * 150}>
               <a href="#" className="group block overflow-hidden rounded-xl border border-white/10 transition-colors duration-300 hover:border-white/20">
-                <div className="relative h-[90px] w-full sm:h-[100px]">
-                  <Image src={event.src} alt={event.title} fill sizes="(min-width: 1024px) 780px, 100vw" className="object-cover" />
+                <div className="relative h-[180px] w-full sm:h-[210px]">
+                  <Image src={event.src} alt={event.title} fill sizes="(min-width: 768px) 580px, 100vw" className="object-cover transition duration-500 group-hover:scale-105 motion-reduce:transition-none" />
                 </div>
-                <div className="flex items-center justify-between gap-3 p-3">
+                <div className="flex items-center justify-between gap-3 p-4">
                   <div className="min-w-0">
                     <p className="text-[11px] font-medium text-brand-orange">{event.date}</p>
-                    <h3 className="mt-0.5 truncate text-[14px] font-semibold text-white">{event.title}</h3>
-                    <p className="mt-0.5 flex items-center gap-1.5 text-[11px] text-white/50"><PinIcon />{event.venue}</p>
+                    <h3 className="mt-0.5 text-[16px] font-semibold text-white">{event.title}</h3>
+                    <p className="mt-1 flex items-center gap-1.5 text-[12px] text-white/50"><PinIcon />{event.venue}</p>
                   </div>
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-orange text-white"><ArrowIcon /></span>
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-orange text-white"><ArrowIcon /></span>
                 </div>
               </a>
             </Reveal>
