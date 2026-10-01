@@ -11,8 +11,8 @@ function ArrowIcon() {
 
 function getItems(dict) {
   return [
-    { title: dict.expertise.items.flavours.title, desc: dict.expertise.items.flavours.desc, src: "/images/expertise/flavours.jpg" },
-    { title: dict.expertise.items.fragrances.title, desc: dict.expertise.items.fragrances.desc, src: "/images/expertise/fragrances.jpg" },
+    { title: dict.expertise.items.flavours.title, desc: dict.expertise.items.flavours.desc, src: "/images/expertise/new1.png" },
+    { title: dict.expertise.items.fragrances.title, desc: dict.expertise.items.fragrances.desc, src: "/images/expertise/new2.png" },
   ];
 }
 
