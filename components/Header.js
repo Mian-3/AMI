@@ -64,8 +64,7 @@ export default function Header({ dict, locale }) {
   const navItems = getNavItems(dict);
 
   return (
-    <header className="relative z-50 w-full animate-fade-down motion-reduce:animate-none">
-      {/* Utility bar */}
+    <header className="sticky top-0 z-50 w-full bg-white animate-fade-down motion-reduce:animate-none">      {/* Utility bar */}
       <div className="hidden bg-brand-navy text-white xl:block">
         <div className="mx-auto flex h-10 max-w-[1200px] items-center justify-end gap-5 px-4 text-[11px] sm:px-6 xl:px-0">
           <a href="#" className="hidden transition-opacity hover:opacity-80 sm:inline">{dict.buttons.requestSample}</a>

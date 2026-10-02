@@ -3,10 +3,10 @@ import Reveal from "@/components/Reveal";
 
 function getArticles(dict) {
   return [
-    { ...dict.insights.items.article1, src: "/images/insights/insight-1.jpg" },
-    { ...dict.insights.items.article2, src: "/images/insights/insight-2.jpg" },
-    { ...dict.insights.items.article3, src: "/images/insights/insight-3.jpg" },
-    { ...dict.insights.items.article4, src: "/images/insights/insight-4.jpg" },
+    { ...dict.insights.items.article1, src: "/images/insights/Rectangle 240649770 (1).png" },
+    { ...dict.insights.items.article2, src: "/images/insights/Rectangle 240649819.png" },
+    { ...dict.insights.items.article3, src: "/images/insights/Rectangle 240649822.png" },
+    { ...dict.insights.items.article4, src: "/images/insights/in-1.png" },
   ];
 }
 

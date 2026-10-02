@@ -3,7 +3,7 @@ import Reveal from "@/components/Reveal";
 
 function ArrowIcon() {
   return (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="rtl:-scale-x-100">
       <path d="M7 17 17 7M7 7h10v10" />
     </svg>
   );
@@ -15,13 +15,13 @@ function getItems(dict) {
     { title: dict.expertise.items.fragrances.title, desc: dict.expertise.items.fragrances.desc, src: "/images/expertise/new2.png" },
   ];
 }
-
 function ExpertiseCard({ item }) {
   return (
-    <a href="#" className="group relative block aspect-[3/4] overflow-hidden rounded-2xl bg-brand-navy sm:aspect-[4/3]">
+    <a href="#" className="group relative block aspect-[3/4] transform-gpu overflow-hidden rounded-2xl bg-brand-navy outline-none [-webkit-tap-highlight-color:transparent] sm:aspect-[4/3]">
+      <Image src={item.src} alt={item.title} fill sizes="(min-width: 640px) 440px, 90vw" className="rounded-2xl object-cover transition duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transition-none" />
       <Image src={item.src} alt={item.title} fill sizes="(min-width: 640px) 440px, 90vw" className="object-cover transition duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transition-none" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" aria-hidden="true" />
-      <span className="absolute end-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition-all duration-300 ease-out group-hover:-translate-y-0.5 group-hover:bg-brand-orange motion-reduce:transition-none motion-reduce:group-hover:translate-y-0"><ArrowIcon /></span>
+     <span className="absolute end-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition-all duration-300 ease-out group-hover:rotate-45 rtl:group-hover:-rotate-45 group-hover:bg-brand-orange motion-reduce:transition-none motion-reduce:group-hover:rotate-0"><ArrowIcon /></span>
       <div className="absolute inset-x-0 bottom-0 p-4">
         <h3 className="text-[18px] font-semibold text-white md:text-[19px]">{item.title}</h3>
         <p className="mt-1.5 text-[13px] font-light leading-[20px] text-white/80">{item.desc}</p>

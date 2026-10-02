@@ -29,8 +29,8 @@ function ArrowIcon() {
 
 function getEvents(dict) {
   return [
-    { date: dict.events.items.event1.date, title: dict.events.items.event1.title, venue: dict.events.items.event1.venue, src: "/images/events/event-1.jpg" },
-    { date: dict.events.items.event2.date, title: dict.events.items.event2.title, venue: dict.events.items.event2.venue, src: "/images/events/event-2.jpg" },
+    { date: dict.events.items.event1.date, title: dict.events.items.event1.title, venue: dict.events.items.event1.venue, src: "/images/events/in-1.png" },
+    { date: dict.events.items.event2.date, title: dict.events.items.event2.title, venue: dict.events.items.event2.venue, src: "/images/events/Rectangle 240649825.png" },
   ];
 }
 
@@ -64,7 +64,7 @@ export default function Events({ dict }) {
                     <h3 className="mt-0.5 text-[16px] font-semibold text-white">{event.title}</h3>
                     <p className="mt-1 flex items-center gap-1.5 text-[12px] text-white/50"><PinIcon />{event.venue}</p>
                   </div>
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-orange text-white"><ArrowIcon /></span>
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-orange text-white transition-transform duration-300 ease-out group-hover:rotate-45 rtl:group-hover:-rotate-45 motion-reduce:transition-none motion-reduce:group-hover:rotate-0"><ArrowIcon /></span>
                 </div>
               </a>
             </Reveal>
