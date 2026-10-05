@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Reveal from "@/components/Reveal";
+import CatalogueDownloadLink from "@/components/CatalogueDownloadLink";
 
 function getArticles(dict) {
   return [
@@ -43,7 +44,7 @@ export default function Insights({ dict }) {
 
         <Reveal delay={750} className="mt-9 flex flex-wrap items-center justify-center gap-5">
           <a href="#" className="flex h-9 items-center whitespace-nowrap rounded-md border border-brand-navy/20 px-4 text-[12px] font-medium text-brand-navy transition duration-200 hover:-translate-y-0.5 hover:bg-brand-navy/5 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.insights.seeAll}</a>
-          <a href="#" className="text-[12px] font-medium text-brand-orange transition-colors hover:text-brand-orange/80">{dict.buttons.downloadCatalogueArrow}</a>
+          <CatalogueDownloadLink label={dict.buttons.downloadCatalogueArrow} className="flex items-center gap-1.5 text-[12px] font-medium text-brand-orange transition-colors hover:text-brand-orange/80" />
         </Reveal>
       </div>
     </section>

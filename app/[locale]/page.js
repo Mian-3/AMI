@@ -9,6 +9,7 @@ import Process from "@/components/Process";
 import Industries from "@/components/Industries";
 import Events from "@/components/Events";
 import Insights from "@/components/Insights";
+import Certifications from "@/components/Certifications";
 import Footer from "@/components/Footer";
 
 export default async function Home({ params }) {
@@ -29,6 +30,7 @@ export default async function Home({ params }) {
         <Industries dict={dict} />       
                 <Events dict={dict} />
         <Insights dict={dict} />
+        <Certifications dict={dict} />
       </main>
       <Footer dict={dict} locale={locale} />    </>
   );

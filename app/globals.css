@@ -13,6 +13,7 @@
   --animate-marquee: marquee 70s linear infinite;
     --animate-marquee-reverse: marquee-reverse 70s linear infinite;
   --animate-slow-zoom: slow-zoom 18s ease-in-out infinite alternate;
+    --animate-cert-float: cert-float 3.6s ease-in-out infinite;
 
   @keyframes fade-down {
     from {
@@ -48,6 +49,10 @@
     to {
       transform: scale(1.08);
     }
+  }
+    @keyframes cert-float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-5px) scale(1.035); }
   }
 }
 
