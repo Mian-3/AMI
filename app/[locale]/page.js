@@ -10,6 +10,7 @@ import Industries from "@/components/Industries";
 import Events from "@/components/Events";
 import Insights from "@/components/Insights";
 import Certifications from "@/components/Certifications";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import Footer from "@/components/Footer";
 
 export default async function Home({ params }) {
@@ -31,6 +32,7 @@ export default async function Home({ params }) {
                 <Events dict={dict} />
         <Insights dict={dict} />
         <Certifications dict={dict} />
+        <WhatsAppButton dict={dict} />
       </main>
       <Footer dict={dict} locale={locale} />    </>
   );
