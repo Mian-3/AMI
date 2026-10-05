@@ -33,6 +33,7 @@ export default async function Home({ params }) {
         <Insights dict={dict} />
         <Certifications dict={dict} />
         <WhatsAppButton dict={dict} />
+        <Insights dict={dict} locale={locale} />
       </main>
       <Footer dict={dict} locale={locale} />    </>
   );

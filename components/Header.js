@@ -2,15 +2,15 @@ import Image from "next/image";
 import MobileMenu from "@/components/MobileMenu";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
-function getNavItems(dict) {
+function getNavItems(dict, locale, active) {
   return [
-    { label: dict.nav.home, href: "#", active: true },
+    { label: dict.nav.home, href: `/${locale}`, active: active === "home" },
     { label: dict.nav.about, href: "#" },
     { label: dict.nav.flavoursFragrances, href: "#" },
     { label: dict.nav.process, href: "#" },
     { label: dict.nav.downloads, href: "#" },
     { label: dict.nav.events, href: "#" },
-    { label: dict.nav.insights, href: "#" },
+    { label: dict.nav.insights, href: `/${locale}/insights`, active: active === "insights" },
     { label: dict.nav.contact, href: "#" },
   ];
 }
@@ -60,9 +60,8 @@ function LinkedinIcon() {
   );
 }
 
-export default function Header({ dict, locale }) {
-  const navItems = getNavItems(dict);
-
+export default function Header({ dict, locale, active = "home" }) {  
+const navItems = getNavItems(dict, locale, active);
   return (
     <header className="sticky top-0 z-50 w-full bg-white animate-fade-down motion-reduce:animate-none">      {/* Utility bar */}
       <div className="hidden bg-brand-navy text-white xl:block">
@@ -71,7 +70,7 @@ export default function Header({ dict, locale }) {
           <a href="#" className="hidden transition-opacity hover:opacity-80 sm:inline">{dict.buttons.downloadCatalogue}</a>
           <div className="flex items-center gap-3">
             <LanguageSwitcher variant="dark" />   
-                     <a href="#" aria-label="Search" className="transition-opacity hover:opacity-80"><SearchIcon /></a>
+               <a href="#" aria-label="Search" className="transition-opacity hover:opacity-80"><SearchIcon /></a>
             <a href="#" aria-label="Facebook" className="transition-opacity hover:opacity-80"><FacebookIcon /></a>
             <a href="#" aria-label="Instagram" className="transition-opacity hover:opacity-80"><InstagramIcon /></a>
             <a href="#" aria-label="LinkedIn" className="transition-opacity hover:opacity-80"><LinkedinIcon /></a>
@@ -82,8 +81,8 @@ export default function Header({ dict, locale }) {
       {/* Main navigation bar */}
       <div className="relative bg-white">
         <div className="mx-auto flex h-16 max-w-[1200px] items-center px-4 sm:px-6 xl:px-0">
-          <a href="#" aria-label="AM International home" className="shrink-0">
-            <Image src="/images/logo/am-international-logo.png" alt="AM International" width={240} height={76} priority className="h-auto w-[140px] xl:w-[176px]" />
+<a href={`/${locale}`} aria-label="AM International home" className="shrink-0">    
+        <Image src="/images/logo/am-international-logo.png" alt="AM International" width={240} height={76} priority className="h-auto w-[140px] xl:w-[176px]" />
           </a>
 
           <nav aria-label="Main navigation" className="ms-3 hidden xl:block">
