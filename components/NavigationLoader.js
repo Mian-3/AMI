@@ -169,7 +169,14 @@ export default function NavigationLoader({ children }) {
             active ? "translate-y-0 opacity-100 delay-100" : "translate-y-3 opacity-0"
           }`}
         >
-          <Image src="/images/logo/am-international-logo.png" alt="" width={238} height={68} priority className="h-auto w-[160px]" />
+          <Image
+  src="/images/logo/am-international-logo.svg"
+  alt="AM International"
+  width={1184}
+  height={329}
+  priority
+  className="w-[160px] h-auto"
+/>
 
           <svg viewBox="0 0 120 70" width="150" height="88" aria-hidden="true" className="text-brand-orange motion-reduce:hidden">
             <defs>

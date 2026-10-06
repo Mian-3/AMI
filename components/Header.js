@@ -82,7 +82,14 @@ const navItems = getNavItems(dict, locale, active);
       <div className="relative bg-white">
         <div className="mx-auto flex h-16 max-w-[1200px] items-center px-4 sm:px-6 xl:px-0">
 <a href={`/${locale}`} aria-label="AM International home" className="shrink-0">    
-        <Image src="/images/logo/am-international-logo.png" alt="AM International" width={240} height={76} priority className="h-auto w-[140px] xl:w-[176px]" />
+        <Image
+  src="/images/logo/am-international-logo.svg"
+  alt="AM International"
+  width={1184}
+  height={329}
+  priority
+  className="h-auto w-[140px] xl:w-[176px]"
+/>
           </a>
 
           <nav aria-label="Main navigation" className="ms-3 hidden xl:block">

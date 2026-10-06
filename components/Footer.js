@@ -61,7 +61,13 @@ export default function Footer({ dict, locale }) {
       <div className="mx-auto max-w-[1200px] px-4 py-16 sm:px-6 md:py-20 xl:px-0">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[300px_1fr]">
           <div>
-            <Image src="/images/logo/am-international-logo.png" alt="AM International" width={200} height={64} className="h-10 w-auto" />
+           <Image
+  src="/images/logo/am-international-logo.svg"
+  alt="AM International"
+  width={1184}
+  height={329}
+  className="h-10 w-auto"
+/>
             <p className="mt-5 text-[12px] font-medium uppercase tracking-[0.06em] text-brand-navy/70">{dict.footer.contactLabel}</p>
             <ul className="mt-3 space-y-3 text-[13px] text-ink/70">
               <li className="flex items-start gap-2">
