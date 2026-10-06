@@ -30,11 +30,13 @@ export default async function Home({ params }) {
         <Process dict={dict} />    
         <Industries dict={dict} />       
                 <Events dict={dict} />
-        <Insights dict={dict} />
+        {/* <Insights dict={dict} /> */}
+                <Insights dict={dict} locale={locale} />
+
         <Certifications dict={dict} />
         <WhatsAppButton dict={dict} />
-        <Insights dict={dict} locale={locale} />
       </main>
-      <Footer dict={dict} locale={locale} />    </>
+      <Footer dict={dict} locale={locale} />
+          </>
   );
 }
