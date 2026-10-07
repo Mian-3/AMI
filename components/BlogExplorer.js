@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import Reveal from "@/components/Reveal";
+   import { useParams } from "next/navigation";
 
 const PAGE_SIZE = 8;
 const CATEGORIES = ["all", "fragrances", "flavours", "rd", "process"];
@@ -38,8 +39,8 @@ function SwirlMark({ className }) {
     </svg>
   );
 }
-
 export default function BlogExplorer({ dict, posts }) {
+  const { locale } = useParams();
   const t = dict.insightsPage;
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
@@ -123,8 +124,8 @@ export default function BlogExplorer({ dict, posts }) {
             <div key={category} className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {shown.map((post, index) => (
                 <Reveal key={post.id} delay={(index % 4) * 90} className="h-full">
-                  <a
-                    href="#"
+                                    <a
+                    href={`/${locale}/insights/${post.slug}`}
                     className="group flex h-full flex-col overflow-hidden rounded-2xl border border-brand-navy/10 bg-white transition duration-300 hover:-translate-y-1 hover:border-brand-orange/30 hover:shadow-md motion-reduce:transition-none motion-reduce:hover:translate-y-0"
                   >
                     <div className="relative h-[170px] w-full overflow-hidden">

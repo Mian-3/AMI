@@ -1,4 +1,3 @@
-import { getDictionary } from "@/lib/getDictionary";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -9,6 +8,9 @@ import RelatedInsights from "@/components/RelatedInsights";
 import InsightsCta from "@/components/InsightsCta";
 import { getPosts } from "@/lib/insightsData";
 import { getArticle } from "@/lib/insightsArticles";
+import { getDictionary } from "@/lib/getDictionary";import Hero from "@/components/Hero";
+   import ReadingProgress from "@/components/ReadingProgress";
+
 // paste the getDictionary import line from about/page.js here
 
 export async function generateMetadata({ params }) {
@@ -37,8 +39,10 @@ export default async function InsightDetailPage({ params }) {
     <>
       <Header dict={dict} locale={locale} active="insights" />
       <main>
-        <ArticleHero post={post} label={label} image={article.heroImage ?? post.image} />
-        <ArticleBody blocks={article.body} tags={article.tags} dict={dict} title={post.title} />
+             <ReadingProgress />
+
+   <ArticleHero post={post} label={label} image={article.heroImage ?? post.image} locale={locale} backLabel={dict.nav.insights} />  
+         <ArticleBody blocks={article.body} tags={article.tags} dict={dict} title={post.title} />
         <RelatedInsights posts={related} dict={dict} locale={locale} />
         <InsightsCta dict={dict} />
       </main>

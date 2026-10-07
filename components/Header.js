@@ -10,8 +10,8 @@ function getNavItems(dict, locale, active) {
     { label: dict.nav.flavoursFragrances, href: "#" },
     { label: dict.nav.process, href: "#" },
     { label: dict.nav.downloads, href: "#" },
-    { label: dict.nav.events, href: "#" },
-    { label: dict.nav.insights, href: `/${locale}/insights`, active: active === "insights" },
+{ label: dict.nav.events, href: `/${locale}/events`, active: active === "events" },  
+  { label: dict.nav.insights, href: `/${locale}/insights`, active: active === "insights" },
     { label: dict.nav.contact, href: "#" },
   ];
 }
