@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import CatalogueDownloadLink from "@/components/CatalogueDownloadLink";
 
 function BadgeIcon({ size = 16 }) {
   return (
@@ -68,7 +69,11 @@ export default function Hero({ dict, locale }) {
           <p ref={taglineRef} className="mt-4 text-[15px] md:text-[18px]">{dict.hero.tagline}</p>
           <div ref={buttonsRef} className="mt-6 flex flex-wrap items-center gap-3">
             <a href="#" className="flex h-9 items-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.buttons.requestSample}</a>
-            <a href="#" className="flex h-9 items-center whitespace-nowrap rounded-md border border-white/30 bg-white/15 px-4 text-[12px] font-medium text-white backdrop-blur-sm transition duration-200 hover:-translate-y-0.5 hover:bg-white/25 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.buttons.downloadCatalogueArrow}</a>
+           <CatalogueDownloadLink
+  label={dict.buttons.downloadCatalogueArrow}
+  icon="none"
+  className="flex h-9 items-center whitespace-nowrap rounded-md border border-white/30 bg-white/15 px-4 text-[12px] font-medium text-white backdrop-blur-sm transition duration-200 hover:-translate-y-0.5 hover:bg-white/25 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+/>
           </div>
         </div>
 

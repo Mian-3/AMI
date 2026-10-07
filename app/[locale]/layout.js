@@ -1,6 +1,7 @@
 import { DM_Sans, IBM_Plex_Sans_Arabic } from "next/font/google";
 import "../globals.css";
 import NavigationLoader from "@/components/NavigationLoader";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -26,7 +27,8 @@ export default async function LocaleLayout({ children, params }) {
 
   return (
     <div lang={locale} dir={dir} className={fontClass}>
-  <NavigationLoader>{children}</NavigationLoader>
+      <ScrollToTop />
+      <NavigationLoader>{children}</NavigationLoader>
     </div>
   );
 }

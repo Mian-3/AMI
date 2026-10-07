@@ -3,6 +3,8 @@
 import { useState } from "react";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
+import CatalogueDownloadLink from "@/components/CatalogueDownloadLink";
+
 export default function MobileMenu({ items, dict }) {
   const [open, setOpen] = useState(false);
 
@@ -30,7 +32,11 @@ export default function MobileMenu({ items, dict }) {
             </div>
             <div className="mt-4 flex flex-col gap-3 sm:flex-row">
               <a href="#" className="rounded-md bg-brand-orange px-4 py-2.5 text-center text-[12px] font-medium text-white">{dict.buttons.requestSample}</a>
-              <a href="#" className="rounded-md border border-brand-navy/20 px-4 py-2.5 text-center text-[12px] font-medium text-brand-navy">{dict.buttons.downloadCatalogueArrow}</a>
+             <CatalogueDownloadLink
+  label={dict.buttons.downloadCatalogueArrow}
+  icon="none"
+  className="flex h-9 items-center whitespace-nowrap rounded-md border border-white/30 bg-white/15 px-4 text-[12px] font-medium text-white backdrop-blur-sm transition duration-200 hover:-translate-y-0.5 hover:bg-white/25 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+/>
             </div>
           </nav>
         </div>

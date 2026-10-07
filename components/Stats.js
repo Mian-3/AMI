@@ -34,7 +34,7 @@ function getStats(dict) {
       ),
     },
     {
-       value: "3500+",
+      value: "3500+",
       label: dict.stats.clients,
       icon: (
         <Icon>
@@ -44,7 +44,7 @@ function getStats(dict) {
         </Icon>
       ),
     },
-        {
+    {
       value: "6",
       label: dict.stats.countriesInOperations,
       icon: (
@@ -66,16 +66,28 @@ function getStats(dict) {
         </Icon>
       ),
     },
+    {
+      value: "100,000+",
+      label: dict.stats.coveredArea,
+      icon: (
+        <Icon>
+          <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />
+          <path d="M9 9h6v6H9z" />
+        </Icon>
+      ),
+    },
   ];
 }
 
 function StatCard({ item }) {
   return (
-    <div className="flex h-full min-h-[170px] flex-col justify-between rounded-[20px] bg-brand-orange p-5 text-white shadow-[0_8px_24px_rgba(242,143,59,0.25)] transition duration-300 hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0 lg:h-[200px]">
+    <div className="flex h-full min-h-[170px] min-w-0 flex-col justify-between rounded-[20px] bg-brand-orange p-5 text-white shadow-[0_8px_24px_rgba(242,143,59,0.25)] transition duration-300 hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0 lg:h-[200px] lg:p-4 xl:p-5">
       <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/25">{item.icon}</span>
-      <div>
-        <p className="text-[32px] font-semibold leading-none"><CountUp value={item.value} /></p>
-        <p className="mt-2 text-[13px]">{item.label}</p>
+      <div className="min-w-0">
+        <p className="whitespace-nowrap text-[clamp(1.375rem,2.2vw,2rem)] font-semibold leading-none">
+          <CountUp value={item.value} />
+        </p>
+        <p className="mt-2 text-[12px] leading-snug xl:text-[13px]">{item.label}</p>
       </div>
     </div>
   );
@@ -99,8 +111,8 @@ export default function Stats({ dict }) {
         </Reveal>
       </div>
 
-      {/* Tablet and up: original grid */}
-      <div className="relative mx-auto hidden max-w-[1200px] px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 lg:grid-cols-5 lg:gap-5 xl:px-0">
+      {/* Tablet and up: grid (6 cards in one row on desktop) */}
+      <div className="relative mx-auto hidden max-w-[1200px] px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 lg:grid-cols-6 lg:gap-3 xl:gap-4 xl:px-0">
         {stats.map((item, index) => (
           <Reveal key={item.label} delay={index * 120}>
             <StatCard item={item} />

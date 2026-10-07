@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Reveal from "@/components/Reveal";
+import CatalogueDownloadLink from "@/components/CatalogueDownloadLink";
 
 function ArrowIcon() {
   return (
@@ -15,13 +16,13 @@ function getItems(dict) {
     { title: dict.expertise.items.fragrances.title, desc: dict.expertise.items.fragrances.desc, src: "/images/expertise/new2.png" },
   ];
 }
+
 function ExpertiseCard({ item }) {
   return (
     <a href="#" className="group relative block aspect-[3/4] transform-gpu overflow-hidden rounded-2xl bg-brand-navy outline-none [-webkit-tap-highlight-color:transparent] sm:aspect-[4/3]">
       <Image src={item.src} alt={item.title} fill sizes="(min-width: 640px) 440px, 90vw" className="rounded-2xl object-cover transition duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transition-none" />
-      <Image src={item.src} alt={item.title} fill sizes="(min-width: 640px) 440px, 90vw" className="object-cover transition duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transition-none" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" aria-hidden="true" />
-     <span className="absolute end-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition-all duration-300 ease-out group-hover:rotate-45 rtl:group-hover:-rotate-45 group-hover:bg-brand-orange motion-reduce:transition-none motion-reduce:group-hover:rotate-0"><ArrowIcon /></span>
+      <span className="absolute end-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition-all duration-300 ease-out group-hover:rotate-45 rtl:group-hover:-rotate-45 group-hover:bg-brand-orange motion-reduce:transition-none motion-reduce:group-hover:rotate-0"><ArrowIcon /></span>
       <div className="absolute inset-x-0 bottom-0 p-4">
         <h3 className="text-[18px] font-semibold text-white md:text-[19px]">{item.title}</h3>
         <p className="mt-1.5 text-[13px] font-light leading-[20px] text-white/80">{item.desc}</p>
@@ -55,7 +56,11 @@ export default function Expertise({ dict }) {
 
         <Reveal delay={650} className="mt-9 flex flex-wrap items-center justify-center gap-3">
           <a href="#" className="flex h-9 items-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.buttons.exploreProcess}</a>
-          <a href="#" className="flex h-9 items-center whitespace-nowrap rounded-md border border-brand-navy/20 px-4 text-[12px] font-medium text-brand-navy transition duration-200 hover:-translate-y-0.5 hover:bg-brand-navy/5 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.buttons.downloadCatalogue}</a>
+          <CatalogueDownloadLink
+            label={dict.buttons.downloadCatalogue}
+            icon="none"
+            className="flex h-9 items-center whitespace-nowrap rounded-md border border-brand-navy/20 px-4 text-[12px] font-medium text-brand-navy transition duration-200 hover:-translate-y-0.5 hover:bg-brand-navy/5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+          />
         </Reveal>
       </div>
     </section>

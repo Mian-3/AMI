@@ -6,12 +6,12 @@ import CatalogueDownloadLink from "@/components/CatalogueDownloadLink";
 function getNavItems(dict, locale, active) {
   return [
     { label: dict.nav.home, href: `/${locale}`, active: active === "home" },
-{ label: dict.nav.about, href: `/${locale}/about`, active: active === "about" },   
- { label: dict.nav.flavoursFragrances, href: "#" },
+    { label: dict.nav.about, href: `/${locale}/about`, active: active === "about" },
+    { label: dict.nav.flavoursFragrances, href: "#" },
     { label: dict.nav.process, href: "#" },
     { label: dict.nav.downloads, href: "#" },
-{ label: dict.nav.events, href: `/${locale}/events`, active: active === "events" },  
-  { label: dict.nav.insights, href: `/${locale}/insights`, active: active === "insights" },
+    { label: dict.nav.events, href: `/${locale}/events`, active: active === "events" },
+    { label: dict.nav.insights, href: `/${locale}/insights`, active: active === "insights" },
     { label: dict.nav.contact, href: "#" },
   ];
 }
@@ -26,7 +26,7 @@ function Icon({ children }) {
 
 function PenIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="transition-transform duration-300 group-hover:-rotate-12 group-hover:scale-110">
       <path d="M12 20h9" />
       <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z" />
     </svg>
@@ -70,6 +70,22 @@ function LinkedinIcon() {
   );
 }
 
+const UTILITY_LINK =
+  "group relative hidden items-center gap-2 py-1 transition-colors duration-300 hover:text-brand-orange sm:inline-flex " +
+  "after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-left after:scale-x-0 after:bg-brand-orange after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100 rtl:after:origin-right";
+
+const SOCIAL_LINK =
+  "inline-flex h-6 w-6 items-center justify-center rounded-full transition duration-300 hover:-translate-y-0.5 hover:bg-white/10 hover:text-brand-orange motion-reduce:transition-none motion-reduce:hover:translate-y-0";
+
+const NAV_LINK_BASE =
+  "relative block whitespace-nowrap py-6 transition-colors duration-300 ease-out " +
+  "after:absolute after:inset-x-0 after:bottom-0 after:h-[2px] after:origin-left after:bg-brand-orange rtl:after:origin-right " +
+  "focus-visible:outline-none focus-visible:text-brand-orange focus-visible:after:scale-x-100";
+
+const NAV_LINK_ACTIVE = `${NAV_LINK_BASE} text-brand-orange after:scale-x-100 after:animate-nav-line motion-reduce:after:animate-none`;
+
+const NAV_LINK_IDLE = `${NAV_LINK_BASE} hover:text-brand-orange after:scale-x-0 after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100`;
+
 export default function Header({ dict, locale, active = "home" }) {
   const navItems = getNavItems(dict, locale, active);
 
@@ -78,24 +94,21 @@ export default function Header({ dict, locale, active = "home" }) {
       {/* Utility bar */}
       <div className="hidden bg-brand-navy text-white xl:block">
         <div className="mx-auto flex h-10 max-w-[1200px] items-center justify-end gap-5 px-4 text-[11px] sm:px-6 xl:px-0">
-          <a
-            href="#"
-            className="hidden items-center gap-2 transition-opacity hover:opacity-80 sm:inline-flex"
-          >
+          <a href="#" className={UTILITY_LINK}>
             <PenIcon />
             <span>{dict.buttons.requestSample}</span>
           </a>
           <CatalogueDownloadLink
             label={dict.buttons.downloadCatalogue}
             icon="doc"
-            className="hidden items-center gap-2 transition-opacity hover:opacity-80 sm:inline-flex"
+            className={UTILITY_LINK}
           />
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1">
             <LanguageSwitcher variant="dark" />
-            <a href="#" aria-label="Search" className="transition-opacity hover:opacity-80"><SearchIcon /></a>
-            <a href="#" aria-label="Facebook" className="transition-opacity hover:opacity-80"><FacebookIcon /></a>
-            <a href="#" aria-label="Instagram" className="transition-opacity hover:opacity-80"><InstagramIcon /></a>
-            <a href="#" aria-label="LinkedIn" className="transition-opacity hover:opacity-80"><LinkedinIcon /></a>
+            <a href="#" aria-label="Search" className={SOCIAL_LINK}><SearchIcon /></a>
+            <a href="#" aria-label="Facebook" className={SOCIAL_LINK}><FacebookIcon /></a>
+            <a href="#" aria-label="Instagram" className={SOCIAL_LINK}><InstagramIcon /></a>
+            <a href="#" aria-label="LinkedIn" className={SOCIAL_LINK}><LinkedinIcon /></a>
           </div>
         </div>
       </div>
@@ -103,7 +116,7 @@ export default function Header({ dict, locale, active = "home" }) {
       {/* Main navigation bar */}
       <div className="relative bg-white">
         <div className="mx-auto flex h-16 max-w-[1200px] items-center px-4 sm:px-6 xl:px-0">
-          <a href={`/${locale}`} aria-label="AM International home" className="shrink-0">
+          <a href={`/${locale}`} aria-label="AM International home" className="shrink-0 transition-opacity duration-300 hover:opacity-85">
             <Image
               src="/images/logo/am-international-logo.svg"
               alt="AM International"
@@ -120,11 +133,8 @@ export default function Header({ dict, locale, active = "home" }) {
                 <li key={item.label}>
                   <a
                     href={item.href}
-                    className={
-                      item.active
-                        ? "block whitespace-nowrap border-b-2 border-brand-orange pb-[21px] pt-[23px] text-brand-orange"
-                        : "block whitespace-nowrap py-6 transition-colors duration-200 hover:text-brand-orange"
-                    }
+                    aria-current={item.active ? "page" : undefined}
+                    className={item.active ? NAV_LINK_ACTIVE : NAV_LINK_IDLE}
                   >
                     {item.label}
                   </a>
@@ -136,14 +146,14 @@ export default function Header({ dict, locale, active = "home" }) {
           <div className="ms-auto hidden shrink-0 items-center gap-2 xl:flex">
             <a
               href="#"
-              className="flex h-9 items-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+              className="flex h-9 items-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_18px_-6px_rgba(242,139,51,0.7)] active:translate-y-0 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
             >
               {dict.buttons.requestSample}
             </a>
             <CatalogueDownloadLink
               label={dict.buttons.downloadCatalogueArrow}
               icon="none"
-              className="flex h-9 items-center whitespace-nowrap rounded-md border border-brand-navy/20 px-4 text-[12px] font-medium text-brand-navy transition duration-200 hover:-translate-y-0.5 hover:bg-brand-navy/5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+              className="flex h-9 items-center whitespace-nowrap rounded-md border border-brand-navy/20 px-4 text-[12px] font-medium text-brand-navy transition duration-300 hover:-translate-y-0.5 hover:border-brand-orange/50 hover:bg-brand-navy/5 hover:shadow-md active:translate-y-0 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
             />
           </div>
 

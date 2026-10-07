@@ -1,4 +1,5 @@
 import Reveal from "@/components/Reveal";
+import CatalogueDownloadLink from "@/components/CatalogueDownloadLink";
 
 export default function Intro({ dict }) {
   return (
@@ -9,7 +10,11 @@ export default function Intro({ dict }) {
         <Reveal as="p" delay={300} className="mt-4 max-w-[640px] text-[14px] leading-[22px] text-ink/60">{dict.intro.paragraph1} {dict.intro.paragraph2}</Reveal>
         <Reveal delay={400} className="mt-7 flex flex-wrap items-center justify-center gap-3">
           <a href="#" className="flex h-9 items-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.buttons.discoverAmInternational}</a>
-          <a href="#" className="flex h-9 items-center whitespace-nowrap rounded-md border border-brand-navy/20 px-4 text-[12px] font-medium text-brand-navy transition duration-200 hover:-translate-y-0.5 hover:bg-brand-navy/5 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.buttons.downloadCatalogueArrow}</a>
+          <CatalogueDownloadLink
+            label={dict.buttons.downloadCatalogueArrow}
+            icon="none"
+            className="flex h-9 items-center whitespace-nowrap rounded-md border border-brand-navy/20 px-4 text-[12px] font-medium text-brand-navy transition duration-200 hover:-translate-y-0.5 hover:bg-brand-navy/5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+          />
         </Reveal>
       </div>
     </section>
