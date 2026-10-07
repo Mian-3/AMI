@@ -15,6 +15,10 @@
   --animate-slow-zoom: slow-zoom 18s ease-in-out infinite alternate;
     --animate-cert-float: cert-float 3.6s ease-in-out infinite;
       --animate-wa-in: wa-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.5s both;
+        --animate-about-zoom: about-zoom 2.2s ease-out both;
+            --animate-about-drift: about-drift 9s ease-in-out infinite alternate;
+
+
 
   @keyframes fade-down {
     from {
@@ -178,3 +182,13 @@ body {
   [class*="max-w-[900px]"] { max-width: calc(900px * var(--cs)); }
   [class*="max-w-[1200px]"] { max-width: calc(1200px * var(--cs)); }
 }
+
+  @keyframes about-zoom {
+    from { transform: scale(1.12); }
+    to { transform: scale(1); }
+  }
+
+  @keyframes about-drift {
+    from { translate: -24px 0; }
+    to { translate: 24px 0; }
+  }
