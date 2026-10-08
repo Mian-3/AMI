@@ -40,7 +40,7 @@ export default function Events({ dict, locale }) {
 
   return (
     <section className="bg-ink px-4 py-16 sm:px-6 md:py-20 xl:px-0">
-      <div className="mx-auto max-w-[1200px]">
+      <div className="mx-auto max-w-[900px]">
         <div className="flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
           <Reveal>
             <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.08em] text-brand-orange">{dict.events.eyebrow}</p>

@@ -33,7 +33,7 @@ function LogoRow({ hidden = false }) {
       {repeats.map((copy) =>
         clients.map((client) => (
           <li key={copy + client.name} className="marquee-item flex h-[56px] w-[130px] shrink-0 items-center justify-center rounded-lg bg-white px-3 shadow-sm transition-shadow duration-300 hover:shadow-md">
-            <Image src={client.src} alt={hidden || copy > 0 ? "" : client.name} width={340} height={160} className="max-h-[40px] w-auto object-contain" />
+            <Image src={client.src} alt={hidden || copy > 0 ? "" : client.name} width={340} height={160} className="max-h-[80px] w-auto object-contain" />
           </li>
         ))
       )}

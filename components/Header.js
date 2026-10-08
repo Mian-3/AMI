@@ -12,8 +12,7 @@ function getNavItems(dict, locale, active) {
     { label: dict.nav.downloads, href: "#" },
     { label: dict.nav.events, href: `/${locale}/events`, active: active === "events" },
     { label: dict.nav.insights, href: `/${locale}/insights`, active: active === "insights" },
-    { label: dict.nav.contact, href: "#" },
-  ];
+{ label: dict.nav.contact, href: `/${locale}/contact`, active: active === "contact" },  ];
 }
 
 function Icon({ children }) {
