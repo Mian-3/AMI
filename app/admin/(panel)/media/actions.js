@@ -7,7 +7,7 @@ import { getSession } from "@/lib/auth";
 import { sanitizeMedia } from "@/lib/mediaShared";
 
 export async function saveMedia(input) {
-  const session = await getSession();
+  const session = await getSession("media");
   if (!session) return { ok: false, error: "You are signed out. Please log in again." };
   const db = getDb();
   if (!db) return { ok: false, error: "Database is not configured." };
@@ -27,7 +27,7 @@ export async function saveMedia(input) {
 }
 
 export async function resetMedia() {
-  const session = await getSession();
+  const session = await getSession("media");
   if (!session) return { ok: false, error: "You are signed out. Please log in again." };
   const db = getDb();
   if (!db) return { ok: false, error: "Database is not configured." };

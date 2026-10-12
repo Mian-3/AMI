@@ -6,7 +6,7 @@ const TYPES = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "
 const MAX_BYTES = 6 * 1024 * 1024;
 
 export async function POST(request) {
-  const session = await getSession();
+  const session = await getSession(["insights","content","media","events"]);
   if (!session) return NextResponse.json({ error: "Please log in again." }, { status: 401 });
 
   if (!process.env.BLOB_READ_WRITE_TOKEN) {

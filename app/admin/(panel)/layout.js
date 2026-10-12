@@ -14,7 +14,7 @@ export default async function PanelLayout({ children }) {
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-orange">AM International</p>
           <p className="text-lg font-bold">Admin</p>
         </div>
-        <AdminNav />
+        <AdminNav sections={session.sections} isOwner={session.isOwner} />
         <div className="mt-auto hidden border-t border-white/10 pt-4 md:block">
           <p className="truncate text-sm text-white/80">{session.name || session.email}</p>
           <p className="truncate text-xs text-white/50">{session.email}</p>

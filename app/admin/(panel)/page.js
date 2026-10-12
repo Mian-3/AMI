@@ -15,20 +15,28 @@ async function getStats() {
   }
 }
 
-export default async function DashboardPage() {
+export default async function DashboardPage({ searchParams }) {
+  const { denied } = await searchParams;
   const session = await getSession();
   const stats = await getStats();
 
+  const allowed = session?.sections || [];
   const cards = [
-    { label: "Insights articles", value: stats?.posts },
-    { label: "Events", value: stats?.events },
-    { label: "New enquiries", value: stats?.enquiries },
-  ];
+    { label: "Insights articles", value: stats?.posts, section: "insights" },
+    { label: "Events", value: stats?.events, section: "events" },
+    { label: "New enquiries", value: stats?.enquiries, section: "enquiries" },
+  ].filter((c) => allowed.includes(c.section));
 
   return (
     <div className="mx-auto max-w-5xl">
       <h1 className="text-2xl font-bold text-brand-navy">Welcome{session?.name ? `, ${session.name}` : ""}</h1>
       <p className="mt-1 text-sm text-ink/60">Here is an overview of the website content.</p>
+
+      {denied ? (
+        <p role="alert" className="mt-4 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          You do not have access to that section. Ask the owner if you need it.
+        </p>
+      ) : null}
 
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
         {cards.map((card) => (
@@ -44,10 +52,6 @@ export default async function DashboardPage() {
           The database could not be reached, so the numbers are hidden. Check DATABASE_URL.
         </p>
       ) : null}
-
-      <div className="mt-8 rounded-xl border border-dashed border-black/15 bg-white/60 p-6 text-sm text-ink/60">
-        Editing screens for Insights, Events, Enquiries and Site content are coming in the next steps.
-      </div>
     </div>
   );
 }

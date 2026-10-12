@@ -13,7 +13,7 @@ function refreshSite() {
 }
 
 export async function saveSection(sectionKey, input) {
-  const session = await getSession();
+  const session = await getSession("content");
   if (!session) return { ok: false, error: "You are signed out. Please log in again." };
   if (!SECTION_MAP[sectionKey]) return { ok: false, error: "Unknown section." };
 
@@ -46,7 +46,7 @@ export async function saveSection(sectionKey, input) {
 }
 
 export async function resetSection(sectionKey) {
-  const session = await getSession();
+  const session = await getSession("content");
   if (!session) return { ok: false, error: "You are signed out. Please log in again." };
   if (!SECTION_MAP[sectionKey]) return { ok: false, error: "Unknown section." };
 

@@ -27,7 +27,7 @@ function refreshSite(...slugs) {
 
 export async function savePost(input) {
   // Server actions are public endpoints, so always check the session here.
-  const session = await getSession();
+  const session = await getSession("insights");
   if (!session) return { ok: false, error: "You are signed out. Please log in again." };
 
   const db = getDb();
@@ -68,7 +68,7 @@ export async function savePost(input) {
 }
 
 export async function deletePost(formData) {
-  const session = await getSession();
+  const session = await getSession("insights");
   if (!session) redirect("/admin/login");
 
   const db = getDb();
@@ -84,7 +84,7 @@ export async function deletePost(formData) {
 // One time helper: copies the existing starter articles into the database so they
 // can be edited or deleted from the dashboard. Safe to run twice (existing slugs are skipped).
 export async function importStarterPosts() {
-  const session = await getSession();
+  const session = await getSession("insights");
   if (!session) redirect("/admin/login");
 
   const db = getDb();
