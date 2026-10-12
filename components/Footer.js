@@ -1,5 +1,7 @@
 import Image from "next/image";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { getMedia } from "@/lib/media";
+import { resolveHref, isExternal } from "@/lib/mediaShared";
 
 
 function PinIcon() {
@@ -56,7 +58,11 @@ function LinkedinIcon() {
   );
 }
 
-export default function Footer({ dict, locale }) {
+export default async function Footer({ dict, locale }) {
+  const media = await getMedia();
+  const { links, footerLinks } = media;
+  const href = (v) => resolveHref(v, locale);
+  const extra = (v) => (isExternal(v) ? { target: "_blank", rel: "noopener noreferrer" } : {});
   return (
     <footer className="bg-cream">
       <div className="mx-auto max-w-[1200px] px-4 py-16 sm:px-6 md:py-20 xl:px-0">
@@ -85,9 +91,9 @@ export default function Footer({ dict, locale }) {
               </li>
             </ul>
             <div className="mt-5 flex items-center gap-3 text-brand-navy">
-              <a href="#" aria-label="Facebook" className="transition-colors hover:text-brand-orange"><FacebookIcon /></a>
-              <a href="#" aria-label="Instagram" className="transition-colors hover:text-brand-orange"><InstagramIcon /></a>
-              <a href="#" aria-label="LinkedIn" className="transition-colors hover:text-brand-orange"><LinkedinIcon /></a>
+              <a href={href(links.facebook)} {...extra(links.facebook)} aria-label="Facebook" className="transition-colors hover:text-brand-orange"><FacebookIcon /></a>
+              <a href={href(links.instagram)} {...extra(links.instagram)} aria-label="Instagram" className="transition-colors hover:text-brand-orange"><InstagramIcon /></a>
+              <a href={href(links.linkedin)} {...extra(links.linkedin)} aria-label="LinkedIn" className="transition-colors hover:text-brand-orange"><LinkedinIcon /></a>
             </div>
           </div>
 
@@ -95,24 +101,24 @@ export default function Footer({ dict, locale }) {
             <div>
               <p className="text-[12px] font-semibold uppercase tracking-[0.04em] text-brand-navy">{dict.footer.fragrancesHeading}</p>
               <ul className="mt-4 space-y-2.5 text-[13px] text-ink/70">
-                {dict.footer.fragrancesLinks.map((label) => (
-                  <li key={label}><a href="#" className="transition-colors hover:text-brand-orange">{label}</a></li>
+                {dict.footer.fragrancesLinks.map((label, i) => (
+                  <li key={label}><a href={href(footerLinks.fragrances[i] || "#")} {...extra(footerLinks.fragrances[i])} className="transition-colors hover:text-brand-orange">{label}</a></li>
                 ))}
               </ul>
             </div>
             <div>
               <p className="text-[12px] font-semibold uppercase tracking-[0.04em] text-brand-navy">{dict.footer.foodFlavoursHeading}</p>
               <ul className="mt-4 space-y-2.5 text-[13px] text-ink/70">
-                {dict.footer.foodFlavoursLinks.map((label) => (
-                  <li key={label}><a href="#" className="transition-colors hover:text-brand-orange">{label}</a></li>
+                {dict.footer.foodFlavoursLinks.map((label, i) => (
+                  <li key={label}><a href={href(footerLinks.foodFlavours[i] || "#")} {...extra(footerLinks.foodFlavours[i])} className="transition-colors hover:text-brand-orange">{label}</a></li>
                 ))}
               </ul>
             </div>
             <div>
               <p className="text-[12px] font-semibold uppercase tracking-[0.04em] text-brand-navy">{dict.footer.quickLinksHeading}</p>
               <ul className="mt-4 space-y-2.5 text-[13px] text-ink/70">
-                {dict.footer.quickLinks.map((label) => (
-                  <li key={label}><a href="#" className="transition-colors hover:text-brand-orange">{label}</a></li>
+                {dict.footer.quickLinks.map((label, i) => (
+                  <li key={label}><a href={href(footerLinks.quick[i] || "#")} {...extra(footerLinks.quick[i])} className="transition-colors hover:text-brand-orange">{label}</a></li>
                 ))}
               </ul>
             </div>

@@ -1,6 +1,7 @@
 "use client";
 
-const PDF_URL = "/documents/ami-catalogue.pdf";
+import { useMedia } from "@/components/MediaProvider";
+
 const FILE_NAME = "AM-International-Catalogue.pdf";
 
 function DownloadIcon() {
@@ -25,6 +26,9 @@ function DocIcon() {
 }
 
 export default function CatalogueDownloadLink({ label, className = "", icon = "download" }) {
+  // The file is set in the admin under Media and links.
+  const PDF_URL = useMedia().catalogue.pdf;
+
   function handleClick(e) {
     e.preventDefault();
     window.open(PDF_URL, "_blank", "noopener,noreferrer");

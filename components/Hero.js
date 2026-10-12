@@ -3,6 +3,8 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import CatalogueDownloadLink from "@/components/CatalogueDownloadLink";
+import { useMedia } from "@/components/MediaProvider";
+import { resolveHref } from "@/lib/mediaShared";
 
 function BadgeIcon({ size = 16 }) {
   return (
@@ -15,6 +17,7 @@ function BadgeIcon({ size = 16 }) {
 
 export default function Hero({ dict, locale }) {
   const isRtl = locale === "ar";
+  const media = useMedia();
   const eyebrowWrapRef = useRef(null);
   const headingWrapRef = useRef(null);
   const taglineRef = useRef(null);
@@ -54,7 +57,7 @@ export default function Hero({ dict, locale }) {
 
   return (
     <section className="relative flex min-h-[480px] items-end overflow-hidden bg-brand-navy text-white md:h-[625px]">
-      <video src="/videos/hero-2.mp4" poster="/images/hero/hero-bg.jpg" autoPlay muted loop playsInline preload="metadata" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
+      <video key={media.hero.video} src={media.hero.video} poster={media.hero.poster} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
       <div className="absolute inset-0 bg-black/30" aria-hidden="true" />
       <div className={"absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent " + (isRtl ? "bg-gradient-to-l from-black/65 via-black/25 to-transparent" : "bg-gradient-to-r from-black/65 via-black/25 to-transparent")} aria-hidden="true" />
 
@@ -68,7 +71,7 @@ export default function Hero({ dict, locale }) {
           </div>
           <p ref={taglineRef} className="mt-4 text-[15px] md:text-[18px]">{dict.hero.tagline}</p>
           <div ref={buttonsRef} className="mt-6 flex flex-wrap items-center gap-3">
-            <a href="#" className="flex h-9 items-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.buttons.requestSample}</a>
+            <a href={resolveHref(media.links.requestSample, locale)} className="flex h-9 items-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.buttons.requestSample}</a>
            <CatalogueDownloadLink
   label={dict.buttons.downloadCatalogueArrow}
   icon="none"

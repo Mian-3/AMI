@@ -1,0 +1,60 @@
+﻿components\AboutHero.js:36: src="/images/about/about-hero.jpg"
+components\AboutJourney.js:58: pdfSrc={`/documents/certificates/cert-${c.n}.pdf`}
+components\ArticleBody.js:124: href={`#section-${i}`}
+components\ArticleHero.js:28: href={`/${locale}/insights`}
+components\BlogExplorer.js:128: href={`/${locale}/insights/${post.slug}`}
+components\CatalogueDownloadLink.js:44: <a href={PDF_URL} onClick={handleClick} className={className}>
+components\CertificateLink.js:16: <a href={pdfSrc} onClick={handleClick} className={className}>
+components\Certifications.js:6: { img: "/images/certifications/Mask group.png", pdf: "/documents/certificates/FSSC Intertek AMI.pdf", alt: "Certification FSSC Intertek AMI" },
+components\Certifications.js:7: { img: "/images/certifications/Mask group (1).png", pdf: "/documents/certificates/isoqar14001.pdf", alt: "Certification 2" },
+components\Certifications.js:8: { img: "/images/certifications/Mask group (2).png", pdf: "/documents/certificates/isoqar9001.pdf", alt: "Certification 3" },
+components\Certifications.js:9: { img: "/images/certifications/Mask group (3).png", pdf: "/documents/certificates/IHC Halal Certificate-AM INTERNATIONAL-2026-2027.pdf", alt: "Certification 4" },
+components\Certifications.js:10: { img: "/images/certifications/Mask group (4).png", pdf: "/documents/certificates/punjabfoodauth.pdf", alt: "Certification 5" },
+components\ContactCta.js:19: <a href="#" className="flex h-12 items-center rounded-lg bg-white px-8 text-[0.875rem] font-medium text-[#201e1e] transition duration-200 hover:-translate-y-0.5 hover:bg-white/90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+components\ContactForm.js:71: <Image src="/images/contact/contact-form-bg.jpg" alt="" fill sizes="46vw" className="object-cover" />
+components\ContactForm.js:78: <Image src="/images/contact/contact-form-bg.jpg" alt="" fill sizes="100vw" className="object-cover" />
+components\ContactLocations.js:60: <Image src="/images/contact/contact-map.webp" alt="Map of Pakistan with AM International office locations" fill sizes="100vw" className="object-cover" />
+components\ContactLocations.js:79: href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(office.mapsQuery)}`}
+components\Events.js:32: { date: dict.events.items.event1.date, title: dict.events.items.event1.title, venue: dict.events.items.event1.venue, src: "/images/events/in-1.png" },
+components\Events.js:33: { date: dict.events.items.event2.date, title: dict.events.items.event2.title, venue: dict.events.items.event2.venue, src: "/images/events/Rectangle 240649825.png" },
+components\Events.js:51: <a href={eventsHref} className="flex h-9 w-fit shrink-0 items-center gap-2 whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0"><CalendarIcon />{dict.buttons.seeAllEvents}</a>
+components\Events.js:58: <a href={eventsHref} className="group block overflow-hidden rounded-xl border border-white/10 transition-colors duration-300 hover:border-white/20">
+components\EventsGrid.js:49: href={eventHref(locale, event)}
+components\EventsHero.js:69: href={eventHref(locale, event)}
+components\Expertise.js:15: { title: dict.expertise.items.flavours.title, desc: dict.expertise.items.flavours.desc, src: "/images/expertise/new1.png" },
+components\Expertise.js:16: { title: dict.expertise.items.fragrances.title, desc: dict.expertise.items.fragrances.desc, src: "/images/expertise/new2.png" },
+components\Expertise.js:22: <a href="#" className="group relative block aspect-[3/4] transform-gpu overflow-hidden rounded-2xl bg-brand-navy outline-none [-webkit-tap-highlight-color:transparent] sm:aspect-[4/3]">
+components\Expertise.js:58: <a href="#" className="flex h-9 items-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.buttons.exploreProcess}</a>
+components\Footer.js:72: src="/images/logo/am-international-logo.svg"
+components\Footer.js:86: <a href={"mailto:" + dict.footer.email} dir="ltr" className="transition-colors hover:text-brand-orange">{dict.footer.email}</a>
+components\Footer.js:90: <a href={"tel:" + dict.footer.phone.replace(/\s/g, "")} dir="ltr" className="transition-colors hover:text-brand-orange">{dict.footer.phone}</a>
+components\Footer.js:94: <a href={href(links.facebook)} {...extra(links.facebook)} aria-label="Facebook" className="transition-colors hover:text-brand-orange"><FacebookIcon /></a>
+components\Footer.js:95: <a href={href(links.instagram)} {...extra(links.instagram)} aria-label="Instagram" className="transition-colors hover:text-brand-orange"><InstagramIcon /></a>
+components\Footer.js:96: <a href={href(links.linkedin)} {...extra(links.linkedin)} aria-label="LinkedIn" className="transition-colors hover:text-brand-orange"><LinkedinIcon /></a>
+components\Footer.js:105: <li key={label}><a href={href(footerLinks.fragrances[i] || "#")} {...extra(footerLinks.fragrances[i])} className="transition-colors hover:text-brand-orange">{label}</a></li>
+components\Footer.js:113: <li key={label}><a href={href(footerLinks.foodFlavours[i] || "#")} {...extra(footerLinks.foodFlavours[i])} className="transition-colors hover:text-brand-orange">{label}</a></li>
+components\Footer.js:121: <li key={label}><a href={href(footerLinks.quick[i] || "#")} {...extra(footerLinks.quick[i])} className="transition-colors hover:text-brand-orange">{label}</a></li>
+components\Header.js:96: <a href="#" className={UTILITY_LINK}>
+components\Header.js:107: <a href="#" aria-label="Search" className={SOCIAL_LINK}><SearchIcon /></a>
+components\Header.js:108: <a href="#" aria-label="Facebook" className={SOCIAL_LINK}><FacebookIcon /></a>
+components\Header.js:109: <a href="#" aria-label="Instagram" className={SOCIAL_LINK}><InstagramIcon /></a>
+components\Header.js:110: <a href="#" aria-label="LinkedIn" className={SOCIAL_LINK}><LinkedinIcon /></a>
+components\Header.js:118: <a href={`/${locale}`} aria-label="AM International home" className="shrink-0 transition-opacity duration-300 hover:opacity-85">
+components\Header.js:120: src="/images/logo/am-international-logo.svg"
+components\Header.js:134: href={item.href}
+components\Header.js:147: href="#"
+components\Hero.js:74: <a href={resolveHref(media.links.requestSample, locale)} className="flex h-9 items-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.buttons.requestSample}</a>
+components\Industries.js:177: <a href="#" className="flex h-9 items-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.buttons.exploreIndustries}</a>
+components\Insights.js:23: <a href={`/${locale}/insights/${article.slug}`} className="group flex h-full flex-col overflow-hidden rounded-2xl border border-brand-navy/10 bg-white transition duration-300 hover:-translate-y-1 hover:border-brand-orange/30 hover:shadow-md motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+components\Insights.js:41: <a href={`/${locale}/insights`} className="flex h-9 items-center whitespace-nowrap rounded-md border border-brand-navy/20 px-4 text-[12px] font-medium text-brand-navy transition duration-200 hover:-translate-y-0.5 hover:bg-brand-navy/5 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.insights.seeAll}</a>
+components\InsightsCta.js:20: <a href="#" className="inline-flex h-9 items-center rounded-md bg-white px-5 text-[12px] font-medium text-ink transition duration-200 hover:-translate-y-0.5 hover:opacity-90">
+components\InsightsCta.js:23: <a href="#" className="inline-flex h-9 items-center rounded-md border border-white/60 px-5 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:bg-white/10">
+components\InsightsHero.js:17: <Image src="/images/hero/hero-bg.jpg" alt="" fill priority sizes="100vw" className="-z-20 object-cover" />
+components\Intro.js:12: <a href="#" className="flex h-9 items-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.buttons.discoverAmInternational}</a>
+components\MobileMenu.js:29: <a href={item.href} onClick={() => setOpen(false)} className={"block py-3 text-[14px] " + (item.active ? "text-brand-orange" : "text-ink")}>{item.label}</a>
+components\MobileMenu.js:38: <a href={resolveHref(media.links.requestSample, locale)} onClick={() => setOpen(false)} className="rounded-md bg-brand-orange px-4 py-2.5 text-center text-[12px] font-medium text-white">{dict.buttons.requestSample}</a>
+components\NavigationLoader.js:173: src="/images/logo/am-international-logo.svg"
+components\Process.js:17: <Image src="/images/process/process-bg.png" alt="" fill sizes="100vw" className="object-cover animate-slow-zoom motion-reduce:animate-none" />
+components\Process.js:28: <a href="#" className="flex h-9 shrink-0 items-center whitespace-nowrap rounded-md bg-white px-4 text-[12px] font-medium text-brand-navy transition duration-200 hover:-translate-y-0.5 hover:bg-white/90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.buttons.exploreProcess}</a>
+components\RelatedInsights.js:17: href={`/${locale}/insights/${p.slug}`}
+components\WhatsAppButton.js:16: href={href}
