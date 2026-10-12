@@ -8,7 +8,7 @@ const ITEMS = [
   { href: "/admin/insights", label: "Insights", ready: true },
   { href: "/admin/events", label: "Events", ready: false },
   { href: "/admin/enquiries", label: "Enquiries", ready: false },
-  { href: "/admin/content", label: "Site content", ready: false },
+  { href: "/admin/content", label: "Site content", ready: true },
 ];
 
 export default function AdminNav() {
