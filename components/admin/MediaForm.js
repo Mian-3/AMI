@@ -93,6 +93,11 @@ export default function MediaForm({ initial, labels }) {
         <ImageField label="Poster image" value={m.hero.poster} onChange={(v) => setPath("hero", "poster", v)} />
       </Card>
 
+      <Card title="Home page: Flavours and Fragrances cards" note="The two photo cards in the Flavours and Fragrances section of the home page. Both open the Flavours and Fragrances page. Their text is in Site content, Expertise.">
+        <ImageField label="Flavours card photo" value={m.expertise.flavours} onChange={(v) => setPath("expertise", "flavours", v)} />
+        <ImageField label="Fragrances card photo" value={m.expertise.fragrances} onChange={(v) => setPath("expertise", "fragrances", v)} />
+      </Card>
+
       <Card title="Buttons and social links" note="Use /{locale}/contact style links for pages on this site ({locale} becomes en or ar). Use a full https:// link for other sites. # means no link yet.">
         {linkRow("links", "requestSample", "Request for Sample button")}
         {linkRow("links", "facebook", "Facebook")}

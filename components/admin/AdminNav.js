@@ -9,6 +9,7 @@ const ITEMS = [
   { href: "/admin/events", label: "Events", ready: false, section: "events" },
   { href: "/admin/enquiries", label: "Enquiries", ready: true, section: "enquiries" },
   { href: "/admin/content", label: "Site content", ready: true, section: "content" },
+  { href: "/admin/flavours", label: "Flavours page", ready: true, section: "content" },
   { href: "/admin/media", label: "Media and links", ready: true, section: "media" },
   { href: "/admin/team", label: "Team and access", ready: true, ownerOnly: true },
 ];

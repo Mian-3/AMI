@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { eq } from "drizzle-orm";
 import { getDb, schema } from "@/db";
 import { getSession } from "@/lib/auth";
-import { getDictionary as getBaseDictionary } from "@/lib/baseDictionary";
+import { getDefaultsDictionary as getBaseDictionary } from "@/lib/defaultsDictionary";
 import { SECTION_MAP, editableShape, diffShape, sanitizeToShape } from "@/lib/siteContent";
 
 function refreshSite() {

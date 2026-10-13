@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getDictionary as getBaseDictionary } from "@/lib/baseDictionary";
+import { getDefaultsDictionary as getBaseDictionary } from "@/lib/defaultsDictionary";
 import { SECTION_MAP, editableShape, deepMerge, getOverrides } from "@/lib/siteContent";
 import ContentForm from "@/components/admin/ContentForm";
 

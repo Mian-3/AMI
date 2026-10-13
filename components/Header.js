@@ -7,7 +7,7 @@ function getNavItems(dict, locale, active) {
   return [
     { label: dict.nav.home, href: `/${locale}`, active: active === "home" },
     { label: dict.nav.about, href: `/${locale}/about`, active: active === "about" },
-    { label: dict.nav.flavoursFragrances, href: "#" },
+   { label: dict.nav.flavoursFragrances, href: `/${locale}/flavours-fragrances`, active: active === "flavours" },
     { label: dict.nav.process, href: "#" },
     { label: dict.nav.downloads, href: "#" },
     { label: dict.nav.events, href: `/${locale}/events`, active: active === "events" },

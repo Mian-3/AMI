@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import CatalogueDownloadLink from "@/components/CatalogueDownloadLink";
+import LocaleLink from "@/components/LocaleLink";
+import { getMedia } from "@/lib/media";
 
 function ArrowIcon() {
   return (
@@ -10,16 +12,16 @@ function ArrowIcon() {
   );
 }
 
-function getItems(dict) {
+function getItems(dict, media) {
   return [
-    { title: dict.expertise.items.flavours.title, desc: dict.expertise.items.flavours.desc, src: "/images/expertise/new1.png" },
-    { title: dict.expertise.items.fragrances.title, desc: dict.expertise.items.fragrances.desc, src: "/images/expertise/new2.png" },
+    { title: dict.expertise.items.flavours.title, desc: dict.expertise.items.flavours.desc, src: media.expertise.flavours },
+    { title: dict.expertise.items.fragrances.title, desc: dict.expertise.items.fragrances.desc, src: media.expertise.fragrances },
   ];
 }
 
 function ExpertiseCard({ item }) {
   return (
-    <a href="#" className="group relative block aspect-[3/4] transform-gpu overflow-hidden rounded-2xl bg-brand-navy outline-none [-webkit-tap-highlight-color:transparent] sm:aspect-[4/3]">
+    <LocaleLink href="/flavours-fragrances" className="group relative block aspect-[3/4] transform-gpu overflow-hidden rounded-2xl bg-brand-navy outline-none [-webkit-tap-highlight-color:transparent] sm:aspect-[4/3]">
       <Image src={item.src} alt={item.title} fill sizes="(min-width: 640px) 440px, 90vw" className="rounded-2xl object-cover transition duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transition-none" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" aria-hidden="true" />
       <span className="absolute end-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition-all duration-300 ease-out group-hover:rotate-45 rtl:group-hover:-rotate-45 group-hover:bg-brand-orange motion-reduce:transition-none motion-reduce:group-hover:rotate-0"><ArrowIcon /></span>
@@ -27,12 +29,13 @@ function ExpertiseCard({ item }) {
         <h3 className="text-[18px] font-semibold text-white md:text-[19px]">{item.title}</h3>
         <p className="mt-1.5 text-[13px] font-light leading-[20px] text-white/80">{item.desc}</p>
       </div>
-    </a>
+    </LocaleLink>
   );
 }
 
-export default function Expertise({ dict }) {
-  const items = getItems(dict);
+export default async function Expertise({ dict }) {
+  const media = await getMedia();
+  const items = getItems(dict, media);
 
   return (
     <section className="bg-white py-16 md:py-20">
@@ -55,7 +58,7 @@ export default function Expertise({ dict }) {
         </div>
 
         <Reveal delay={650} className="mt-9 flex flex-wrap items-center justify-center gap-3">
-          <a href="#" className="flex h-9 items-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.buttons.exploreProcess}</a>
+          <LocaleLink href="/flavours-fragrances" className="flex h-9 items-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.flavoursPage?.exploreCta ?? "Explore Flavours & Fragrances →"}</LocaleLink>
           <CatalogueDownloadLink
             label={dict.buttons.downloadCatalogue}
             icon="none"
