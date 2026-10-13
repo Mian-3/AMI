@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { getDb, schema } from "@/db";
 import { getSession } from "@/lib/auth";
 import { META_KEY, sanitizeFlavoursMeta } from "@/lib/flavoursData";
+import { logActivity } from "@/lib/activity";
 
 function refreshSite() {
   revalidatePath("/", "layout");
@@ -23,6 +24,7 @@ export async function saveFlavoursMeta(input) {
       .values({ key: META_KEY, value, updatedAt: new Date() })
       .onConflictDoUpdate({ target: schema.siteContent.key, set: { value, updatedAt: new Date() } });
     refreshSite();
+    await logActivity(session, "Saved Flavours page cards", "", "content");
     return { ok: true };
   } catch (error) {
     console.error("[saveFlavoursMeta]", error);
@@ -38,6 +40,7 @@ export async function resetFlavoursMeta() {
   try {
     await db.delete(schema.siteContent).where(eq(schema.siteContent.key, META_KEY));
     refreshSite();
+    await logActivity(session, "Reset Flavours page cards to default", "", "content");
     return { ok: true };
   } catch (error) {
     console.error("[resetFlavoursMeta]", error);

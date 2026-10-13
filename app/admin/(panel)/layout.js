@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { logout } from "@/app/admin/actions";
 import AdminNav from "@/components/admin/AdminNav";
+import Heartbeat from "@/components/admin/Heartbeat";
 
 export default async function PanelLayout({ children }) {
   const session = await getSession();
@@ -9,6 +10,7 @@ export default async function PanelLayout({ children }) {
 
   return (
     <div className="flex min-h-screen flex-col md:flex-row">
+      <Heartbeat />
       <aside className="flex flex-col gap-4 bg-brand-navy p-4 text-white md:sticky md:top-0 md:h-screen md:w-64 md:shrink-0 md:gap-6 md:p-5">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-orange">AM International</p>

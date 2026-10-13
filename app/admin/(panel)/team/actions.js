@@ -7,6 +7,7 @@ import { getSession } from "@/lib/auth";
 import { cleanSections } from "@/lib/teamShared";
 import { EMAIL_RE, INVITE_DAYS, hashToken, newToken, siteOrigin } from "@/lib/team";
 import { sendInviteEmail } from "@/lib/mailer";
+import { logActivity } from "@/lib/activity";
 
 async function owner() {
   const session = await getSession();
@@ -49,6 +50,7 @@ export async function inviteMember(input) {
     const link = `${await siteOrigin()}/admin/invite/${token}`;
     const mail = await sendInviteEmail({ to: email, name, link, sections, invitedBy: session.name || session.email });
     revalidatePath("/admin/team");
+    await logActivity(session, "Invited a team member", email, "team");
     return { ok: true, link, emailed: mail.sent, days: INVITE_DAYS };
   } catch (error) {
     console.error("[team] invite failed", error);
@@ -64,6 +66,7 @@ export async function revokeInvite(formData) {
   if (!db || !key.startsWith("invite:")) return;
   await db.delete(schema.siteContent).where(eq(schema.siteContent.key, key));
   revalidatePath("/admin/team");
+  await logActivity(session, "Cancelled an invite", "", "team");
 }
 
 export async function updateMember(userId, input) {
@@ -83,6 +86,7 @@ export async function updateMember(userId, input) {
   const disabled = Boolean(current[0]?.value?.disabled);
   await putKey(db, `team:${id}`, { sections, disabled });
   revalidatePath("/admin/team");
+  await logActivity(session, "Changed access for", user.name || user.email, "team");
   return { ok: true };
 }
 
@@ -98,6 +102,7 @@ export async function setMemberDisabled(formData) {
   const current = await db.select().from(schema.siteContent).where(eq(schema.siteContent.key, `team:${id}`)).limit(1);
   await putKey(db, `team:${id}`, { sections: cleanSections(current[0]?.value?.sections), disabled });
   revalidatePath("/admin/team");
+  await logActivity(session, disabled ? "Disabled member" : "Re-enabled member", rows[0].name || rows[0].email, "team");
 }
 
 export async function removeMember(formData) {
@@ -111,4 +116,5 @@ export async function removeMember(formData) {
   await db.delete(schema.siteContent).where(eq(schema.siteContent.key, `team:${id}`));
   await db.delete(schema.adminUsers).where(and(eq(schema.adminUsers.id, id), eq(schema.adminUsers.role, "editor")));
   revalidatePath("/admin/team");
+  await logActivity(session, "Removed member", rows[0].name || rows[0].email, "team");
 }

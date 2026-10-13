@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { eq } from "drizzle-orm";
 import { getDb, schema } from "@/db";
 import { getSession } from "@/lib/auth";
+import { logActivity } from "@/lib/activity";
 
 export async function setEnquiryStatus(id, status) {
   const session = await getSession("enquiries");
@@ -23,7 +24,10 @@ export async function deleteEnquiry(formData) {
   if (!session) redirect("/admin/login");
   const db = getDb();
   const id = Number(formData.get("id"));
-  if (db && Number.isInteger(id)) await db.delete(schema.enquiries).where(eq(schema.enquiries.id, id));
+  if (db && Number.isInteger(id)) {
+    await db.delete(schema.enquiries).where(eq(schema.enquiries.id, id));
+    await logActivity(session, "Deleted an enquiry", `#${id}`, "enquiries");
+  }
   revalidatePath("/admin/enquiries");
   revalidatePath("/admin");
   redirect("/admin/enquiries");

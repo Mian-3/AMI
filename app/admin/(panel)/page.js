@@ -1,6 +1,8 @@
 import { count, eq } from "drizzle-orm";
 import { getDb, schema } from "@/db";
+import Link from "next/link";
 import { getSession } from "@/lib/auth";
+import { getTeamStatus } from "@/lib/activity";
 
 async function getStats() {
   const db = getDb();
@@ -19,6 +21,7 @@ export default async function DashboardPage({ searchParams }) {
   const { denied } = await searchParams;
   const session = await getSession();
   const stats = await getStats();
+  const online = session?.isOwner ? (await getTeamStatus()).filter((m) => m.online) : [];
 
   const allowed = session?.sections || [];
   const cards = [
@@ -46,6 +49,27 @@ export default async function DashboardPage({ searchParams }) {
           </div>
         ))}
       </div>
+
+      {session?.isOwner ? (
+        <div className="mt-6 rounded-xl border border-black/5 bg-white p-5 shadow-sm">
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-semibold text-brand-navy">Online now</p>
+            <Link href="/admin/activity" className="text-sm text-brand-orange hover:underline">View activity</Link>
+          </div>
+          {online.length === 0 ? (
+            <p className="mt-2 text-sm text-ink/60">Nobody is online right now.</p>
+          ) : (
+            <ul className="mt-3 flex flex-wrap gap-2">
+              {online.map((m) => (
+                <li key={m.id} className="flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-sm text-emerald-800">
+                  <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                  {m.name || m.email}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      ) : null}
 
       {!stats ? (
         <p className="mt-6 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-800">

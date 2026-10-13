@@ -8,6 +8,7 @@ import { getSession } from "@/lib/auth";
 import { validatePost } from "@/lib/insightsValidate";
 import { getPosts as getStaticPosts } from "@/lib/insightsData";
 import { getArticle as getStaticArticle } from "@/lib/insightsArticles";
+import { logActivity } from "@/lib/activity";
 
 function isDuplicate(error) {
   const code = error?.code ?? error?.cause?.code;
@@ -51,6 +52,7 @@ export async function savePost(input) {
         .set({ slug, status, imageUrl, data, publishedAt, updatedAt: new Date() })
         .where(eq(posts.id, id));
       refreshSite(slug, existing.slug);
+      await logActivity(session, status === "published" ? "Saved article (published)" : "Saved article (draft)", slug, "insights");
       return { ok: true, id };
     }
 
@@ -59,6 +61,7 @@ export async function savePost(input) {
       .values({ slug, status, imageUrl, data, publishedAt: status === "published" ? new Date() : null })
       .returning({ id: posts.id });
     refreshSite(slug);
+    await logActivity(session, status === "published" ? "Created article (published)" : "Created article (draft)", slug, "insights");
     return { ok: true, id: row.id };
   } catch (error) {
     if (isDuplicate(error)) return { ok: false, error: "That slug is already used by another article." };
@@ -77,6 +80,7 @@ export async function deletePost(formData) {
     const rows = await db.select({ slug: schema.posts.slug }).from(schema.posts).where(eq(schema.posts.id, id)).limit(1);
     await db.delete(schema.posts).where(eq(schema.posts.id, id));
     refreshSite(rows[0]?.slug);
+    await logActivity(session, "Deleted article", rows[0]?.slug || "", "insights");
   }
   redirect("/admin/insights");
 }
@@ -124,5 +128,6 @@ export async function importStarterPosts() {
   }
 
   refreshSite();
+  await logActivity(session, "Imported starter articles", "", "insights");
   redirect("/admin/insights");
 }

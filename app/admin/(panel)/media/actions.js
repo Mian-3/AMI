@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { getDb, schema } from "@/db";
 import { getSession } from "@/lib/auth";
 import { sanitizeMedia } from "@/lib/mediaShared";
+import { logActivity } from "@/lib/activity";
 
 export async function saveMedia(input) {
   const session = await getSession("media");
@@ -19,6 +20,7 @@ export async function saveMedia(input) {
       .values({ key: "media", value, updatedAt: new Date() })
       .onConflictDoUpdate({ target: schema.siteContent.key, set: { value, updatedAt: new Date() } });
     revalidatePath("/", "layout");
+    await logActivity(session, "Saved images and links", "", "media");
     return { ok: true };
   } catch (error) {
     console.error("[saveMedia]", error);
@@ -34,6 +36,7 @@ export async function resetMedia() {
   try {
     await db.delete(schema.siteContent).where(eq(schema.siteContent.key, "media"));
     revalidatePath("/", "layout");
+    await logActivity(session, "Reset images and links to default", "", "media");
     return { ok: true };
   } catch (error) {
     console.error("[resetMedia]", error);

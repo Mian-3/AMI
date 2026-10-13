@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { eq } from "drizzle-orm";
 import { getDb, schema } from "@/db";
 import { getSession } from "@/lib/auth";
+import { logActivity } from "@/lib/activity";
 import { getDefaultsDictionary as getBaseDictionary } from "@/lib/defaultsDictionary";
 import { SECTION_MAP, editableShape, diffShape, sanitizeToShape } from "@/lib/siteContent";
 
@@ -38,6 +39,7 @@ export async function saveSection(sectionKey, input) {
         .onConflictDoUpdate({ target: schema.siteContent.key, set: { value, updatedAt: new Date() } });
     }
     refreshSite();
+    await logActivity(session, "Edited site text", SECTION_MAP[sectionKey]?.label || sectionKey, "content");
     return { ok: true };
   } catch (error) {
     console.error("[saveSection]", error);
@@ -56,6 +58,7 @@ export async function resetSection(sectionKey) {
   try {
     await db.delete(schema.siteContent).where(eq(schema.siteContent.key, sectionKey));
     refreshSite();
+    await logActivity(session, "Reset site text to default", SECTION_MAP[sectionKey]?.label || sectionKey, "content");
     return { ok: true };
   } catch (error) {
     console.error("[resetSection]", error);

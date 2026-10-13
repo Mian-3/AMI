@@ -4,7 +4,8 @@ import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { getDb, schema } from "@/db";
-import { createSession, destroySession } from "@/lib/auth";
+import { createSession, destroySession, getSession } from "@/lib/auth";
+import { logActivity } from "@/lib/activity";
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -39,10 +40,13 @@ export async function login(prevState, formData) {
   if (!ok) return fail();
 
   await createSession(user);
+  await logActivity({ id: user.id, name: user.name, email: user.email }, "Signed in", "", "login");
   redirect("/admin");
 }
 
 export async function logout() {
+  const session = await getSession();
+  if (session) await logActivity(session, "Signed out", "", "login");
   await destroySession();
   redirect("/admin/login");
 }
