@@ -9,15 +9,23 @@ function LogoRow({ clients, hidden = false }) {
     <ul className="flex shrink-0 items-center gap-4 pr-4" aria-hidden={hidden || undefined}>
       {repeats.map((copy) =>
         clients.map((client, index) => (
-          <li key={copy + "-" + index + client.src} className="marquee-item flex h-[56px] w-[130px] shrink-0 items-center justify-center rounded-lg bg-white px-3 shadow-sm transition-shadow duration-300 hover:shadow-md">
-            <Image src={client.src} alt={hidden || copy > 0 ? "" : client.name} width={340} height={160} className="max-h-[80px] w-auto object-contain" />
-          </li>
+         <li
+  key={copy + "-" + index + client.src}
+className="marquee-item flex h-[44px] shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white p-0 shadow-sm transition-shadow duration-300 hover:shadow-md md:h-[52px] xl:h-[calc((100vw-96px)/6/3.5)]"
+>
+  <Image
+    src={client.src}
+    alt={hidden || copy > 0 ? "" : client.name}
+    width={960}
+    height={400}
+    className="h-full w-auto max-w-none object-contain"
+  />
+</li>
         ))
       )}
     </ul>
   );
 }
-
 export default async function Clients({ dict, locale }) {
   const isRtl = locale === "ar";
   // The logos are managed in the admin under Media and links.
@@ -25,7 +33,7 @@ export default async function Clients({ dict, locale }) {
 
   return (
     <section className="bg-cream pb-14 pt-6">
-      <Reveal as="p" className="mb-6 text-center text-[10px] font-medium uppercase tracking-[0.08em] text-brand-navy">{dict.clients.label}</Reveal>
+     <Reveal as="p" className="mb-6 text-center text-[13px] font-semibold uppercase tracking-[0.08em] text-brand-navy md:text-[12px] xl:text-[14px]">{dict.clients.label}</Reveal>
       <div className="marquee-mask overflow-hidden" dir="ltr">
         <div className={"marquee-track flex w-max motion-reduce:animate-none " + (isRtl ? "animate-marquee-reverse" : "animate-marquee")}>
           <LogoRow clients={clients} />
