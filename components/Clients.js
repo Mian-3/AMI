@@ -11,7 +11,7 @@ function LogoRow({ clients, hidden = false }) {
         clients.map((client, index) => (
          <li
   key={copy + "-" + index + client.src}
-className="marquee-item flex h-[44px] shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white p-0 shadow-sm transition-shadow duration-300 hover:shadow-md md:h-[52px] xl:h-[calc((100vw-96px)/6/3.5)]"
+className="marquee-item flex h-[52px] shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white p-0 shadow-sm transition-shadow duration-300 hover:shadow-md md:h-[62px] xl:h-[calc((100vw-96px)/6/3.1)]"
 >
   <Image
     src={client.src}

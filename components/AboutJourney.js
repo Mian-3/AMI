@@ -12,7 +12,7 @@ const CERTS = [
 
 function MedalIcon() {
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-[22px] w-[22px] xl:h-[max(22px,calc(28*var(--u)))] xl:w-[max(22px,calc(28*var(--u)))]">
       <circle cx="12" cy="9" r="5.5" />
       <path d="m8.8 13.6-1.6 7.4 4.8-2.6 4.8 2.6-1.6-7.4" />
       <path d="M10 9l1.5 1.5L14.5 7.5" />
@@ -26,7 +26,7 @@ export default function AboutJourney({ dict }) {
   const t = dict.about;
 
   return (
-    <section className="relative overflow-hidden bg-[#f28b33] py-14 text-white sm:py-20 lg:py-[6.5rem]">
+    <section className="relative overflow-hidden bg-[#f28b33] py-14 text-white [--u:1px] sm:py-20 lg:py-[6.5rem] xl:pb-[calc(103*var(--u))] xl:pt-[calc(95*var(--u))] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
       {/* Diagonal streaks (mirrored in Arabic) */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 rtl:-scale-x-100">
         <div className={`${STRIPE} start-[17%] w-[15%] bg-gradient-to-r from-[#7d6d22]/40 via-[#b98a2c]/10 to-transparent`} />
@@ -34,33 +34,38 @@ export default function AboutJourney({ dict }) {
         <div className={`${STRIPE} start-[76%] w-[15%] bg-gradient-to-r from-[#7d6d22]/40 via-[#b98a2c]/10 to-transparent [animation-delay:-6s]`} />
       </div>
 
-      <div className="relative mx-auto max-w-[75rem] px-4 sm:px-6 xl:px-0">
-        <div className="mx-auto max-w-[61rem] text-center">
+      <div className="relative mx-auto max-w-[75rem] px-4 sm:px-6 xl:max-w-[calc(1200*var(--u))] xl:px-0">
+        <div className="mx-auto max-w-[61rem] text-center xl:max-w-[calc(980*var(--u))]">
           <AboutReveal>
-            <p className="text-[0.75rem] font-semibold uppercase tracking-[0.16em] text-white 2xl:text-[0.875rem]">{t.journeyEyebrow}</p>
+            <p className="text-[0.75rem] font-semibold uppercase tracking-[0.16em] text-white xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))] xl:tracking-[0.12em]">{t.journeyEyebrow}</p>
           </AboutReveal>
           <AboutReveal delay={100}>
-            <h2 className="mt-2 text-[1.75rem] font-semibold leading-[1.2] sm:text-[2rem] 2xl:text-[2.5rem]">{t.journeyHeading}</h2>
+            <h2 className="mt-2 text-[1.75rem] font-semibold leading-[1.2] sm:text-[2rem] xl:mt-0 xl:text-[max(30px,calc(40*var(--u)))] xl:leading-[calc(48*var(--u))] xl:tracking-[-0.015em]">{t.journeyHeading}</h2>
           </AboutReveal>
           <AboutReveal delay={200}>
-            <p className="mt-5 text-[0.9375rem] leading-[1.7] text-white lg:text-[1rem] 2xl:text-[1.125rem] 2xl:leading-[1.875rem]">{t.journeyP1}</p>
+            <p className="mt-5 text-[0.9375rem] leading-[1.7] text-white lg:text-[1rem] xl:mt-[calc(17*var(--u))] xl:text-[max(16px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">{t.journeyP1}</p>
           </AboutReveal>
           <AboutReveal delay={300}>
-            <p className="mt-6 text-[0.9375rem] leading-[1.7] text-white lg:text-[1rem] 2xl:mt-8 2xl:text-[1.125rem] 2xl:leading-[1.875rem]">{t.journeyP2}</p>
+            <p className="mt-6 text-[0.9375rem] leading-[1.7] text-white lg:text-[1rem] xl:mt-[calc(30*var(--u))] xl:text-[max(16px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">{t.journeyP2}</p>
           </AboutReveal>
+          {t.journeyP3 ? (
+            <AboutReveal delay={400}>
+              <p className="mt-6 text-[0.9375rem] leading-[1.7] text-white lg:text-[1rem] xl:mt-[calc(30*var(--u))] xl:text-[max(16px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">{t.journeyP3}</p>
+            </AboutReveal>
+          ) : null}
         </div>
 
-        <ul className="mt-12 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:mt-[4.25rem] lg:grid-cols-5">
+        <ul className="mt-12 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:mt-[4.25rem] lg:grid-cols-5 xl:mt-[calc(53*var(--u))] xl:gap-[calc(8*var(--u))]">
           {CERTS.map((c, i) => (
             <li key={c.n} className="h-full">
               <AboutReveal delay={i * 90} className="h-full">
                 <CertificateLink
                   pdfSrc={`/documents/certificates/cert-${c.n}.pdf`}
                   downloadName={`${c.label}.pdf`}
-                  className="flex h-[7.5rem] flex-col justify-between rounded-3xl border border-white/30 bg-white/20 p-4 text-white transition duration-300 hover:-translate-y-1 hover:bg-white/30 lg:p-5 2xl:h-[8.9rem]"
+                  className="flex h-[7.5rem] flex-col justify-between rounded-3xl border border-white/30 bg-white/20 p-4 text-white transition duration-300 hover:-translate-y-1 hover:bg-white/30 lg:p-5 xl:h-[max(110px,calc(143*var(--u)))] xl:rounded-[calc(32*var(--u))] xl:p-[calc(24*var(--u))] xl:pb-[calc(22*var(--u))]"
                 >
                   <MedalIcon />
-                  <span className="text-[0.8125rem] font-medium uppercase 2xl:text-[0.875rem]">{c.label}</span>
+                  <span className="text-[0.8125rem] font-medium uppercase xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(20*var(--u))]">{c.label}</span>
                 </CertificateLink>
               </AboutReveal>
             </li>
@@ -68,17 +73,17 @@ export default function AboutJourney({ dict }) {
         </ul>
 
         <AboutReveal delay={200}>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 lg:mt-[4.2rem]">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 lg:mt-[4.2rem] xl:mt-[calc(66*var(--u))] xl:gap-x-[calc(30*var(--u))]">
             <a
               href="#meaning"
-              className="inline-flex h-12 items-center rounded-lg bg-white px-8 text-[0.875rem] font-medium text-[#f28b33] transition duration-200 hover:-translate-y-0.5 hover:shadow-lg 2xl:px-10"
+              className="inline-flex h-12 items-center justify-center rounded-lg bg-white px-8 text-[0.875rem] font-medium text-[#f28b33] transition duration-200 hover:-translate-y-0.5 hover:shadow-lg xl:h-[max(40px,calc(48*var(--u)))] xl:w-[calc(229*var(--u))] xl:min-w-[170px] xl:rounded-[calc(8*var(--u))] xl:px-0 xl:text-[max(12px,calc(14*var(--u)))]"
             >
               {t.discover}
             </a>
             <CatalogueDownloadLink
               label={dict.buttons.downloadCatalogueArrow}
               icon="none"
-              className="inline-flex items-center text-[0.875rem] font-medium text-white transition-opacity hover:opacity-80"
+              className="inline-flex items-center text-[0.875rem] font-medium text-white transition-opacity hover:opacity-80 xl:text-[max(12px,calc(14*var(--u)))]"
             />
           </div>
         </AboutReveal>

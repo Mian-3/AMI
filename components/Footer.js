@@ -2,134 +2,130 @@ import Image from "next/image";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { getMedia } from "@/lib/media";
 import { resolveHref, isExternal } from "@/lib/mediaShared";
+import { inter, dmSans } from "@/lib/fonts";
 
+/*
+  Fixed pixel sizes taken from the 1920 design (no scaling), so text is always the design size.
+*/
+const ICON = "h-5 w-5 xl:h-[21px] xl:w-[21px]";
 
-function PinIcon() {
+function Icon({ children }) {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M12 21s-7-7.2-7-12a7 7 0 0 1 14 0c0 4.8-7 12-7 12Z" />
-      <circle cx="12" cy="9" r="2.5" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className={ICON}>
+      {children}
     </svg>
   );
 }
 
-function MailIcon() {
+function SearchIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <rect x="3" y="5" width="18" height="14" rx="2" />
-      <path d="m4 7 8 6 8-6" />
-    </svg>
-  );
-}
-
-function PhoneIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M4 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 2 6a2 2 0 0 1 2-2Z" />
-    </svg>
+    <Icon>
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </Icon>
   );
 }
 
 function FacebookIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-    </svg>
+    <Icon>
+      <path d="M14.5 21v-8h2.7l.5-3.3h-3.2V7.6c0-1 .5-1.6 1.7-1.6h1.7V3.2C17.6 3.1 16.7 3 15.7 3 13.2 3 11.5 4.5 11.5 7.1v2.6H8.8V13h2.7v8z" />
+    </Icon>
   );
 }
 
 function InstagramIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <rect x="2" y="2" width="20" height="20" rx="5" />
-      <circle cx="12" cy="12" r="4" />
-      <path d="M17.5 6.5h.01" />
-    </svg>
+    <Icon>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4.2" />
+      <circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" />
+    </Icon>
   );
 }
 
 function LinkedinIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-      <rect x="2" y="9" width="4" height="12" />
-      <circle cx="4" cy="4" r="2" />
-    </svg>
+    <Icon>
+      <path d="M4.5 9.5v10" />
+      <circle cx="4.5" cy="5" r="1" fill="currentColor" />
+      <path d="M9.5 19.5v-10" />
+      <path d="M9.5 13.5a4 4 0 0 1 4-4h.5a4 4 0 0 1 4 4v6" />
+    </Icon>
   );
 }
+
+const HEAD = dmSans.className + " text-[12px] font-semibold uppercase text-brand-navy xl:text-[14px] xl:leading-[20px]";
+const LIST = "mt-4 space-y-2.5 text-[13px] text-[#5f6663] xl:mt-[11px] xl:space-y-[10px] xl:text-[14px] xl:leading-[20px]";
+const LINK = "transition-colors hover:text-brand-orange";
 
 export default async function Footer({ dict, locale }) {
   const media = await getMedia();
   const { links, footerLinks } = media;
   const href = (v) => resolveHref(v, locale);
   const extra = (v) => (isExternal(v) ? { target: "_blank", rel: "noopener noreferrer" } : {});
+
+  const columns = [
+    { heading: dict.footer.fragrancesHeading, labels: dict.footer.fragrancesLinks, hrefs: footerLinks.fragrances },
+    { heading: dict.footer.foodFlavoursHeading, labels: dict.footer.foodFlavoursLinks, hrefs: footerLinks.foodFlavours },
+    { heading: dict.footer.quickLinksHeading, labels: dict.footer.quickLinks, hrefs: footerLinks.quick },
+  ];
+
   return (
-    <footer className="bg-cream">
-      <div className="mx-auto max-w-[1200px] px-4 py-16 sm:px-6 md:py-20 xl:px-0">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[300px_1fr]">
+    <footer className={inter.className + " bg-cream"}>
+      <div className="mx-auto max-w-[1200px] px-4 py-16 sm:px-6 md:py-20 xl:max-w-[1680px] xl:px-[40px] xl:pb-[41px] xl:pt-[54px]">
+        <div className="grid grid-cols-1 gap-10 xl:grid-cols-[1fr_637px] xl:gap-0">
           <div>
-           <Image
-  src="/images/logo/am-international-logo.svg"
-  alt="AM International"
-  width={1184}
-  height={329}
-  className="h-10 w-auto"
-/>
-            <p className="mt-5 text-[12px] font-medium uppercase tracking-[0.06em] text-brand-navy/70">{dict.footer.contactLabel}</p>
-            <ul className="mt-3 space-y-3 text-[13px] text-ink/70">
-              <li className="flex items-start gap-2">
-                <PinIcon />
-                <span>{dict.footer.address}</span>
+            <Image
+              src="/images/logo/am-international-logo.svg"
+              alt="AM International"
+              width={1184}
+              height={329}
+              className="h-10 w-auto xl:h-[54px]"
+            />
+            <p className={HEAD + " mt-5 xl:mt-[28px]"}>{dict.footer.contactLabel}</p>
+            <ul className="mt-3 space-y-3 text-[13px] text-[#5f6663] xl:mt-[11px] xl:space-y-[10px] xl:text-[14px] xl:leading-[20px]">
+              <li className="xl:max-w-[300px]">{dict.footer.address}</li>
+              <li>
+                <a href={"mailto:" + dict.footer.email} dir="ltr" className={LINK}>{dict.footer.email}</a>
               </li>
-              <li className="flex items-center gap-2">
-                <MailIcon />
-                <a href={"mailto:" + dict.footer.email} dir="ltr" className="transition-colors hover:text-brand-orange">{dict.footer.email}</a>
-              </li>
-              <li className="flex items-center gap-2">
-                <PhoneIcon />
-                <a href={"tel:" + dict.footer.phone.replace(/\s/g, "")} dir="ltr" className="transition-colors hover:text-brand-orange">{dict.footer.phone}</a>
+              <li>
+                <a href={"tel:" + dict.footer.phone.replace(/\s/g, "")} dir="ltr" className={LINK}>{dict.footer.phone}</a>
               </li>
             </ul>
-            <div className="mt-5 flex items-center gap-3 text-brand-navy">
-              <a href={href(links.facebook)} {...extra(links.facebook)} aria-label="Facebook" className="transition-colors hover:text-brand-orange"><FacebookIcon /></a>
-              <a href={href(links.instagram)} {...extra(links.instagram)} aria-label="Instagram" className="transition-colors hover:text-brand-orange"><InstagramIcon /></a>
-              <a href={href(links.linkedin)} {...extra(links.linkedin)} aria-label="LinkedIn" className="transition-colors hover:text-brand-orange"><LinkedinIcon /></a>
-            </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
-            <div>
-              <p className="text-[12px] font-semibold uppercase tracking-[0.04em] text-brand-navy">{dict.footer.fragrancesHeading}</p>
-              <ul className="mt-4 space-y-2.5 text-[13px] text-ink/70">
-                {dict.footer.fragrancesLinks.map((label, i) => (
-                  <li key={label}><a href={href(footerLinks.fragrances[i] || "#")} {...extra(footerLinks.fragrances[i])} className="transition-colors hover:text-brand-orange">{label}</a></li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <p className="text-[12px] font-semibold uppercase tracking-[0.04em] text-brand-navy">{dict.footer.foodFlavoursHeading}</p>
-              <ul className="mt-4 space-y-2.5 text-[13px] text-ink/70">
-                {dict.footer.foodFlavoursLinks.map((label, i) => (
-                  <li key={label}><a href={href(footerLinks.foodFlavours[i] || "#")} {...extra(footerLinks.foodFlavours[i])} className="transition-colors hover:text-brand-orange">{label}</a></li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <p className="text-[12px] font-semibold uppercase tracking-[0.04em] text-brand-navy">{dict.footer.quickLinksHeading}</p>
-              <ul className="mt-4 space-y-2.5 text-[13px] text-ink/70">
-                {dict.footer.quickLinks.map((label, i) => (
-                  <li key={label}><a href={href(footerLinks.quick[i] || "#")} {...extra(footerLinks.quick[i])} className="transition-colors hover:text-brand-orange">{label}</a></li>
-                ))}
-              </ul>
-            </div>
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 xl:grid-cols-[252px_277px_1fr] xl:gap-0 xl:pt-[1px]">
+            {columns.map((col) => (
+              <div key={col.heading}>
+                <p className={HEAD}>{col.heading}</p>
+                <ul className={LIST}>
+                  {col.labels.map((label, i) => (
+                    <li key={label + i}>
+                      <a href={href(col.hrefs[i] || "#")} {...extra(col.hrefs[i])} className={LINK}>{label}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      <div className="border-t border-brand-navy/10">
-        <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-3 px-4 py-5 text-[12px] text-ink/60 sm:flex-row sm:px-6 xl:px-0">
+      <div className="mx-auto max-w-[1200px] xl:max-w-[1680px] xl:px-[40px]">
+        <div className="border-t border-brand-navy/10 px-4 sm:px-6 xl:border-brand-navy/15 xl:px-0" />
+      </div>
+      <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-4 px-4 py-5 text-[12px] text-[#2b2f2e] sm:flex-row sm:px-6 xl:max-w-[1680px] xl:px-[40px] xl:pb-[51px] xl:pt-[26px] xl:text-[16px]">
+        <div className="flex flex-col items-center gap-3 sm:flex-row xl:gap-[19px]">
+          <LanguageSwitcher openUpward />
           <p>{dict.footer.copyright}</p>
-          <LanguageSwitcher openUpward />        </div>
+        </div>
+        <div className="flex items-center gap-5 text-brand-navy xl:gap-[22px]">
+          <a href="#" aria-label="Search" className="transition-colors hover:text-brand-orange"><SearchIcon /></a>
+          <a href={href(links.facebook)} {...extra(links.facebook)} aria-label="Facebook" className="transition-colors hover:text-brand-orange"><FacebookIcon /></a>
+          <a href={href(links.instagram)} {...extra(links.instagram)} aria-label="Instagram" className="transition-colors hover:text-brand-orange"><InstagramIcon /></a>
+          <a href={href(links.linkedin)} {...extra(links.linkedin)} aria-label="LinkedIn" className="transition-colors hover:text-brand-orange"><LinkedinIcon /></a>
+        </div>
       </div>
     </footer>
   );

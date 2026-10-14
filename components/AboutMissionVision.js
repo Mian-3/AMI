@@ -1,8 +1,14 @@
 import AboutReveal from "@/components/AboutReveal";
 
+/*
+  Design artboard 1920. At xl+ every size is calc(N * var(--u)) with a floor,
+  so this section scales exactly like the Figma frame. Below xl the compact layout is kept.
+*/
+const ICON = "h-12 w-12 xl:h-[max(40px,calc(56*var(--u)))] xl:w-[max(40px,calc(56*var(--u)))]";
+
 function MissionIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-12 w-12 2xl:h-14 2xl:w-14">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className={ICON}>
       <path d="M9 4H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h4" />
       <path d="M15 4h2a2 2 0 0 1 2 2v3" />
       <rect x="9" y="2.5" width="6" height="3.5" rx="1" />
@@ -14,7 +20,7 @@ function MissionIcon() {
 
 function VisionIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-12 w-12 2xl:h-14 2xl:w-14">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className={ICON}>
       <path d="M3 8V6a3 3 0 0 1 3-3h2" />
       <path d="M16 3h2a3 3 0 0 1 3 3v2" />
       <path d="M21 16v2a3 3 0 0 1-3 3h-2" />
@@ -33,15 +39,15 @@ export default function AboutMissionVision({ dict }) {
   ];
 
   return (
-    <section className="bg-[#212121] pb-16 pt-14 text-white sm:pb-20 sm:pt-16 lg:pb-24 lg:pt-[4.5rem]">
-      <div className="mx-auto grid max-w-[75rem] gap-12 px-4 sm:px-6 md:grid-cols-2 md:gap-x-6 xl:px-0">
+    <section className="bg-[#212121] pb-16 pt-14 text-white [--u:1px] sm:pb-20 sm:pt-16 lg:pb-24 lg:pt-[4.5rem] xl:pb-[calc(96*var(--u))] xl:pt-[calc(72*var(--u))] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
+      <div className="mx-auto grid max-w-[75rem] gap-12 px-4 sm:px-6 md:grid-cols-2 md:gap-x-6 xl:max-w-[calc(1200*var(--u))] xl:gap-x-[calc(26*var(--u))] xl:px-0">
         {items.map((item) => (
           <AboutReveal key={item.label} from={item.from}>
             <div className="group">
               <div className="inline-block transition duration-500 group-hover:-translate-y-1 group-hover:text-[#f28b33]">{item.icon}</div>
-              <p className="mt-8 text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-white 2xl:mt-12 2xl:text-[0.875rem]">{item.label}</p>
-              <h2 className="mt-2 max-w-[29rem] text-[1.625rem] font-semibold leading-[1.4] sm:text-[1.875rem] 2xl:text-[2.25rem]">{item.heading}</h2>
-              <p className="mt-2 max-w-[34rem] text-[0.9375rem] leading-[1.8] text-white 2xl:text-[1.1rem] 2xl:leading-[1.875rem]">{item.text}</p>
+              <p className="mt-8 text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-white xl:mt-[calc(50*var(--u))] xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))]">{item.label}</p>
+              <h2 className="mt-2 max-w-[29rem] text-[1.625rem] font-semibold leading-[1.4] sm:text-[1.875rem] xl:mt-0 xl:max-w-[calc(500*var(--u))] xl:text-[max(28px,calc(40*var(--u)))] xl:leading-[calc(50*var(--u))] xl:tracking-[-0.015em]">{item.heading}</h2>
+              <p className="mt-2 max-w-[34rem] text-[0.9375rem] leading-[1.8] text-white xl:mt-[calc(8*var(--u))] xl:max-w-[calc(560*var(--u))] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">{item.text}</p>
             </div>
           </AboutReveal>
         ))}
