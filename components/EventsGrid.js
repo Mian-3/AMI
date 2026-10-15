@@ -2,80 +2,71 @@ import Image from "next/image";
 import AboutReveal from "@/components/AboutReveal";
 import { eventHref } from "@/lib/eventsData";
 
-function PinIcon() {
+function Pin() {
   return (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="text-[#fba01f]">
-      <path d="M12 21s-7-7.2-7-12a7 7 0 0 1 14 0c0 4.8-7 12-7 12z" />
-      <circle cx="12" cy="9" r="2.5" />
+    <svg viewBox="0 0 28 34" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-[15px] w-[12px] shrink-0 text-brand-orange xl:h-[max(15px,calc(20*var(--u)))] xl:w-[max(12px,calc(16*var(--u)))]">
+      <path d="M14 32S3 21.5 3 13.5a11 11 0 0 1 22 0C25 21.5 14 32 14 32Z" />
+      <circle cx="14" cy="13.5" r="4.2" />
     </svg>
   );
 }
 
-function ArrowUpRight() {
+function Arrow() {
   return (
-    <span className="inline-flex rtl:-scale-x-100">
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.9"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-        className="-rotate-45 transition-transform duration-300 ease-out group-hover:rotate-0 motion-reduce:transition-none"
-      >
-        <path d="M5 12h14" />
-        <path d="m13 6 6 6-6 6" />
-      </svg>
-    </span>
+    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-[46%] w-[46%] rtl:-scale-x-100 transition-transform duration-300 ease-out group-hover:rotate-45 rtl:group-hover:-rotate-45 motion-reduce:transition-none">
+      <path d="M12 36 36 12M15 12h21v21" />
+    </svg>
   );
 }
 
 export default function EventsGrid({ events, dict, locale }) {
+  const hrefOf = (event) => eventHref(locale, event);
   return (
-    <section id="upcoming" className="scroll-mt-24 bg-[#fcfbf8] py-12 sm:py-16 lg:py-20">
-      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 xl:px-0">
+    <section className="bg-[#fcfbf8] px-4 pb-16 pt-12 sm:px-6 md:pb-20 md:pt-16 xl:px-0 xl:pb-[calc(239*var(--u))] xl:pt-[calc(72*var(--u))] [--u:1px] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
+      <div className="mx-auto xl:max-w-[calc(1200*var(--u))]">
         <AboutReveal>
-          <h2 className="text-[26px] font-semibold text-brand-navy sm:text-[32px]">{dict.eventsPage.heading}</h2>
+          <h2 className="text-[26px] font-semibold leading-[1.25] tracking-[-0.015em] text-brand-navy sm:text-[32px] xl:text-[max(30px,calc(38*var(--u)))] xl:leading-[max(38px,calc(46*var(--u)))]">
+            {dict.eventsPage.heading}
+          </h2>
         </AboutReveal>
 
-        <ul className="mt-8 grid gap-5 md:grid-cols-2">
-          {events.map((event, i) => (
-            <li key={event.id}>
-              <AboutReveal delay={(i % 2) * 120} className="h-full">
-                <a
-                  href={eventHref(locale, event)}
-                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/15 bg-[#212121] transition duration-300 hover:-translate-y-1 hover:border-[#fba01f]/60 hover:shadow-xl motion-reduce:transition-none motion-reduce:hover:translate-y-0"
-                >
-                  <div className="relative h-[150px] w-full overflow-hidden sm:h-[170px]">
-                    <Image
-                      src={event.image}
-                      alt=""
-                      fill
-                      sizes="(min-width: 768px) 590px, 100vw"
-                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 motion-reduce:transition-none"
-                    />
+        <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 xl:mt-[calc(31*var(--u))] xl:gap-x-[calc(18*var(--u))] xl:gap-y-[calc(35*var(--u))]">
+          {events.map((event, index) => {
+            const href = hrefOf(event);
+            const linked = href && href !== "#";
+            const Tag = linked ? "a" : "div";
+            const linkProps = linked ? { href, "aria-label": `${dict.eventsPage.view}: ${event.title}` } : {};
+            return (
+            <AboutReveal key={event.id ?? index} delay={(index % 2) * 120}>
+              <Tag
+                {...linkProps}
+                className="group box-border block overflow-hidden rounded-[20px] border-2 border-[#5e5656] bg-[#202020] transition duration-300 ease-out hover:-translate-y-1 hover:border-brand-orange hover:shadow-[0_20px_40px_-18px_rgba(251,160,31,0.35)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 xl:rounded-[max(20px,calc(28*var(--u)))]"
+              >
+                <div className="relative h-[190px] w-full overflow-hidden sm:h-[210px] xl:h-[max(150px,calc(219*var(--u)))]">
+                  <Image src={event.image} alt="" fill sizes="(min-width: 1280px) 600px, (min-width: 768px) 50vw, 100vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 motion-reduce:transition-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#202020] via-[#202020]/10 to-black/20" />
+                  <span className="absolute start-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/40 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-white backdrop-blur-md xl:start-[calc(20*var(--u))] xl:top-[calc(20*var(--u))] xl:gap-[calc(8*var(--u))] xl:px-[calc(16*var(--u))] xl:py-[calc(8*var(--u))] xl:text-[max(11px,calc(14*var(--u)))]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#fba01f] xl:h-[max(6px,calc(8*var(--u)))] xl:w-[max(6px,calc(8*var(--u)))]" />
+                    {event.dateShort}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between gap-4 px-5 py-5 xl:min-h-[max(96px,calc(130*var(--u)))] xl:gap-[calc(20*var(--u))] xl:px-[calc(28*var(--u))] xl:py-[calc(24*var(--u))]">
+                  <div className="min-w-0">
+                    <h3 className="text-[18px] font-semibold leading-[1.3] text-white xl:text-[max(17px,calc(24*var(--u)))] xl:leading-[max(24px,calc(32*var(--u)))]">{event.title}</h3>
+                    <p className="mt-2 flex items-center gap-2 text-[14px] text-white/60 xl:mt-[calc(10*var(--u))] xl:gap-[calc(8*var(--u))] xl:text-[max(14px,calc(17*var(--u)))]">
+                      <Pin />
+                      {event.location}
+                    </p>
                   </div>
-                  <div className="flex flex-1 items-center justify-between gap-4 p-5">
-                    <div className="min-w-0">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#fba01f] rtl:tracking-normal">{event.dateShort}</p>
-                      <h3 className="mt-1.5 text-[18px] font-medium leading-[24px] text-white">{event.title}</h3>
-                      <p className="mt-1.5 flex items-center gap-1.5 text-[11px] text-white/60">
-                        <PinIcon />
-                        {event.location}
-                      </p>
-                    </div>
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#fba01f] text-[#212121] transition duration-300 group-hover:scale-110 group-hover:bg-white">
-                      <ArrowUpRight />
-                    </span>
-                  </div>
-                </a>
-              </AboutReveal>
-            </li>
-          ))}
-        </ul>
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#fba01f] text-[#202020] transition duration-300 ease-out group-hover:scale-105 group-hover:shadow-[0_0_0_6px_rgba(251,160,31,0.18)] motion-reduce:transition-none xl:h-[max(44px,calc(57*var(--u)))] xl:w-[max(44px,calc(57*var(--u)))]">
+                    <Arrow />
+                  </span>
+                </div>
+              </Tag>
+            </AboutReveal>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

@@ -14,22 +14,22 @@ export default function ContactHero({ dict }) {
   return (
     <section className="bg-[#fcfcfa] px-4 pb-16 pt-12 sm:px-6 md:pb-24 md:pt-[3.75rem] xl:px-0">
       <div className="mx-auto max-w-[75rem]">
-        <Reveal as="p" className="mb-3 text-[clamp(0.75rem,0.73vw,0.875rem)] font-medium uppercase tracking-[0.2em] text-[#4b5563]">
+        <Reveal as="p" className="mb-3 text-[12px] font-semibold uppercase tracking-[0.2em] text-[#4b5563] rtl:tracking-normal md:text-[13px]">
           {c.eyebrow}
         </Reveal>
-        <Reveal as="h1" delay={100} className="text-[clamp(2.25rem,3.33vw,4rem)] font-bold leading-[1.1] tracking-[-0.01em] text-brand-navy">
+        <Reveal as="h1" delay={100} className="text-[28px] font-bold leading-[1.2] tracking-[-0.01em] text-brand-navy sm:text-[34px] md:text-[38px] xl:text-[40px] xl:leading-[48px]">
           {c.heading}
         </Reveal>
-        <Reveal as="p" delay={220} className="mt-6 max-w-[52rem] text-[clamp(1.25rem,1.67vw,2rem)] font-semibold leading-[1.3] text-brand-orange md:mt-8">
+        <Reveal as="p" delay={220} className="mt-5 max-w-[52rem] text-[16px] font-semibold leading-[1.4] text-brand-orange md:mt-5 md:text-[17px] xl:text-[19px] xl:leading-[28px]">
           {c.sub}
         </Reveal>
-        <Reveal as="p" delay={340} className="mt-4 max-w-[59rem] text-[clamp(1rem,1.25vw,1.5rem)] leading-[1.55] text-[#737878]">
+        <Reveal as="p" delay={340} className="mt-3 max-w-[52rem] text-[14px] leading-[1.7] text-[#737878] xl:text-[16px] xl:leading-[26px]">
           {c.paragraph}
         </Reveal>
         <Reveal delay={460} className="mt-8 md:mt-10">
           <a
             href="#contact-form"
-            className="group inline-flex h-12 items-center gap-2 rounded-lg bg-brand-orange px-9 text-[0.875rem] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+            className="group inline-flex h-12 items-center gap-2 rounded-lg bg-brand-orange px-9 text-[14px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
           >
             {c.cta}
             <ArrowIcon />
