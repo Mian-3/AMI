@@ -3,6 +3,7 @@ import MobileMenu from "@/components/MobileMenu";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import CatalogueDownloadLink from "@/components/CatalogueDownloadLink";
 import EnquiryModal from "@/components/EnquiryModal";
+import SiteSearch from "@/components/SiteSearch";
 
 function getNavItems(dict, locale, active) {
   return [
@@ -31,15 +32,6 @@ function PenIcon() {
       <path d="M12 20h9" />
       <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z" />
     </svg>
-  );
-}
-
-function SearchIcon() {
-  return (
-    <Icon>
-      <circle cx="11" cy="11" r="8" />
-      <path d="m21 21-4.3-4.3" />
-    </Icon>
   );
 }
 
@@ -94,7 +86,7 @@ export default function Header({ dict, locale, active = "home" }) {
           />
           <div className="flex items-center gap-3">
             <LanguageSwitcher variant="dark" />
-            <a href="#" aria-label="Search" className="transition-opacity hover:opacity-80"><SearchIcon /></a>
+            <SiteSearch items={navItems} locale={locale} />
             <a href="#" aria-label="Facebook" className="transition-opacity hover:opacity-80"><FacebookIcon /></a>
             <a href="#" aria-label="Instagram" className="transition-opacity hover:opacity-80"><InstagramIcon /></a>
             <a href="#" aria-label="LinkedIn" className="transition-opacity hover:opacity-80"><LinkedinIcon /></a>
