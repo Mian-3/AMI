@@ -34,12 +34,12 @@ export default function Hero({ dict, locale }) {
     gsap.set(innerEls, { yPercent: 110 });
     gsap.set(fades, { opacity: 0, y: 16 });
 
-    const tl = gsap.timeline({ delay: 0.15 });
-    tl.to(innerEls[0], { yPercent: 0, duration: 0.7, ease: "power4.out" })
-      .to(innerEls[1], { yPercent: 0, duration: 0.85, ease: "power4.out" }, "-=0.5")
-      .to(fades[0], { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, "-=0.35")
-      .to(fades[1], { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, "-=0.3")
-      .to(fades[2], { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, "-=0.45");
+    const tl = gsap.timeline({ delay: 0.05 });
+    tl.to(innerEls[0], { yPercent: 0, duration: 0.45, ease: "power4.out" })
+      .to(innerEls[1], { yPercent: 0, duration: 0.55, ease: "power4.out" }, "-=0.5")
+      .to(fades[0], { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, "-=0.35")
+      .to(fades[1], { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, "-=0.3")
+      .to(fades[2], { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, "-=0.45");
     return () => tl.kill();
   }, []);
 
