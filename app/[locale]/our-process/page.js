@@ -1,0 +1,39 @@
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
+import ProcessHero from "@/components/ProcessHero";
+import ProcessSteps from "@/components/ProcessSteps";
+import { getDictionary } from "@/lib/getDictionary";
+import { PROCESS_CSS } from "@/lib/processStyles";
+
+export async function generateMetadata({ params }) {
+  const { locale } = await params;
+  return {
+    title: locale === "ar" ? "عمليتنا | AM International" : "Our Process | AM International",
+    description:
+      locale === "ar"
+        ? "من البحث والتطوير إلى مراقبة الجودة، تعرف على كيف تنتقل AM International من الحاجة إلى الحل."
+        : "From research and development to quality control, see how AM International moves from need to solution.",
+  };
+}
+
+export default async function OurProcessPage({ params }) {
+  const { locale } = await params;
+  const dict = await getDictionary(locale);
+
+  return (
+    <>
+      <Header dict={dict} locale={locale} active="process" />
+      <main className="pr">
+        <style dangerouslySetInnerHTML={{ __html: PROCESS_CSS }} />
+        <noscript>
+          <style>{`.pr-a,.pr-wipe,.pr-wipe-img,.pr-bar,.pr-digits-in{opacity:1!important;transform:none!important;clip-path:none!important}`}</style>
+        </noscript>
+        <ProcessHero dict={dict} />
+        <ProcessSteps dict={dict} />
+      </main>
+      <Footer dict={dict} locale={locale} />
+      <WhatsAppButton dict={dict} />
+    </>
+  );
+}

@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import ImageField from "@/components/admin/ImageField";
+import FileField from "@/components/admin/FileField";
 import { saveSection, resetSection } from "@/app/admin/(panel)/content/actions";
 
 const FIELD =
@@ -69,6 +70,20 @@ export default function ContentForm({ section, defaults, initial, hasOverrides }
         return (
           <div key={path.join(".")} className="py-3">
             <ImageField label={nice(key)} value={current} onChange={(url) => updateBoth(path, url)} hint="Used on both English and Arabic pages." />
+          </div>
+        );
+      }
+      if (/video$/i.test(String(key))) {
+        const current = getIn(values.en, path) || "";
+        return (
+          <div key={path.join(".")} className="py-3">
+            <FileField
+              label={nice(key)}
+              value={current}
+              onChange={(url) => updateBoth(path, url)}
+              accept="video/mp4,video/webm"
+              hint="Upload an MP4 (keep it small, about 10 MB), or paste a YouTube link. Leave empty for no video. Used on both English and Arabic pages."
+            />
           </div>
         );
       }
