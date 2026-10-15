@@ -2,13 +2,14 @@ import Image from "next/image";
 import MobileMenu from "@/components/MobileMenu";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import CatalogueDownloadLink from "@/components/CatalogueDownloadLink";
+import EnquiryModal from "@/components/EnquiryModal";
 
 function getNavItems(dict, locale, active) {
   return [
     { label: dict.nav.home, href: `/${locale}`, active: active === "home" },
     { label: dict.nav.about, href: `/${locale}/about`, active: active === "about" },
     { label: dict.nav.flavoursFragrances, href: `/${locale}/flavours-fragrances`, active: active === "flavours" },
-  { label: dict.nav.process, href: `/${locale}/our-process`, active: active === "process" },
+    { label: dict.nav.process, href: `/${locale}/our-process`, active: active === "process" },
     { label: dict.nav.downloads, href: "#" },
     { label: dict.nav.events, href: `/${locale}/events`, active: active === "events" },
     { label: dict.nav.insights, href: `/${locale}/insights`, active: active === "insights" },
@@ -74,11 +75,12 @@ export default function Header({ dict, locale, active = "home" }) {
   const navItems = getNavItems(dict, locale, active);
 
   return (
+    <>
     <header className="sticky top-0 z-50 w-full bg-[#fcfcfa] animate-fade-down motion-reduce:animate-none xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
       {/* Utility bar */}
       <div className="hidden bg-brand-navy text-white xl:block">
         <div className="mx-auto flex h-10 max-w-[1200px] items-center justify-end gap-5 px-4 text-[11px] sm:px-6 xl:h-[calc(40*var(--u))] xl:max-w-[calc(1600*var(--u))] xl:gap-[calc(28*var(--u))] xl:px-0 xl:text-[max(11px,calc(16*var(--u)))]">
-          <a
+          <a data-enquiry
             href={`/${locale}/contact`}
             className="hidden items-center gap-2 transition-opacity hover:opacity-80 sm:inline-flex"
           >
@@ -135,6 +137,7 @@ export default function Header({ dict, locale, active = "home" }) {
 
           <div className="ms-auto hidden shrink-0 items-center gap-2 xl:flex xl:gap-[calc(14*var(--u))]">
             <a
+              data-enquiry
               href={`/${locale}/contact`}
               className="flex h-9 items-center justify-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white xl:h-[max(36px,calc(48*var(--u)))] xl:w-[calc(180*var(--u))] xl:min-w-[130px] xl:px-0 xl:text-[max(12px,calc(14*var(--u)))] transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
             >
@@ -153,5 +156,7 @@ export default function Header({ dict, locale, active = "home" }) {
         </div>
       </div>
     </header>
+    <EnquiryModal dict={dict} locale={locale} />
+    </>
   );
 }
