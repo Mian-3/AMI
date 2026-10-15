@@ -46,7 +46,7 @@ export default function AboutMissionVision({ dict }) {
             <div className="group">
               <div className="inline-block transition duration-500 group-hover:-translate-y-1 group-hover:text-[#f28b33]">{item.icon}</div>
               <p className="mt-8 text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-white xl:mt-[calc(50*var(--u))] xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))]">{item.label}</p>
-              <h2 className="mt-2 max-w-[29rem] text-[1.625rem] font-semibold leading-[1.4] sm:text-[1.875rem] xl:mt-0 xl:max-w-[calc(500*var(--u))] xl:text-[max(28px,calc(40*var(--u)))] xl:leading-[calc(50*var(--u))] xl:tracking-[-0.015em]">{item.heading}</h2>
+              <h2 className="mt-2 max-w-[29rem] text-[1.625rem] font-semibold leading-[1.4] sm:text-[1.875rem] xl:mt-0 xl:max-w-[calc(500*var(--u))] xl:text-[max(28px,calc(40*var(--u)))] xl:leading-[calc(48*var(--u))] xl:tracking-[-0.015em]">{item.heading}</h2>
               <p className="mt-2 max-w-[34rem] text-[0.9375rem] leading-[1.8] text-white xl:mt-[calc(8*var(--u))] xl:max-w-[calc(560*var(--u))] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">{item.text}</p>
             </div>
           </AboutReveal>

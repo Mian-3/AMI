@@ -18,17 +18,17 @@ export default function AboutHero({ dict }) {
             </p>
           </AboutReveal>
           <AboutReveal delay={100}>
-            <h1 className="mt-3 max-w-[62rem] text-[2rem] font-semibold leading-[1.2] text-brand-navy sm:text-[2.5rem] lg:text-[3rem] xl:mt-[calc(7*var(--u))] xl:max-w-[calc(1000*var(--u))] xl:text-[max(38px,calc(58*var(--u)))] xl:leading-[calc(66*var(--u))] xl:tracking-[-0.025em]">
+            <h1 className="mt-3 max-w-[62rem] text-[2rem] font-semibold leading-[1.2] text-brand-navy sm:text-[2.5rem] lg:text-[3rem] xl:mt-[calc(7*var(--u))] xl:max-w-[calc(1000*var(--u))] xl:text-[max(36px,calc(52*var(--u)))] xl:leading-[calc(62*var(--u))] xl:tracking-[-0.02em]">
               {t.heroHeading}
             </h1>
           </AboutReveal>
           <AboutReveal delay={200}>
-            <p className="mt-6 max-w-[72rem] text-[1rem] leading-[1.7] text-ink/60 lg:text-[1.0625rem] xl:mt-[calc(21*var(--u))] xl:max-w-[calc(1200*var(--u))] xl:text-[max(16px,calc(22*var(--u)))] xl:leading-[calc(34*var(--u))]">
+            <p className="mt-6 max-w-[72rem] text-[1rem] leading-[1.7] text-ink/60 lg:text-[1.0625rem] xl:mt-[calc(18*var(--u))] xl:max-w-[calc(1200*var(--u))] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">
               {t.heroP1}
             </p>
           </AboutReveal>
           <AboutReveal delay={300}>
-            <p className="mt-3 max-w-[72rem] text-[1rem] leading-[1.7] text-ink/60 lg:text-[1.0625rem] xl:mt-[calc(10*var(--u))] xl:max-w-[calc(1200*var(--u))] xl:text-[max(16px,calc(22*var(--u)))] xl:leading-[calc(34*var(--u))]">
+            <p className="mt-3 max-w-[72rem] text-[1rem] leading-[1.7] text-ink/60 lg:text-[1.0625rem] xl:mt-[calc(10*var(--u))] xl:max-w-[calc(1200*var(--u))] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">
               {t.heroP2}
             </p>
           </AboutReveal>

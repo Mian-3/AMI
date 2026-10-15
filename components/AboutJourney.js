@@ -12,7 +12,7 @@ const CERTS = [
 
 function MedalIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-[22px] w-[22px] xl:h-[max(22px,calc(28*var(--u)))] xl:w-[max(22px,calc(28*var(--u)))]">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-8 w-8 xl:h-[max(32px,calc(46*var(--u)))] xl:w-[max(32px,calc(46*var(--u)))]">
       <circle cx="12" cy="9" r="5.5" />
       <path d="m8.8 13.6-1.6 7.4 4.8-2.6 4.8 2.6-1.6-7.4" />
       <path d="M10 9l1.5 1.5L14.5 7.5" />
@@ -37,7 +37,7 @@ export default function AboutJourney({ dict }) {
       <div className="relative mx-auto max-w-[75rem] px-4 sm:px-6 xl:max-w-[calc(1200*var(--u))] xl:px-0">
         <div className="mx-auto max-w-[61rem] text-center xl:max-w-[calc(980*var(--u))]">
           <AboutReveal>
-            <p className="text-[0.75rem] font-semibold uppercase tracking-[0.16em] text-white xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))] xl:tracking-[0.12em]">{t.journeyEyebrow}</p>
+            <p className="text-[0.75rem] font-semibold uppercase tracking-[0.16em] text-white xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))] xl:tracking-[0.13em]">{t.journeyEyebrow}</p>
           </AboutReveal>
           <AboutReveal delay={100}>
             <h2 className="mt-2 text-[1.75rem] font-semibold leading-[1.2] sm:text-[2rem] xl:mt-0 xl:text-[max(30px,calc(40*var(--u)))] xl:leading-[calc(48*var(--u))] xl:tracking-[-0.015em]">{t.journeyHeading}</h2>
@@ -62,10 +62,10 @@ export default function AboutJourney({ dict }) {
                 <CertificateLink
                   pdfSrc={`/documents/certificates/cert-${c.n}.pdf`}
                   downloadName={`${c.label}.pdf`}
-                  className="flex h-[7.5rem] flex-col justify-between rounded-3xl border border-white/30 bg-white/20 p-4 text-white transition duration-300 hover:-translate-y-1 hover:bg-white/30 lg:p-5 xl:h-[max(110px,calc(143*var(--u)))] xl:rounded-[calc(32*var(--u))] xl:p-[calc(24*var(--u))] xl:pb-[calc(22*var(--u))]"
+                  className="flex h-[7.5rem] flex-col justify-between rounded-3xl border border-white/30 bg-white/20 p-4 text-white transition duration-300 hover:-translate-y-1 hover:bg-white/30 lg:p-5 xl:h-[max(110px,calc(143*var(--u)))] xl:rounded-[calc(32*var(--u))] xl:p-[calc(22*var(--u))] xl:pb-[calc(22*var(--u))]"
                 >
                   <MedalIcon />
-                  <span className="text-[0.8125rem] font-medium uppercase xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(20*var(--u))]">{c.label}</span>
+                  <span className="text-[0.8125rem] font-semibold uppercase xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(20*var(--u))]">{c.label}</span>
                 </CertificateLink>
               </AboutReveal>
             </li>
