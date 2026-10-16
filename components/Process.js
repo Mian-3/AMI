@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Reveal from "@/components/Reveal";
+import LocaleLink from "@/components/LocaleLink";
 
 function getSteps(dict) {
   return [
@@ -25,7 +26,7 @@ export default function Process({ dict }) {
             <p className="mt-2 max-w-[420px] text-[14px] text-white/70">{dict.process.tagline}</p>
           </Reveal>
           <Reveal delay={150}>
-            <a href="#" className="flex h-9 shrink-0 items-center whitespace-nowrap rounded-md bg-white px-4 text-[12px] font-medium text-brand-navy transition duration-200 hover:-translate-y-0.5 hover:bg-white/90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.buttons.exploreProcess}</a>
+            <LocaleLink href="/our-process" className="flex h-9 shrink-0 items-center whitespace-nowrap rounded-md bg-white px-4 text-[12px] font-medium text-brand-navy transition duration-200 hover:-translate-y-0.5 hover:bg-white/90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">{dict.buttons.exploreProcess}</LocaleLink>
           </Reveal>
         </div>
 
