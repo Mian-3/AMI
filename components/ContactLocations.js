@@ -16,71 +16,17 @@ const PINS = [
 
 const RAD = Math.PI / 180;
 
-// Graticule every 15 degrees, as lists of [lon, lat, lon, lat, ...] (kept in degrees)
+// Graticule every 30 degrees, as lists of [lon, lat, lon, lat, ...] (kept in degrees)
 const GRID = [];
-for (let lon = -180; lon < 180; lon += 15) {
+for (let lon = -180; lon < 180; lon += 30) {
   const pts = [];
   for (let lat = -90; lat <= 90; lat += 3) pts.push(lon, lat);
   GRID.push([pts, 0]);
 }
-for (let lat = -75; lat <= 75; lat += 15) {
+for (let lat = -60; lat <= 60; lat += 30) {
   const pts = [];
   for (let lon = -180; lon <= 180; lon += 3) pts.push(lon, lat);
   GRID.push([pts, 0]);
-}
-
-// Land as a dot matrix: land outlines are rasterised once, then sampled on an even lon/lat grid
-const DOT_CACHE = {};
-function buildDots(step) {
-  if (DOT_CACHE[step]) return DOT_CACHE[step];
-  const W = 1440;
-  const H = 720;
-  const c = document.createElement("canvas");
-  c.width = W;
-  c.height = H;
-  const x = c.getContext("2d", { willReadFrequently: true });
-  x.fillStyle = "#000";
-  for (const ring of LAND_RINGS) {
-    const pts = [];
-    let prev = null;
-    let off = 0;
-    let minLat = 90;
-    for (let i = 0; i < ring.length; i += 2) {
-      const lon = ring[i] / 10;
-      const lat = ring[i + 1] / 10;
-      if (prev !== null) {
-        if (lon + off - prev > 180) off -= 360;
-        else if (lon + off - prev < -180) off += 360;
-      }
-      prev = lon + off;
-      if (lat < minLat) minLat = lat;
-      pts.push([prev, lat]);
-    }
-    if (minLat < -60) continue; // Antarctica is far outside the visible cap
-    for (const sh of [-360, 0, 360]) {
-      x.beginPath();
-      pts.forEach(([L, lat], k) => {
-        const px = ((L + sh + 180) / 360) * W;
-        const py = ((90 - lat) / 180) * H;
-        if (k) x.lineTo(px, py);
-        else x.moveTo(px, py);
-      });
-      x.closePath();
-      x.fill();
-    }
-  }
-  const d = x.getImageData(0, 0, W, H).data;
-  const out = [];
-  for (let lat = -10; lat <= 82; lat += step) {
-    const rowStep = step / Math.max(Math.cos(lat * RAD), 0.25);
-    for (let lon = -180; lon < 180; lon += rowStep) {
-      const px = Math.min(W - 1, Math.floor(((lon + 180) / 360) * W));
-      const py = Math.min(H - 1, Math.floor(((90 - lat) / 180) * H));
-      if (d[(py * W + px) * 4 + 3] > 128) out.push(lon * RAD, lat * RAD);
-    }
-  }
-  DOT_CACHE[step] = Float32Array.from(out);
-  return DOT_CACHE[step];
 }
 
 const CSS = `
@@ -90,6 +36,13 @@ const CSS = `
 @keyframes cl-globe-in{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
 @keyframes cl-pin-drop{from{opacity:0;transform:translateY(-14px) scale(.6)}to{opacity:1;transform:none}}
 @keyframes cl-line{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes cl-flow{to{stroke-dashoffset:-22}}
+@keyframes cl-arc-in{from{opacity:0}to{opacity:1}}
+@keyframes cl-ripple{0%{transform:scale(1);opacity:.85}70%,100%{transform:scale(6);opacity:0}}
+.cl-arcs{animation:cl-arc-in 1.2s ease-out 2s both}
+.cl-arc{fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-dasharray:2 9;opacity:.85;animation:cl-flow 1.8s linear infinite}
+.cl-dot{filter:drop-shadow(0 0 5px rgba(255,255,255,.95))}
+.cl-ripple{animation:cl-ripple 3.4s cubic-bezier(.2,.6,.3,1) 2.2s infinite}
 .cl-wipe{animation:cl-wipe 1.5s cubic-bezier(.2,.8,.2,1) both}
 .cl-float{animation:cl-float 7s ease-in-out 1.8s infinite}
 .cl-shine{background-image:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.55) 50%,transparent 58%);background-size:260% 100%;background-repeat:no-repeat;animation:cl-shine 6.5s ease-in-out 2.2s infinite}
@@ -97,7 +50,7 @@ const CSS = `
 .cl-pin-drop{animation:cl-pin-drop .7s cubic-bezier(.2,.8,.2,1) both}
 .cl-line{transform-origin:left;animation:cl-line .9s cubic-bezier(.2,.8,.2,1) both}
 [dir=rtl] .cl-line{transform-origin:right}
-@media (prefers-reduced-motion:reduce){.cl-wipe,.cl-float,.cl-shine,.cl-globe-in,.cl-pin-drop,.cl-line{animation:none}}
+@media (prefers-reduced-motion:reduce){.cl-wipe,.cl-float,.cl-shine,.cl-globe-in,.cl-pin-drop,.cl-line,.cl-arc,.cl-arcs,.cl-ripple{animation:none}.cl-dot,.cl-ripple{display:none}}
 `;
 
 function ArrowIcon() {
@@ -238,77 +191,33 @@ function Globe({ run }) {
       ctx.beginPath();
       ctx.arc(cx, cy, R, 0, Math.PI * 2);
       ctx.clip();
-
-      // sphere body: lit from the top, deeper toward the limb
-      const body = ctx.createRadialGradient(cx, cy - R * 0.92, R * 0.05, cx, cy, R);
-      body.addColorStop(0, "#fffaf1");
-      body.addColorStop(0.55, "#fff1de");
-      body.addColorStop(0.9, "#fde4c6");
-      body.addColorStop(1, "#f9d4aa");
-      ctx.fillStyle = body;
+      const g = ctx.createLinearGradient(0, cy - R, 0, cy - R + h);
+      g.addColorStop(0, "#fff3e0");
+      g.addColorStop(1, "#feeed8");
+      ctx.fillStyle = g;
       ctx.fillRect(0, 0, w, h);
 
-      // graticule
       ctx.lineJoin = "round";
-      ctx.lineWidth = 0.8;
-      ctx.strokeStyle = "rgba(226,150,88,0.3)";
+      ctx.lineWidth = 0.7;
+      ctx.strokeStyle = "rgba(226,170,115,0.16)";
       ctx.beginPath();
       for (const [a] of GRID) drawLine(a, R, cx, cy, lon0);
       ctx.stroke();
 
-      // continents as a dot matrix, foreshortened toward the limb
-      const dots = buildDots(w < 800 ? 1.1 : 0.55);
-      const sp = R * (w < 800 ? 1.1 : 0.55) * RAD;
-      const rad = Math.max(0.55, sp * 0.2);
-      ctx.fillStyle = "rgba(236,128,44,0.55)";
-      ctx.beginPath();
-      for (let i = 0; i < dots.length; i += 2) {
-        let lam = dots[i] - lon0;
-        if (lam > Math.PI) lam -= 2 * Math.PI;
-        else if (lam < -Math.PI) lam += 2 * Math.PI;
-        if (lam > 1.7 || lam < -1.7) continue;
-        const phi = dots[i + 1];
-        const cosc = sin0 * Math.sin(phi) + cos0 * Math.cos(phi) * Math.cos(lam);
-        if (cosc < 0.04) continue;
-        const X = cx + R * Math.cos(phi) * Math.sin(lam);
-        const Y = cy - R * (cos0 * Math.sin(phi) - sin0 * Math.cos(phi) * Math.cos(lam));
-        if (Y < -4 || Y > h + 4) continue;
-        const r = rad * (0.45 + 0.55 * cosc);
-        ctx.moveTo(X + r, Y);
-        ctx.arc(X, Y, r, 0, Math.PI * 2);
-      }
-      ctx.fill();
-
-      // coastlines, faint, to keep the shapes readable
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = "rgba(226,140,70,0.34)";
+      ctx.lineWidth = 1.3;
+      ctx.strokeStyle = "rgba(226,170,115,0.5)";
       ctx.beginPath();
       for (const ring of LAND_RINGS) {
         drawLine(ring.map((v) => v / 10), R, cx, cy, lon0);
       }
       ctx.stroke();
-
-      // soft shade near the limb so it reads as a sphere
-      const shade = ctx.createRadialGradient(cx, cy, R * 0.86, cx, cy, R);
-      shade.addColorStop(0, "rgba(224,140,70,0)");
-      shade.addColorStop(1, "rgba(224,140,70,0.22)");
-      ctx.fillStyle = shade;
-      ctx.fillRect(0, 0, w, h);
       ctx.restore();
 
-      // atmosphere glow and rim light on the arc
-      const glow = ctx.createRadialGradient(cx, cy, R, cx, cy, R + w * 0.03);
-      glow.addColorStop(0, "rgba(242,138,53,0.22)");
-      glow.addColorStop(1, "rgba(242,138,53,0)");
+      // soft rim light on the arc
       ctx.beginPath();
-      ctx.arc(cx, cy, R + w * 0.03, Math.PI * 1.15, Math.PI * 1.85);
-      ctx.strokeStyle = glow;
-      ctx.lineWidth = w * 0.03;
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.arc(cx, cy, R - 0.5, Math.PI * 1.15, Math.PI * 1.85);
-      ctx.strokeStyle = "rgba(242,138,53,0.38)";
-      ctx.lineWidth = 1.2;
+      ctx.arc(cx, cy, R - 1, Math.PI * 1.2, Math.PI * 1.8);
+      ctx.strokeStyle = "rgba(242,138,53,0.14)";
+      ctx.lineWidth = 2;
       ctx.stroke();
     }
 
@@ -339,6 +248,28 @@ function Globe({ run }) {
   return <canvas ref={ref} aria-hidden="true" className="absolute inset-0 h-full w-full" />;
 }
 
+// Animated links between the offices (design-space coordinates: 1920 x 626)
+const ARCS = [
+  { id: "lk", d: "M1100.9 234.1 Q1039 418 869 512.1", dur: 4.2, begin: 2.4 },
+  { id: "fk", d: "M1049.1 199.1 Q911 328 869 512.1", dur: 4.8, begin: 3.4 },
+];
+
+function Arcs() {
+  return (
+    <svg className="cl-arcs pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 1920 626" preserveAspectRatio="none" aria-hidden="true">
+      {ARCS.map((a) => (
+        <g key={a.id}>
+          <path className="cl-arc" d={a.d} />
+          <circle className="cl-dot" r="4.5" fill="#fff" opacity="0">
+            <animateMotion dur={`${a.dur}s`} begin={`${a.begin}s`} repeatCount="indefinite" path={a.d} keyPoints="0;1" keyTimes="0;1" calcMode="linear" />
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.12;0.88;1" dur={`${a.dur}s`} begin={`${a.begin}s`} repeatCount="indefinite" />
+          </circle>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
 function Pin({ pin, label, index, ready, active, onActive }) {
   return (
     <div className="absolute z-20" style={{ left: `${pin.x}%`, top: `${pin.y}%` }}>
@@ -348,6 +279,9 @@ function Pin({ pin, label, index, ready, active, onActive }) {
             className={`absolute -left-[0.3125rem] -top-[0.3125rem] block h-[0.625rem] w-[0.625rem] rounded-full shadow-[0_0_0_2px_rgba(0,0,0,0.12)] transition duration-300 max-md:h-[0.4rem] max-md:w-[0.4rem] ${active ? "scale-[1.6] bg-white" : "bg-white"}`}
           />
           <span className="absolute -left-[0.3125rem] -top-[0.3125rem] block h-[0.625rem] w-[0.625rem] animate-ping rounded-full bg-white/80 motion-reduce:animate-none max-md:h-[0.4rem] max-md:w-[0.4rem]" aria-hidden="true" />
+          {pin.key === "lahore" ? (
+            <span className="cl-ripple absolute -left-[0.3125rem] -top-[0.3125rem] block h-[0.625rem] w-[0.625rem] rounded-full border border-white/80 max-md:h-[0.4rem] max-md:w-[0.4rem]" aria-hidden="true" />
+          ) : null}
           <span
             className={`absolute left-[0.9em] top-0 -translate-y-1/2 whitespace-nowrap rounded-[0.2rem] px-[0.7em] py-[0.35em] text-[clamp(0.4375rem,0.78vw,0.9375rem)] font-semibold uppercase tracking-[0.14em] text-white transition-all duration-300 before:absolute before:-left-[0.5em] before:top-1/2 before:-translate-y-1/2 before:border-y-[0.5em] before:border-e-[0.55em] before:border-y-transparent before:transition-colors before:duration-300 before:content-[''] ${
               active ? "translate-x-1 bg-brand-navy before:border-e-brand-navy" : "bg-[#201e1e] before:border-e-[#201e1e]"
@@ -411,19 +345,19 @@ export default function ContactLocations({ dict }) {
   const ready = !!layer && inView;
 
   return (
-    <section className="bg-[#fcfcfa]">
+    <section className="[--u:1px] xl:[--u:clamp(0.667px,0.0520833vw,1px)] bg-[#fcfcfa]">
       <style>{CSS}</style>
       <div className="px-4 pb-8 pt-16 text-center sm:px-6 md:pt-[6.9rem]">
-        <Reveal as="p" className="mb-3 text-[12px] font-semibold uppercase tracking-[0.2em] text-[#4b5563] rtl:tracking-normal md:text-[13px]">
+        <Reveal as="p" className="mb-3 text-brand-navy text-[11px] font-semibold uppercase tracking-[0.13em] rtl:tracking-normal xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))]">
           {c.eyebrow}
         </Reveal>
-        <Reveal as="h2" delay={100} className="text-[28px] font-bold leading-[1.2] text-brand-navy sm:text-[34px] md:text-[38px] xl:text-[40px] xl:leading-[48px]">
+        <Reveal as="h2" delay={100} className="text-brand-navy text-[26px] font-semibold leading-[1.25] tracking-[-0.015em] md:text-[32px] md:leading-[40px] xl:text-[max(28px,calc(40*var(--u)))] xl:leading-[calc(48*var(--u))]">
           {c.heading}
         </Reveal>
-        <Reveal as="p" delay={200} className="mt-4 text-[16px] font-semibold leading-[1.4] text-brand-orange md:text-[17px] xl:text-[19px] xl:leading-[28px]">
+        <Reveal as="p" delay={200} className="mt-4 text-brand-orange xl:mt-[calc(16*var(--u))] text-[15px] font-semibold leading-[1.4] md:text-[16px] xl:text-[max(16px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">
           {c.sub}
         </Reveal>
-        <Reveal as="p" delay={300} className="mx-auto mt-3 max-w-[38rem] text-[14px] leading-[1.7] text-[#737878] xl:text-[16px] xl:leading-[26px]">
+        <Reveal as="p" delay={300} className="mx-auto mt-3 max-w-[38rem] text-ink/60 xl:mt-[calc(10*var(--u))] xl:max-w-[calc(820*var(--u))] text-[14px] leading-[22px] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">
           {c.paragraph}
         </Reveal>
       </div>
@@ -453,6 +387,7 @@ export default function ContactLocations({ dict }) {
                     className="cl-shine pointer-events-none absolute inset-0"
                     style={{ WebkitMaskImage: `url(${layer.url})`, maskImage: `url(${layer.url})`, WebkitMaskSize: "100% 100%", maskSize: "100% 100%" }}
                   />
+                  <Arcs />
                   {PINS.map((pin, index) => (
                     <Pin key={pin.key} pin={pin} label={c.items.find((item) => item.key === pin.key).city} index={index} ready={ready} active={active === pin.key} onActive={setActive} />
                   ))}
@@ -469,9 +404,9 @@ export default function ContactLocations({ dict }) {
 
       {/* Offices card, overlapping into the orange band below */}
       <div className="bg-[linear-gradient(to_bottom,#fef4e5_0,#fef4e5_8rem,#f28a35_8rem)] px-4 sm:px-6 md:bg-[linear-gradient(to_bottom,#fef4e5_0,#fef4e5_13.25rem,#f28a35_13.25rem)] xl:px-0">
-        <Reveal className="mx-auto max-w-[75rem]">
+        <Reveal className="mx-auto max-w-[75rem] xl:max-w-[calc(1200*var(--u))]">
           <div className="rounded-b-[2.5rem] rounded-t-[1.5rem] bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.06)] md:rounded-t-[2.5rem] md:p-[3.125rem] md:pt-[3.5rem]">
-            <h3 className="relative inline-block pb-3 text-[20px] font-semibold leading-[1.3] text-brand-orange xl:text-[22px] xl:leading-[30px]">
+            <h3 className="relative inline-block pb-3 text-[20px] font-semibold leading-[1.3] text-brand-orange xl:text-[max(20px,calc(29*var(--u)))] xl:leading-[1.2]">
               {c.cardHeading}
               <span aria-hidden="true" className="cl-line absolute bottom-0 start-0 h-[2px] w-full bg-brand-orange/30" style={{ animationDelay: "500ms" }} />
             </h3>
@@ -482,17 +417,17 @@ export default function ContactLocations({ dict }) {
                   <Reveal key={office.key} delay={150 + index * 130}>
                     <div onMouseEnter={() => setActive(office.key)} onMouseLeave={() => setActive(null)} className="group relative">
                       <span aria-hidden="true" className={`absolute -top-4 start-0 h-[2px] bg-brand-orange transition-all duration-500 ease-out ${on ? "w-full" : "w-8 group-hover:w-full"}`} />
-                      <p className="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.04em] text-[#4b5563] rtl:tracking-normal">
+                      <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.13em] text-brand-navy/70 rtl:tracking-normal xl:text-[max(12px,calc(14*var(--u)))]">
                         <span className={`h-1.5 w-1.5 rounded-full bg-brand-orange transition-transform duration-300 ${on ? "scale-150" : ""}`} />
                         {office.label}
                       </p>
-                      <p className={`mt-2 text-[22px] font-bold leading-[1.2] transition-colors duration-300 xl:text-[24px] xl:leading-[30px] ${on ? "text-brand-orange" : "text-brand-navy group-hover:text-brand-orange"}`}>{office.city}</p>
-                      <p className="mt-3 max-w-[22rem] text-[14px] leading-[1.6] text-[#737878] xl:text-[15px] xl:leading-[24px]">{office.address}</p>
+                      <p className={`mt-2 text-[19px] font-semibold leading-[1.2] transition-colors duration-300 xl:text-[max(19px,calc(24*var(--u)))] xl:leading-[1.2] ${on ? "text-brand-orange" : "text-brand-navy group-hover:text-brand-orange"}`}>{office.city}</p>
+                      <p className="mt-3 max-w-[22rem] text-[14px] leading-[22px] text-ink/60 xl:max-w-[calc(360*var(--u))] xl:text-[max(14px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))]">{office.address}</p>
                       <a
                         href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(office.mapsQuery)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group/link mt-5 inline-flex items-center gap-1.5 text-[14px] font-medium text-brand-orange transition-colors hover:text-brand-orange/80"
+                        className="group/link mt-5 inline-flex items-center gap-1.5 text-[13px] font-medium text-brand-orange xl:text-[max(13px,calc(14*var(--u)))] transition-colors hover:text-brand-orange/80"
                       >
                         {c.directions}
                         <span className="transition-transform duration-300 group-hover/link:translate-x-1 rtl:group-hover/link:-translate-x-1"><ArrowIcon /></span>
