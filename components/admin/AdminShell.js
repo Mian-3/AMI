@@ -360,8 +360,8 @@ export default function AdminShell({ user, sections = [], isOwner = true, logout
 
       {/* canvas */}
       <div className="md:pl-[240px]">
-        <div className="min-h-[calc(100vh-56px)] bg-[#f4f4f2] md:m-1.5 md:ml-0 md:min-h-[calc(100vh-12px)] md:rounded-xl max-md:rounded-t-xl">
-          <header className="sticky top-14 z-20 flex h-14 rounded-t-xl items-center justify-between gap-3 border-b border-black/[0.06] bg-[#f4f4f2]/90 px-4 backdrop-blur md:top-0 md:px-8">
+        <div className="min-h-[calc(100vh-56px)] bg-[#f6f6f4] md:min-h-screen max-md:rounded-t-xl md:border-l md:border-black/[0.06]">
+          <header className="sticky top-14 z-20 flex h-14 items-center max-md:rounded-t-xl justify-between gap-3 border-b border-black/[0.06] bg-[#f6f6f4]/90 px-4 backdrop-blur md:top-0 md:px-8">
             <div className="flex min-w-0 items-center gap-2.5 text-ink">
               {current ? <Icon name={current.icon} className="shrink-0 text-ink/60" /> : null}
               <p className="truncate text-[14px] font-semibold">{current?.label}</p>
