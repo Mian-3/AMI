@@ -20,7 +20,7 @@ function getNavItems(dict, locale, active) {
 
 function Icon({ children }) {
   return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-[14px] w-[14px] xl:h-[max(14px,calc(18*var(--u)))] xl:w-[max(14px,calc(18*var(--u)))]">
       {children}
     </svg>
   );
@@ -63,6 +63,24 @@ function LinkedinIcon() {
   );
 }
 
+
+const SOCIAL_CSS = `
+@keyframes hd-pop{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.hd-soc{display:inline-flex;align-items:center;justify-content:center;animation:hd-pop .5s cubic-bezier(.22,1,.36,1) both;animation-delay:calc(var(--i,0)*80ms + 500ms);transition:opacity .2s}
+.hd-soc:hover{opacity:.8}
+@media (prefers-reduced-motion:reduce){.hd-soc{animation:none}}
+`;
+
+const SOC = "hd-soc";
+
+function Social({ label, i, children }) {
+  return (
+    <a href="#" aria-label={label} className={SOC} style={{ "--i": i }}>
+      {children}
+    </a>
+  );
+}
+
 export default function Header({ dict, locale, active = "home" }) {
   const navItems = getNavItems(dict, locale, active);
 
@@ -85,11 +103,12 @@ export default function Header({ dict, locale, active = "home" }) {
             className="hidden items-center gap-2 transition-opacity hover:opacity-80 sm:inline-flex"
           />
           <div className="flex items-center gap-3">
+            <style>{SOCIAL_CSS}</style>
             <LanguageSwitcher variant="dark" />
             <SiteSearch items={navItems} locale={locale} />
-            <a href="#" aria-label="Facebook" className="transition-opacity hover:opacity-80"><FacebookIcon /></a>
-            <a href="#" aria-label="Instagram" className="transition-opacity hover:opacity-80"><InstagramIcon /></a>
-            <a href="#" aria-label="LinkedIn" className="transition-opacity hover:opacity-80"><LinkedinIcon /></a>
+            <Social label="Facebook" i={0}><FacebookIcon /></Social>
+            <Social label="Instagram" i={1}><InstagramIcon /></Social>
+            <Social label="LinkedIn" i={2}><LinkedinIcon /></Social>
           </div>
         </div>
       </div>
@@ -99,10 +118,10 @@ export default function Header({ dict, locale, active = "home" }) {
         <div className="mx-auto flex h-16 max-w-[1200px] items-center px-4 sm:px-6 xl:h-[calc(85*var(--u))] xl:max-w-[calc(1600*var(--u))] xl:px-0">
           <a href={`/${locale}`} aria-label="AM International home" className="shrink-0">
             <Image
-              src="/images/logo/am-international-logo.svg"
+              src="/images/logo/am-international-logo.png"
               alt="AM International"
-              width={1184}
-              height={329}
+              width={1600}
+              height={429}
               priority
               className="h-auto w-[170px] xl:w-[calc(233*var(--u))]"
             />

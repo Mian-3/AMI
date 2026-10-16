@@ -114,6 +114,18 @@ export default function SiteSearch({ items = [], locale = "en" }) {
   }
 
   useEffect(() => {
+    const onShortcut = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        openIt();
+      }
+    };
+    window.addEventListener("keydown", onShortcut);
+    return () => window.removeEventListener("keydown", onShortcut);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (!open) return undefined;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -152,7 +164,8 @@ export default function SiteSearch({ items = [], locale = "en" }) {
 
   return (
     <>
-      <button ref={btnRef} type="button" aria-label={ar ? "بحث" : "Search"} aria-haspopup="dialog" onClick={openIt} className="transition-opacity hover:opacity-80">
+      {/* The search icon is hidden on purpose. The search itself still opens with Ctrl K (Cmd K on Mac). */}
+      <button ref={btnRef} type="button" aria-label={ar ? "بحث" : "Search"} aria-haspopup="dialog" onClick={openIt} tabIndex={-1} className="hidden">
         <SearchIcon size={12} />
       </button>
 
