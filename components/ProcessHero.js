@@ -12,13 +12,6 @@ export default function ProcessHero({ dict }) {
           <p className="pr-p pr-a" data-from="up" style={{ "--d": "300ms" }}>{t.heroP2}</p>
         </div>
       </ProcessScene>
-
-      <ProcessScene className="pr-heroimg" threshold={0.08}>
-        <div className="pr-wipe" style={{ position: "absolute", inset: 0 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={t.heroImage} alt="" fetchPriority="high" className="pr-wipe-img" />
-        </div>
-      </ProcessScene>
     </>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import FileField from "@/components/admin/FileField";
+import ImageField from "@/components/admin/ImageField";
 import { saveDownloads } from "@/app/admin/(panel)/downloads/actions";
 
 const FIELD =
@@ -14,6 +15,7 @@ const blank = () => ({
   id: `doc-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 5)}`,
   published: true,
   file: "",
+  icon: "",
   title: { en: "", ar: "" },
   desc: { en: "", ar: "" },
 });
@@ -22,6 +24,7 @@ const normalise = (it) => ({
   id: it.id,
   published: it.published !== false,
   file: it.file || "",
+  icon: it.icon || "",
   title: { en: it.title?.en || "", ar: it.title?.ar || "" },
   desc: { en: it.desc?.en || "", ar: it.desc?.ar || "" },
 });
@@ -114,6 +117,12 @@ export default function DownloadsForm({ initial }) {
               onChange={(url) => patch(i, (x) => ({ ...x, file: url }))}
               accept="application/pdf,.pdf"
               hint="Upload a PDF or paste a link. It opens in a new tab when a visitor clicks the block."
+            />
+            <ImageField
+              label="Icon (optional)"
+              value={it.icon}
+              onChange={(url) => patch(i, (x) => ({ ...x, icon: url }))}
+              hint="Small picture shown on the left of the block. Square PNG with a transparent background works best. If empty, the default icon is used."
             />
             <label className="flex items-center gap-2 text-sm text-ink/80">
               <input type="checkbox" checked={it.published} onChange={(e) => patch(i, (x) => ({ ...x, published: e.target.checked }))} className="h-4 w-4 accent-[#f58b32]" />

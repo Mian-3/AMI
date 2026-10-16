@@ -48,19 +48,24 @@ export default function DownloadsLibrary({ dict, items }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${item.title} (PDF)`}
-                    className="group relative flex flex-col gap-4 overflow-hidden rounded-xl border border-black/[0.07] bg-white px-5 py-5 shadow-[0_1px_2px_rgba(10,37,64,0.04)] transition duration-300 ease-out hover:-translate-y-1 hover:border-brand-orange/40 hover:shadow-[0_18px_40px_-18px_rgba(10,37,64,0.25)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-7 xl:min-h-[calc(120*var(--u))] xl:rounded-[calc(14*var(--u))] xl:px-[calc(40*var(--u))] xl:py-[calc(28*var(--u))]"
+                    className="group relative flex items-stretch overflow-hidden rounded-xl border border-black/[0.07] bg-white shadow-[0_1px_2px_rgba(10,37,64,0.04)] transition duration-300 ease-out hover:-translate-y-1 hover:border-brand-orange/40 hover:shadow-[0_18px_40px_-18px_rgba(10,37,64,0.25)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 xl:min-h-[calc(120*var(--u))] xl:rounded-[calc(14*var(--u))]"
                   >
-                    <span aria-hidden="true" className="absolute inset-y-0 start-0 w-[3px] origin-center scale-y-0 bg-brand-orange transition-transform duration-300 ease-out group-hover:scale-y-100" />
-                    <span className="min-w-0">
-                      <span className="block text-[16px] font-bold leading-[1.3] text-brand-navy md:text-[17px] xl:text-[max(16px,calc(22*var(--u)))] xl:leading-[calc(30*var(--u))]">{item.title}</span>
-                      {item.desc ? (
-                        <span className="mt-1.5 block text-[13px] leading-[20px] text-ink/60 xl:mt-[calc(6*var(--u))] xl:text-[max(13px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))]">{item.desc}</span>
-                      ) : null}
+                    <span aria-hidden="true" className="flex w-[84px] shrink-0 items-center justify-center bg-[#fffee6] transition-colors duration-300 group-hover:bg-[#fff9c9] sm:w-[104px] xl:w-[calc(150*var(--u))]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={item.icon} alt="" loading="lazy" className="h-[52px] w-[52px] object-contain transition-transform duration-500 ease-out group-hover:scale-110 sm:h-[64px] sm:w-[64px] xl:h-[calc(96*var(--u))] xl:w-[calc(96*var(--u))]" />
                     </span>
-                    <span className="inline-flex h-9 shrink-0 items-center justify-center gap-2 self-start whitespace-nowrap rounded-md border border-black/10 bg-white px-4 text-[12px] font-medium text-brand-navy transition-colors duration-300 group-hover:border-brand-orange group-hover:bg-brand-orange group-hover:text-white sm:self-auto xl:h-[max(40px,calc(48*var(--u)))] xl:gap-[calc(10*var(--u))] xl:rounded-[calc(8*var(--u))] xl:px-[calc(28*var(--u))] xl:text-[max(12px,calc(14*var(--u)))]">
-                      <DocIcon />
-                      {c.button}
-                      <Arrow />
+                    <span className="flex min-w-0 flex-1 flex-col justify-center gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-7 xl:px-[calc(40*var(--u))] xl:py-[calc(24*var(--u))]">
+                      <span className="min-w-0">
+                        <span className="block text-[16px] font-bold leading-[1.3] text-brand-navy md:text-[17px] xl:text-[max(16px,calc(22*var(--u)))] xl:leading-[calc(30*var(--u))]">{item.title}</span>
+                        {item.desc ? (
+                          <span className="mt-1 block text-[13px] leading-[20px] text-ink/60 xl:mt-[calc(4*var(--u))] xl:text-[max(13px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))]">{item.desc}</span>
+                        ) : null}
+                      </span>
+                      <span className="inline-flex h-9 shrink-0 items-center justify-center gap-2 self-start whitespace-nowrap rounded-md border border-black/10 bg-white px-4 text-[12px] font-medium text-brand-navy transition-colors duration-300 group-hover:border-brand-orange group-hover:bg-brand-orange group-hover:text-white sm:self-auto xl:h-[max(40px,calc(48*var(--u)))] xl:gap-[calc(10*var(--u))] xl:rounded-[calc(8*var(--u))] xl:px-[calc(28*var(--u))] xl:text-[max(12px,calc(14*var(--u)))]">
+                        <DocIcon />
+                        {c.button}
+                        <Arrow />
+                      </span>
                     </span>
                   </a>
                 </Reveal>
