@@ -6,7 +6,7 @@ import AboutReveal from "@/components/AboutReveal";
   so this section scales exactly like the Figma frame. Below xl the compact layout is kept.
   All copy comes from dict.about, so it is editable in the admin (Site content > About page).
 */
-const P = "text-[1rem] leading-[1.7] text-ink/60 lg:text-[1.0625rem] xl:max-w-[calc(1170*var(--u))] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]";
+const P = "text-[14px] leading-[22px] text-ink/60 xl:max-w-[calc(1170*var(--u))] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]";
 
 export default function AboutLeadership({ dict }) {
   const t = dict.about;
@@ -16,10 +16,10 @@ export default function AboutLeadership({ dict }) {
     <section className="bg-white pb-16 pt-14 [--u:1px] sm:pb-24 sm:pt-20 lg:pb-[12.5rem] lg:pt-[6.9rem] xl:pb-[calc(250*var(--u))] xl:pt-[calc(97*var(--u))] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
       <div className="mx-auto max-w-[75rem] px-4 sm:px-6 xl:max-w-[calc(1200*var(--u))] xl:px-0">
         <AboutReveal>
-          <p className="text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-brand-navy/80 xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))] xl:tracking-[0.14em]">{t.leadershipEyebrow}</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.13em] text-brand-navy/80 xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))] xl:tracking-[0.14em]">{t.leadershipEyebrow}</p>
         </AboutReveal>
         <AboutReveal delay={100}>
-          <h2 className="mt-4 text-[1.625rem] font-semibold leading-[1.2] text-brand-navy sm:text-[2rem] xl:mt-[calc(17*var(--u))] xl:text-[max(28px,calc(40*var(--u)))] xl:leading-[calc(48*var(--u))] xl:tracking-[-0.015em]">{t.leadershipHeading}</h2>
+          <h2 className="mt-4 text-[26px] font-semibold leading-[1.25] text-brand-navy sm:text-[32px] sm:leading-[40px] xl:mt-[calc(17*var(--u))] xl:text-[max(28px,calc(40*var(--u)))] xl:leading-[calc(48*var(--u))] xl:tracking-[-0.015em]">{t.leadershipHeading}</h2>
         </AboutReveal>
         {paragraphs.map((text, i) => (
           <AboutReveal key={i} delay={200 + i * 80}>

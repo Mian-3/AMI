@@ -13,7 +13,7 @@ export default function AboutHero({ dict }) {
       <div className="bg-[#f3eee7] py-12 sm:py-16 lg:pb-20 lg:pt-[5.5rem] xl:pb-[calc(80*var(--u))] xl:pt-[calc(75*var(--u))]">
         <div className="mx-auto max-w-[75rem] px-4 sm:px-6 xl:max-w-[calc(1200*var(--u))] xl:px-0">
           <AboutReveal>
-            <p className="text-[0.75rem] font-semibold uppercase tracking-[0.16em] text-brand-navy/80 xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))] xl:tracking-[0.14em]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.13em] text-brand-navy/80 xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))] xl:tracking-[0.14em]">
               {t.heroEyebrow}
             </p>
           </AboutReveal>
@@ -23,12 +23,12 @@ export default function AboutHero({ dict }) {
             </h1>
           </AboutReveal>
           <AboutReveal delay={200}>
-            <p className="mt-6 max-w-[72rem] text-[1rem] leading-[1.7] text-ink/60 lg:text-[1.0625rem] xl:mt-[calc(18*var(--u))] xl:max-w-[calc(1200*var(--u))] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">
+            <p className="mt-6 max-w-[72rem] text-[14px] leading-[22px] text-ink/60 xl:mt-[calc(18*var(--u))] xl:max-w-[calc(1200*var(--u))] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">
               {t.heroP1}
             </p>
           </AboutReveal>
           <AboutReveal delay={300}>
-            <p className="mt-3 max-w-[72rem] text-[1rem] leading-[1.7] text-ink/60 lg:text-[1.0625rem] xl:mt-[calc(10*var(--u))] xl:max-w-[calc(1200*var(--u))] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">
+            <p className="mt-3 max-w-[72rem] text-[14px] leading-[22px] text-ink/60 xl:mt-[calc(10*var(--u))] xl:max-w-[calc(1200*var(--u))] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">
               {t.heroP2}
             </p>
           </AboutReveal>

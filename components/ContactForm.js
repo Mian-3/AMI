@@ -485,14 +485,14 @@ export default function ContactForm({ dict }) {
 
         {/* Dark panel copy */}
         <div className="relative order-1 px-4 pb-8 pt-12 sm:px-6 lg:order-2 lg:p-0 lg:pt-[4rem]">
-          <Reveal as="p" delay={150} className="mb-4 flex items-center gap-3 text-[12px] font-bold uppercase tracking-[0.16em] text-white rtl:tracking-normal md:text-[13px]">
+          <Reveal as="p" delay={150} className="mb-4 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.13em] text-white rtl:tracking-normal xl:text-[14px]">
             <span className="h-[2px] w-8 bg-brand-orange" aria-hidden="true" />
             {c.eyebrow}
           </Reveal>
           <Reveal as="h2" delay={250} className="max-w-[26rem] text-[26px] font-semibold leading-[1.25] text-white md:text-[28px] xl:text-[32px] xl:leading-[40px]">
             {c.heading}
           </Reveal>
-          <Reveal as="p" delay={350} className="mt-4 max-w-[26rem] text-[15px] leading-[1.7] text-white/80 xl:text-[16px] xl:leading-[26px]">
+          <Reveal as="p" delay={350} className="mt-4 max-w-[26rem] text-[14px] leading-[22px] text-white/80 xl:text-[16px] xl:leading-[26px]">
             {c.text}
           </Reveal>
           <Reveal delay={450} className="mt-8 max-w-[26rem]">

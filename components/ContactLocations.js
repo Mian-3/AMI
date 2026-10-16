@@ -313,19 +313,19 @@ export default function ContactLocations({ dict }) {
   const ready = !!layer && inView;
 
   return (
-    <section className="bg-[#fcfcfa]">
+    <section className="[--u:1px] xl:[--u:clamp(0.667px,0.0520833vw,1px)] bg-[#fcfcfa]">
       <style>{CSS}</style>
       <div className="px-4 pb-8 pt-16 text-center sm:px-6 md:pt-[6.9rem]">
-        <Reveal as="p" className="mb-3 text-[12px] font-semibold uppercase tracking-[0.2em] text-[#4b5563] rtl:tracking-normal md:text-[13px]">
+        <Reveal as="p" className="mb-3 text-brand-navy text-[11px] font-semibold uppercase tracking-[0.13em] rtl:tracking-normal xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))]">
           {c.eyebrow}
         </Reveal>
-        <Reveal as="h2" delay={100} className="text-[28px] font-bold leading-[1.2] text-brand-navy sm:text-[34px] md:text-[38px] xl:text-[40px] xl:leading-[48px]">
+        <Reveal as="h2" delay={100} className="text-brand-navy text-[26px] font-semibold leading-[1.25] tracking-[-0.015em] md:text-[32px] md:leading-[40px] xl:text-[max(28px,calc(40*var(--u)))] xl:leading-[calc(48*var(--u))]">
           {c.heading}
         </Reveal>
-        <Reveal as="p" delay={200} className="mt-4 text-[16px] font-semibold leading-[1.4] text-brand-orange md:text-[17px] xl:text-[19px] xl:leading-[28px]">
+        <Reveal as="p" delay={200} className="mt-4 text-brand-orange xl:mt-[calc(16*var(--u))] text-[15px] font-semibold leading-[1.4] md:text-[16px] xl:text-[max(16px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">
           {c.sub}
         </Reveal>
-        <Reveal as="p" delay={300} className="mx-auto mt-3 max-w-[38rem] text-[14px] leading-[1.7] text-[#737878] xl:text-[16px] xl:leading-[26px]">
+        <Reveal as="p" delay={300} className="mx-auto mt-3 max-w-[38rem] text-ink/60 xl:mt-[calc(10*var(--u))] xl:max-w-[calc(820*var(--u))] text-[14px] leading-[22px] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">
           {c.paragraph}
         </Reveal>
       </div>
@@ -371,9 +371,9 @@ export default function ContactLocations({ dict }) {
 
       {/* Offices card, overlapping into the orange band below */}
       <div className="bg-[linear-gradient(to_bottom,#fef4e5_0,#fef4e5_8rem,#f28a35_8rem)] px-4 sm:px-6 md:bg-[linear-gradient(to_bottom,#fef4e5_0,#fef4e5_13.25rem,#f28a35_13.25rem)] xl:px-0">
-        <Reveal className="mx-auto max-w-[75rem]">
+        <Reveal className="mx-auto max-w-[75rem] xl:max-w-[calc(1200*var(--u))]">
           <div className="rounded-b-[2.5rem] rounded-t-[1.5rem] bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.06)] md:rounded-t-[2.5rem] md:p-[3.125rem] md:pt-[3.5rem]">
-            <h3 className="relative inline-block pb-3 text-[20px] font-semibold leading-[1.3] text-brand-orange xl:text-[22px] xl:leading-[30px]">
+            <h3 className="relative inline-block pb-3 text-[20px] font-semibold leading-[1.3] text-brand-orange xl:text-[max(20px,calc(29*var(--u)))] xl:leading-[1.2]">
               {c.cardHeading}
               <span aria-hidden="true" className="cl-line absolute bottom-0 start-0 h-[2px] w-full bg-brand-orange/30" style={{ animationDelay: "500ms" }} />
             </h3>
@@ -384,17 +384,17 @@ export default function ContactLocations({ dict }) {
                   <Reveal key={office.key} delay={150 + index * 130}>
                     <div onMouseEnter={() => setActive(office.key)} onMouseLeave={() => setActive(null)} className="group relative">
                       <span aria-hidden="true" className={`absolute -top-4 start-0 h-[2px] bg-brand-orange transition-all duration-500 ease-out ${on ? "w-full" : "w-8 group-hover:w-full"}`} />
-                      <p className="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.04em] text-[#4b5563] rtl:tracking-normal">
+                      <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.13em] text-brand-navy/70 rtl:tracking-normal xl:text-[max(12px,calc(14*var(--u)))]">
                         <span className={`h-1.5 w-1.5 rounded-full bg-brand-orange transition-transform duration-300 ${on ? "scale-150" : ""}`} />
                         {office.label}
                       </p>
-                      <p className={`mt-2 text-[22px] font-bold leading-[1.2] transition-colors duration-300 xl:text-[24px] xl:leading-[30px] ${on ? "text-brand-orange" : "text-brand-navy group-hover:text-brand-orange"}`}>{office.city}</p>
-                      <p className="mt-3 max-w-[22rem] text-[14px] leading-[1.6] text-[#737878] xl:text-[15px] xl:leading-[24px]">{office.address}</p>
+                      <p className={`mt-2 text-[19px] font-semibold leading-[1.2] transition-colors duration-300 xl:text-[max(19px,calc(24*var(--u)))] xl:leading-[1.2] ${on ? "text-brand-orange" : "text-brand-navy group-hover:text-brand-orange"}`}>{office.city}</p>
+                      <p className="mt-3 max-w-[22rem] text-[14px] leading-[22px] text-ink/60 xl:max-w-[calc(360*var(--u))] xl:text-[max(14px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))]">{office.address}</p>
                       <a
                         href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(office.mapsQuery)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group/link mt-5 inline-flex items-center gap-1.5 text-[14px] font-medium text-brand-orange transition-colors hover:text-brand-orange/80"
+                        className="group/link mt-5 inline-flex items-center gap-1.5 text-[13px] font-medium text-brand-orange xl:text-[max(13px,calc(14*var(--u)))] transition-colors hover:text-brand-orange/80"
                       >
                         {c.directions}
                         <span className="transition-transform duration-300 group-hover/link:translate-x-1 rtl:group-hover/link:-translate-x-1"><ArrowIcon /></span>

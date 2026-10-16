@@ -7,6 +7,7 @@ const ITEMS = [
   { href: "/admin", label: "Dashboard", ready: true },
   { href: "/admin/insights", label: "Insights", ready: true, section: "insights" },
   { href: "/admin/events", label: "Events", ready: true, section: "events" },
+  { href: "/admin/downloads", label: "Downloads", ready: true, section: "downloads" },
   { href: "/admin/enquiries", label: "Enquiries", ready: true, section: "enquiries" },
   { href: "/admin/content", label: "Site content", ready: true, section: "content" },
   { href: "/admin/flavours", label: "Flavours page", ready: true, section: "content" },

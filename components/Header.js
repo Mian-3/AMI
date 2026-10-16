@@ -11,7 +11,7 @@ function getNavItems(dict, locale, active) {
     { label: dict.nav.about, href: `/${locale}/about`, active: active === "about" },
     { label: dict.nav.flavoursFragrances, href: `/${locale}/flavours-fragrances`, active: active === "flavours" },
     { label: dict.nav.process, href: `/${locale}/our-process`, active: active === "process" },
-    { label: dict.nav.downloads, href: "#" },
+    { label: dict.nav.downloads, href: `/${locale}/downloads`, active: active === "downloads" },
     { label: dict.nav.events, href: `/${locale}/events`, active: active === "events" },
     { label: dict.nav.insights, href: `/${locale}/insights`, active: active === "insights" },
     { label: dict.nav.contact, href: `/${locale}/contact`, active: active === "contact" },

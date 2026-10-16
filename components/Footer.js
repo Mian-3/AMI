@@ -55,9 +55,29 @@ function LinkedinIcon() {
   );
 }
 
-const HEAD = dmSans.className + " text-[12px] font-semibold uppercase text-brand-navy xl:text-[14px] xl:leading-[20px]";
-const LIST = "mt-4 space-y-2.5 text-[13px] text-[#5f6663] xl:mt-[11px] xl:space-y-[10px] xl:text-[14px] xl:leading-[20px]";
-const LINK = "transition-colors hover:text-brand-orange";
+const HEAD = dmSans.className + " text-[11px] font-semibold uppercase text-brand-navy xl:text-[max(11px,calc(12.5*var(--u)))] xl:leading-[calc(18*var(--u))]";
+const LIST = "mt-4 space-y-2.5 text-[12px] text-[#5f6663] xl:mt-[10px] xl:space-y-[calc(9*var(--u))] xl:text-[max(11.5px,calc(13*var(--u)))] xl:leading-[calc(19*var(--u))]";
+const LINK = "ft-link";
+
+// Motion only: hover underline + lift, and a soft rise as the footer scrolls into view (CSS only, no JS,
+// and content is always visible in browsers that do not support scroll-driven animation).
+const CSS = `
+.ft-link{background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;padding-bottom:2px;transition:background-size .35s cubic-bezier(.2,.8,.2,1),color .2s ease}
+[dir=rtl] .ft-link{background-position:100% 100%}
+.ft-link:hover{color:#f28b33;background-size:100% 1px}
+.ft-soc{transition:transform .25s cubic-bezier(.2,.8,.2,1),color .2s ease}
+.ft-soc:hover{transform:translateY(-2px);color:#f28b33}
+.ft-logo{transition:opacity .25s ease,transform .35s cubic-bezier(.2,.8,.2,1)}
+.ft-logo:hover{opacity:.85;transform:translateY(-1px)}
+@keyframes ft-rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@supports (animation-timeline: view()){
+.ft-rise{animation:ft-rise linear both;animation-timeline:view();animation-range:entry 0% entry 70%}
+.ft-d1{animation-range:entry 5% entry 75%}
+.ft-d2{animation-range:entry 10% entry 80%}
+.ft-d3{animation-range:entry 15% entry 85%}
+}
+@media (prefers-reduced-motion:reduce){.ft-rise{animation:none!important}.ft-link,.ft-soc,.ft-logo{transition:none}}
+`;
 
 export default async function Footer({ dict, locale }) {
   const media = await getMedia();
@@ -72,19 +92,20 @@ export default async function Footer({ dict, locale }) {
   ];
 
   return (
-    <footer className={inter.className + " bg-cream"}>
+    <footer className={inter.className + " bg-cream [--u:1px] xl:[--u:clamp(0.667px,0.0520833vw,1px)]"}>
+      <style>{CSS}</style>
       <div className="mx-auto max-w-[1200px] px-4 py-16 sm:px-6 md:py-20 xl:max-w-[1680px] xl:px-[40px] xl:pb-[41px] xl:pt-[54px]">
         <div className="grid grid-cols-1 gap-10 xl:grid-cols-[1fr_637px] xl:gap-0">
-          <div>
+          <div className="ft-rise">
             <Image
               src="/images/logo/am-international-logo.svg"
               alt="AM International"
               width={1184}
               height={329}
-              className="h-10 w-auto xl:h-[54px]"
+              className="ft-logo h-10 w-auto xl:h-[54px]"
             />
             <p className={HEAD + " mt-5 xl:mt-[28px]"}>{dict.footer.contactLabel}</p>
-            <ul className="mt-3 space-y-3 text-[13px] text-[#5f6663] xl:mt-[11px] xl:space-y-[10px] xl:text-[14px] xl:leading-[20px]">
+            <ul className="mt-3 space-y-3 text-[12px] text-[#5f6663] xl:mt-[10px] xl:space-y-[calc(9*var(--u))] xl:text-[max(11.5px,calc(13*var(--u)))] xl:leading-[calc(19*var(--u))]">
               <li className="xl:max-w-[300px]">{dict.footer.address}</li>
               <li>
                 <a href={"mailto:" + dict.footer.email} dir="ltr" className={LINK}>{dict.footer.email}</a>
@@ -95,9 +116,9 @@ export default async function Footer({ dict, locale }) {
             </ul>
           </div>
 
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 xl:grid-cols-[252px_277px_1fr] xl:gap-0 xl:pt-[1px]">
-            {columns.map((col) => (
-              <div key={col.heading}>
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 xl:grid-cols-[252px_277px_1fr] xl:gap-0 xl:pt-[71px]">
+            {columns.map((col, ci) => (
+              <div key={col.heading} className={"ft-rise " + ["ft-d1", "ft-d2", "ft-d3"][ci]}>
                 <p className={HEAD}>{col.heading}</p>
                 <ul className={LIST}>
                   {col.labels.map((label, i) => (
@@ -115,16 +136,16 @@ export default async function Footer({ dict, locale }) {
       <div className="mx-auto max-w-[1200px] xl:max-w-[1680px] xl:px-[40px]">
         <div className="border-t border-brand-navy/10 px-4 sm:px-6 xl:border-brand-navy/15 xl:px-0" />
       </div>
-      <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-4 px-4 py-5 text-[12px] text-[#2b2f2e] sm:flex-row sm:px-6 xl:max-w-[1680px] xl:px-[40px] xl:pb-[51px] xl:pt-[26px] xl:text-[16px]">
+      <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-4 px-4 py-5 text-[12px] text-[#2b2f2e] sm:flex-row sm:px-6 xl:max-w-[1680px] xl:px-[40px] xl:pb-[51px] xl:pt-[26px] xl:text-[14px]">
         <div className="flex flex-col items-center gap-3 sm:flex-row xl:gap-[19px]">
           <LanguageSwitcher openUpward />
           <p>{dict.footer.copyright}</p>
         </div>
         <div className="flex items-center gap-5 text-brand-navy xl:gap-[22px]">
-          <a href="#" aria-label="Search" className="transition-colors hover:text-brand-orange"><SearchIcon /></a>
-          <a href={href(links.facebook)} {...extra(links.facebook)} aria-label="Facebook" className="transition-colors hover:text-brand-orange"><FacebookIcon /></a>
-          <a href={href(links.instagram)} {...extra(links.instagram)} aria-label="Instagram" className="transition-colors hover:text-brand-orange"><InstagramIcon /></a>
-          <a href={href(links.linkedin)} {...extra(links.linkedin)} aria-label="LinkedIn" className="transition-colors hover:text-brand-orange"><LinkedinIcon /></a>
+          <a href="#" aria-label="Search" className="ft-soc"><SearchIcon /></a>
+          <a href={href(links.facebook)} {...extra(links.facebook)} aria-label="Facebook" className="ft-soc"><FacebookIcon /></a>
+          <a href={href(links.instagram)} {...extra(links.instagram)} aria-label="Instagram" className="ft-soc"><InstagramIcon /></a>
+          <a href={href(links.linkedin)} {...extra(links.linkedin)} aria-label="LinkedIn" className="ft-soc"><LinkedinIcon /></a>
         </div>
       </div>
     </footer>

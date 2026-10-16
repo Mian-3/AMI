@@ -37,20 +37,20 @@ export default function AboutJourney({ dict }) {
       <div className="relative mx-auto max-w-[75rem] px-4 sm:px-6 xl:max-w-[calc(1200*var(--u))] xl:px-0">
         <div className="mx-auto max-w-[61rem] text-center xl:max-w-[calc(980*var(--u))]">
           <AboutReveal>
-            <p className="text-[0.75rem] font-semibold uppercase tracking-[0.16em] text-white xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))] xl:tracking-[0.13em]">{t.journeyEyebrow}</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.13em] text-white xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))] xl:tracking-[0.13em]">{t.journeyEyebrow}</p>
           </AboutReveal>
           <AboutReveal delay={100}>
-            <h2 className="mt-2 text-[1.75rem] font-semibold leading-[1.2] sm:text-[2rem] xl:mt-0 xl:text-[max(30px,calc(40*var(--u)))] xl:leading-[calc(48*var(--u))] xl:tracking-[-0.015em]">{t.journeyHeading}</h2>
+            <h2 className="mt-2 text-[26px] font-semibold leading-[1.25] sm:text-[32px] sm:leading-[40px] xl:mt-0 xl:text-[max(30px,calc(40*var(--u)))] xl:leading-[calc(48*var(--u))] xl:tracking-[-0.015em]">{t.journeyHeading}</h2>
           </AboutReveal>
           <AboutReveal delay={200}>
-            <p className="mt-5 text-[0.9375rem] leading-[1.7] text-white lg:text-[1rem] xl:mt-[calc(17*var(--u))] xl:text-[max(16px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">{t.journeyP1}</p>
+            <p className="mt-5 text-[14px] leading-[22px] text-white xl:mt-[calc(17*var(--u))] xl:text-[max(16px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">{t.journeyP1}</p>
           </AboutReveal>
           <AboutReveal delay={300}>
-            <p className="mt-6 text-[0.9375rem] leading-[1.7] text-white lg:text-[1rem] xl:mt-[calc(30*var(--u))] xl:text-[max(16px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">{t.journeyP2}</p>
+            <p className="mt-6 text-[14px] leading-[22px] text-white xl:mt-[calc(30*var(--u))] xl:text-[max(16px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">{t.journeyP2}</p>
           </AboutReveal>
           {t.journeyP3 ? (
             <AboutReveal delay={400}>
-              <p className="mt-6 text-[0.9375rem] leading-[1.7] text-white lg:text-[1rem] xl:mt-[calc(30*var(--u))] xl:text-[max(16px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">{t.journeyP3}</p>
+              <p className="mt-6 text-[14px] leading-[22px] text-white xl:mt-[calc(30*var(--u))] xl:text-[max(16px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">{t.journeyP3}</p>
             </AboutReveal>
           ) : null}
         </div>
@@ -76,14 +76,14 @@ export default function AboutJourney({ dict }) {
           <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 lg:mt-[4.2rem] xl:mt-[calc(66*var(--u))] xl:gap-x-[calc(30*var(--u))]">
             <a
               href="#meaning"
-              className="inline-flex h-12 items-center justify-center rounded-lg bg-white px-8 text-[0.875rem] font-medium text-[#f28b33] transition duration-200 hover:-translate-y-0.5 hover:shadow-lg xl:h-[max(40px,calc(48*var(--u)))] xl:w-[calc(229*var(--u))] xl:min-w-[170px] xl:rounded-[calc(8*var(--u))] xl:px-0 xl:text-[max(12px,calc(14*var(--u)))]"
+              className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 text-[12px] font-medium text-[#f28b33] transition duration-200 hover:-translate-y-0.5 hover:shadow-lg xl:h-[max(40px,calc(48*var(--u)))] xl:w-[calc(229*var(--u))] xl:min-w-[160px] xl:rounded-[calc(8*var(--u))] xl:px-0 xl:text-[max(12px,calc(14*var(--u)))]"
             >
               {t.discover}
             </a>
             <CatalogueDownloadLink
               label={dict.buttons.downloadCatalogueArrow}
               icon="none"
-              className="inline-flex items-center text-[0.875rem] font-medium text-white transition-opacity hover:opacity-80 xl:text-[max(12px,calc(14*var(--u)))]"
+              className="inline-flex items-center text-[12px] font-medium text-white transition-opacity hover:opacity-80 xl:text-[max(12px,calc(14*var(--u)))]"
             />
           </div>
         </AboutReveal>

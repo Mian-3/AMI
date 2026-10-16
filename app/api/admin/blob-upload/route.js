@@ -11,7 +11,7 @@ export async function POST(request) {
       body,
       request,
       onBeforeGenerateToken: async () => {
-        const session = await getSession(["insights","content","media","events"]);
+        const session = await getSession(["insights","content","media","events","downloads"]);
         if (!session) throw new Error("You are signed out. Please log in again.");
         return {
           allowedContentTypes: ["application/pdf", "video/mp4", "video/webm", "image/jpeg", "image/png", "image/webp", "image/avif"],
