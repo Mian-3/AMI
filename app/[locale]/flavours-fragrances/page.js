@@ -26,14 +26,15 @@ export default async function FlavoursFragrancesPage({ params }) {
   const dict = await getDictionary(locale);
   const meta = await getFlavoursMeta();
   const t = dict.flavoursPage;
+  const cta = dict.buttons?.requestSample || "Request for Sample";
 
   return (
     <>
       <Header dict={dict} locale={locale} active="flavours" />
-      <main className="bg-[#fcfcfa]">
+      <main className="bg-white [--u:1px] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
         <FlavoursHero dict={dict} />
-        <FlavoursSection section={t.food} meta={toCardMeta(meta.food, locale)} />
-        <FlavoursSection section={t.fragrance} meta={toCardMeta(meta.fragrance, locale)} last />
+        <FlavoursSection kind="food" section={t.food} heading={t.heroHeading} meta={toCardMeta(meta.food, locale)} locale={locale} cta={cta} />
+        <FlavoursSection kind="fragrance" section={t.fragrance} heading={t.heroHeading} meta={toCardMeta(meta.fragrance, locale)} locale={locale} cta={cta} tint />
       </main>
       <Footer dict={dict} locale={locale} />
       <WhatsAppButton dict={dict} />
