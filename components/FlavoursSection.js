@@ -78,21 +78,21 @@ const CSS = `
 .fs-ico{transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
 .fs-slide{transition:transform .5s cubic-bezier(.22,1,.36,1),translate .5s cubic-bezier(.22,1,.36,1),width .5s cubic-bezier(.22,1,.36,1),height .5s cubic-bezier(.22,1,.36,1),opacity .3s}
 .fs-notch{animation:fs-notch 2.4s ease-in-out infinite}
-.fs-btn::before{content:"";position:absolute;inset:0;background:#0f1f4b;transform:scaleY(0);transform-origin:bottom;transition:transform .4s cubic-bezier(.22,1,.36,1)}
-.fs-btn:hover::before,.fs-btn:focus-visible::before{transform:scaleY(1)}
+.fs-btn{transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s}
+.fs-btn:hover,.fs-btn:focus-visible{transform:translateY(-2px)}
 .fs-btn:hover .fs-arr,.fs-btn:focus-visible .fs-arr{transform:translateX(4px)}
 [dir=rtl] .fs-btn:hover .fs-arr,[dir=rtl] .fs-btn:focus-visible .fs-arr{transform:translateX(-4px) scaleX(-1)}
 [dir=rtl] .fs-arr{transform:scaleX(-1)}
 .fs-arr{transition:transform .35s cubic-bezier(.22,1,.36,1)}
 @media (prefers-reduced-motion:reduce){
 .fs-up,.fs-img-f,.fs-img-b,.fs-img-in,.fs-on .fs-ico,.fs-notch{animation:none;opacity:1}
-.fs-slide,.fs-ico,.fs-arr,.fs-btn::before{transition:none}
+.fs-slide,.fs-ico,.fs-arr,.fs-btn{transition:none}
 }
 `;
 
 function RequestButton({ href, locale, label }) {
   const cls =
-    "fs-btn relative inline-flex h-9 items-center gap-2 overflow-hidden rounded-md border border-black/15 bg-white px-4 text-[12px] font-medium text-brand-navy transition-colors duration-300 hover:border-brand-navy hover:text-white focus-visible:border-brand-navy focus-visible:text-white focus-visible:outline-none xl:h-[max(40px,calc(48*var(--u)))] xl:gap-[calc(10*var(--u))] xl:px-[calc(24*var(--u))] xl:text-[max(12px,calc(16*var(--u)))]";
+    "fs-btn relative inline-flex h-9 items-center gap-2 overflow-hidden rounded-md border border-brand-orange bg-brand-orange px-4 text-[12px] font-medium text-white shadow-[0_6px_16px_rgba(242,143,59,0.28)] hover:shadow-[0_10px_24px_rgba(242,143,59,0.42)] focus-visible:outline-none xl:h-[max(40px,calc(48*var(--u)))] xl:gap-[calc(10*var(--u))] xl:px-[calc(24*var(--u))] xl:text-[max(12px,calc(16*var(--u)))]";
   const inner = (
     <>
       <span className="relative z-10">{label}</span>
