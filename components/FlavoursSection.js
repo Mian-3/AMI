@@ -78,6 +78,20 @@ const CSS = `
 .fs-ico{transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
 .fs-slide{transition:transform .5s cubic-bezier(.22,1,.36,1),translate .5s cubic-bezier(.22,1,.36,1),width .5s cubic-bezier(.22,1,.36,1),height .5s cubic-bezier(.22,1,.36,1),opacity .3s}
 .fs-notch{animation:fs-notch 2.4s ease-in-out infinite}
+@keyframes fs-word{from{transform:translateY(110%)}to{transform:none}}
+@keyframes fs-line{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes fs-logo-in{0%{opacity:0;transform:translateY(14px) scale(.82)}60%{opacity:1;transform:translateY(-2px) scale(1.04)}100%{opacity:1;transform:none}}
+@keyframes fs-shine{from{transform:translateX(-120%) skewX(-18deg)}to{transform:translateX(260%) skewX(-18deg)}}
+.fs-word{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.12em;margin-bottom:-.12em}
+.fs-word>span{display:inline-block;animation:fs-word .75s cubic-bezier(.22,1,.36,1) both;animation-delay:var(--d,0ms)}
+.fs-line{transform-origin:left center;animation:fs-line .7s cubic-bezier(.22,1,.36,1) both;animation-delay:var(--d,0ms)}
+[dir=rtl] .fs-line{transform-origin:right center}
+.fs-logo-pop{opacity:0;animation:fs-logo-in .7s cubic-bezier(.34,1.56,.64,1) both;animation-delay:var(--d,0ms)}
+.fs-logo{position:relative;overflow:hidden}
+.fs-logo::after{content:"";position:absolute;inset:0;width:40%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.85),transparent);transform:translateX(-120%) skewX(-18deg);animation:fs-shine 1.1s ease-out both;animation-delay:calc(var(--d,0ms) + 450ms);pointer-events:none}
+.fs-btn::after{content:"";position:absolute;inset:0;width:35%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:translateX(-130%) skewX(-18deg)}
+.fs-btn:hover::after,.fs-btn:focus-visible::after{animation:fs-shine .8s ease-out}
+.fs-par{transition:transform .5s cubic-bezier(.22,1,.36,1);transform:translate3d(calc(var(--px,0)*-12px),calc(var(--py,0)*-9px),0) scale(1.06)}
 .fs-logo{transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s,border-color .3s}
 .fs-logo:hover{transform:translateY(-3px);border-color:rgba(242,143,59,.5);box-shadow:0 8px 18px rgba(15,31,75,.1)}
 .fs-btn{transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s}
@@ -87,6 +101,8 @@ const CSS = `
 [dir=rtl] .fs-arr{transform:scaleX(-1)}
 .fs-arr{transition:transform .35s cubic-bezier(.22,1,.36,1)}
 @media (prefers-reduced-motion:reduce){
+.fs-word>span,.fs-line,.fs-logo-pop,.fs-logo::after,.fs-btn:hover::after{animation:none;opacity:1;transform:none}
+.fs-par{transform:none;transition:none}
 .fs-up,.fs-img-f,.fs-img-b,.fs-img-in,.fs-on .fs-ico,.fs-notch{animation:none;opacity:1}
 .fs-slide,.fs-ico,.fs-arr,.fs-btn,.fs-logo{transition:none}
 }
@@ -265,9 +281,20 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
               id={`${kind}-panel`}
               role="tabpanel"
               aria-labelledby={`${kind}-tab-${current.orig}`}
-              className={`min-w-0 flex-1 md:mt-9 ${flip ? "md:grid-cols-[1fr_1.12fr] xl:grid-cols-[1fr_calc(600*var(--u))]" : "md:grid-cols-[1.12fr_1fr] xl:grid-cols-[calc(600*var(--u))_1fr]"} md:grid md:items-center md:gap-10 xl:mt-[calc(56*var(--u))] xl:gap-[calc(120*var(--u))]`}
+              className={`min-w-0 flex-1 md:mt-9 ${flip ? "md:grid-cols-[1fr_1.12fr] xl:grid-cols-[1fr_calc(560*var(--u))]" : "md:grid-cols-[1.12fr_1fr] xl:grid-cols-[calc(560*var(--u))_1fr]"} md:grid md:items-center md:gap-10 xl:mt-[calc(56*var(--u))] xl:gap-[calc(80*var(--u))]`}
             >
-              <div className={`group relative aspect-[4/3] overflow-hidden rounded-[18px] bg-brand-navy/5 md:aspect-[600/420] xl:rounded-[calc(28*var(--u))] ${flip ? "md:order-2" : ""}`}>
+              <div
+                onPointerMove={(e) => {
+                  if (e.pointerType === "touch") return;
+                  const r = e.currentTarget.getBoundingClientRect();
+                  e.currentTarget.style.setProperty("--px", ((e.clientX - r.left) / r.width - 0.5).toFixed(3));
+                  e.currentTarget.style.setProperty("--py", ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
+                }}
+                onPointerLeave={(e) => {
+                  e.currentTarget.style.setProperty("--px", 0);
+                  e.currentTarget.style.setProperty("--py", 0);
+                }}
+                className={`group relative aspect-[4/3] overflow-hidden rounded-[18px] bg-brand-navy/5 md:aspect-[600/420] xl:rounded-[calc(28*var(--u))] ${flip ? "md:order-2" : ""}`}>
                 <div className={`absolute inset-0 ${dirRef.current === "f" ? "fs-img-f" : "fs-img-b"}`}>
                   <div className="fs-img-in absolute inset-0">
                     <Image
@@ -275,7 +302,7 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
                       alt={current.title}
                       fill
                       sizes="(min-width: 1920px) 600px, (min-width: 768px) 50vw, 70vw"
-                      className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                      className="fs-par object-cover"
                     />
                   </div>
                 </div>
@@ -284,8 +311,12 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
                 <p className={`fs-up ${eyebrow}`} style={{ "--d": "250ms" }}>
                   {panelEyebrow}
                 </p>
-                <h3 className="fs-up mt-1.5 text-[22px] font-semibold leading-[1.2] text-brand-navy sm:text-[26px] xl:mt-[calc(8*var(--u))] xl:text-[max(26px,calc(36*var(--u)))] xl:leading-[calc(44*var(--u))]" style={{ "--d": "330ms" }}>
-                  {current.title}
+                <h3 className="mt-1.5 text-[22px] font-semibold leading-[1.2] text-brand-navy sm:text-[26px] xl:mt-[calc(8*var(--u))] xl:text-[max(26px,calc(36*var(--u)))] xl:leading-[calc(44*var(--u))]">
+                  {current.title.split(" ").map((w, i) => (
+                    <span key={i} className="fs-word me-[0.28em]">
+                      <span style={{ "--d": `${340 + i * 70}ms` }}>{w}</span>
+                    </span>
+                  ))}
                 </h3>
                 <p className="fs-up mt-3 text-[14px] leading-[22px] text-ink/60 xl:mt-[calc(18*var(--u))] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]" style={{ "--d": "420ms" }}>
                   {current.desc}
@@ -300,16 +331,17 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
                     <p className="fs-up text-[14px] font-semibold leading-[22px] text-brand-orange xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]" style={{ "--d": "560ms" }}>
                       {current.industry || `${current.title}`}
                     </p>
-                    <ul className="mt-2.5 flex flex-wrap gap-2 xl:mt-[calc(12*var(--u))] xl:gap-[calc(10*var(--u))]">
+                    <span aria-hidden="true" className="fs-line mt-1.5 block h-[2px] w-10 rounded-full bg-brand-orange/70 xl:mt-[calc(6*var(--u))] xl:w-[calc(48*var(--u))]" style={{ "--d": "640ms" }} />
+                    <ul className="mt-2.5 flex flex-wrap gap-2 xl:mt-[calc(12*var(--u))] xl:gap-[calc(8*var(--u))]">
                       {logos.map((src, i) => (
-                        <li key={src + i} className="fs-up fs-logo flex h-[40px] w-[68px] sm:h-[46px] sm:w-[84px] items-center justify-center rounded-md border border-black/10 bg-white p-1.5 xl:h-[calc(64*var(--u))] xl:w-[calc(120*var(--u))] xl:p-[calc(8*var(--u))]" style={{ "--d": `${620 + i * 70}ms` }}>
+                        <li key={src + i} className="fs-logo-pop fs-logo flex h-[44px] w-[72px] sm:h-[52px] sm:w-[92px] items-center justify-center rounded-md border border-black/10 bg-white p-1.5 xl:h-[calc(60*var(--u))] xl:w-[calc(104*var(--u))] xl:p-[calc(8*var(--u))]" style={{ "--d": `${700 + i * 90}ms` }}>
                           <Image src={src} alt="" width={240} height={111} className="h-full w-full object-contain" />
                         </li>
                       ))}
                     </ul>
                   </div>
                 ) : null}
-                <div className="fs-up mt-5 xl:mt-[calc(32*var(--u))]" style={{ "--d": `${640 + logos.length * 70}ms` }}>
+                <div className="fs-up mt-5 xl:mt-[calc(32*var(--u))]" style={{ "--d": `${760 + logos.length * 90}ms` }}>
                   <RequestButton href={current.href} locale={locale} label={cta} />
                 </div>
               </div>
