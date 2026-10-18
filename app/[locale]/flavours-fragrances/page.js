@@ -34,7 +34,7 @@ export default async function FlavoursFragrancesPage({ params }) {
       <main className="bg-white [--u:1px] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
         <FlavoursHero dict={dict} />
         <FlavoursSection kind="food" section={t.food} heading={t.heroHeading} meta={toCardMeta(meta.food, locale)} locale={locale} cta={cta} />
-        <FlavoursSection kind="fragrance" section={t.fragrance} heading={t.heroHeading} meta={toCardMeta(meta.fragrance, locale)} locale={locale} cta={cta} tint />
+        <FlavoursSection kind="fragrance" section={t.fragrance} heading={t.heroHeading} meta={toCardMeta(meta.fragrance, locale)} locale={locale} cta={cta} tint flip />
       </main>
       <Footer dict={dict} locale={locale} />
       <WhatsAppButton dict={dict} />

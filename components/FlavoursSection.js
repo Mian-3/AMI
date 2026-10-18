@@ -78,6 +78,8 @@ const CSS = `
 .fs-ico{transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
 .fs-slide{transition:transform .5s cubic-bezier(.22,1,.36,1),translate .5s cubic-bezier(.22,1,.36,1),width .5s cubic-bezier(.22,1,.36,1),height .5s cubic-bezier(.22,1,.36,1),opacity .3s}
 .fs-notch{animation:fs-notch 2.4s ease-in-out infinite}
+.fs-logo{transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s,border-color .3s}
+.fs-logo:hover{transform:translateY(-3px);border-color:rgba(242,143,59,.5);box-shadow:0 8px 18px rgba(15,31,75,.1)}
 .fs-btn{transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s}
 .fs-btn:hover,.fs-btn:focus-visible{transform:translateY(-2px)}
 .fs-btn:hover .fs-arr,.fs-btn:focus-visible .fs-arr{transform:translateX(4px)}
@@ -86,7 +88,7 @@ const CSS = `
 .fs-arr{transition:transform .35s cubic-bezier(.22,1,.36,1)}
 @media (prefers-reduced-motion:reduce){
 .fs-up,.fs-img-f,.fs-img-b,.fs-img-in,.fs-on .fs-ico,.fs-notch{animation:none;opacity:1}
-.fs-slide,.fs-ico,.fs-arr,.fs-btn{transition:none}
+.fs-slide,.fs-ico,.fs-arr,.fs-btn,.fs-logo{transition:none}
 }
 `;
 
@@ -123,7 +125,7 @@ function RequestButton({ href, locale, label }) {
 }
 
 // One block of the page: heading, format switch, category tabs and the detail panel.
-export default function FlavoursSection({ kind = "food", section, heading, meta, locale = "en", cta = "Request for Sample", tint = false }) {
+export default function FlavoursSection({ kind = "food", section, heading, meta, locale = "en", cta = "Request for Sample", tint = false, flip = false }) {
   const [format, setFormat] = useState(DEFAULT_FORMAT);
   const [activeOrig, setActiveOrig] = useState(0);
   const prevPos = useRef(0);
@@ -140,6 +142,10 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
     { key: "powder", label: section.powder },
     { key: "liquid", label: section.liquid },
   ];
+  const logos = current
+    ? [1, 2, 3, 4, 5, 6].map((n) => current[`logo${n}Image`]).filter((src) => typeof src === "string" && src.trim())
+    : [];
+  const panelEyebrow = flip ? chips.find((c) => c.key === format)?.label || section.eyebrow : section.eyebrow;
   const fmtIndex = chips.findIndex((c) => c.key === format);
 
   if (current && prevPos.current !== activePos) {
@@ -259,9 +265,9 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
               id={`${kind}-panel`}
               role="tabpanel"
               aria-labelledby={`${kind}-tab-${current.orig}`}
-              className="min-w-0 flex-1 md:mt-9 md:grid md:grid-cols-[1.12fr_1fr] md:items-center md:gap-10 xl:mt-[calc(56*var(--u))] xl:grid-cols-[calc(600*var(--u))_1fr] xl:gap-[calc(120*var(--u))]"
+              className={`min-w-0 flex-1 md:mt-9 ${flip ? "md:grid-cols-[1fr_1.12fr] xl:grid-cols-[1fr_calc(600*var(--u))]" : "md:grid-cols-[1.12fr_1fr] xl:grid-cols-[calc(600*var(--u))_1fr]"} md:grid md:items-center md:gap-10 xl:mt-[calc(56*var(--u))] xl:gap-[calc(120*var(--u))]`}
             >
-              <div className="group relative aspect-[4/3] overflow-hidden rounded-[18px] bg-brand-navy/5 md:aspect-[600/420] xl:rounded-[calc(28*var(--u))]">
+              <div className={`group relative aspect-[4/3] overflow-hidden rounded-[18px] bg-brand-navy/5 md:aspect-[600/420] xl:rounded-[calc(28*var(--u))] ${flip ? "md:order-2" : ""}`}>
                 <div className={`absolute inset-0 ${dirRef.current === "f" ? "fs-img-f" : "fs-img-b"}`}>
                   <div className="fs-img-in absolute inset-0">
                     <Image
@@ -274,9 +280,9 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
                   </div>
                 </div>
               </div>
-              <div className="mt-5 md:mt-0">
+              <div className={`mt-5 md:mt-0 ${flip ? "md:order-1" : ""}`}>
                 <p className={`fs-up ${eyebrow}`} style={{ "--d": "250ms" }}>
-                  {section.eyebrow}
+                  {panelEyebrow}
                 </p>
                 <h3 className="fs-up mt-1.5 text-[22px] font-semibold leading-[1.2] text-brand-navy sm:text-[26px] xl:mt-[calc(8*var(--u))] xl:text-[max(26px,calc(36*var(--u)))] xl:leading-[calc(44*var(--u))]" style={{ "--d": "330ms" }}>
                   {current.title}
@@ -289,7 +295,21 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
                     {section.note}
                   </p>
                 ) : null}
-                <div className="fs-up mt-5 xl:mt-[calc(32*var(--u))]" style={{ "--d": "580ms" }}>
+                {logos.length ? (
+                  <div className="mt-5 xl:mt-[calc(24*var(--u))]">
+                    <p className="fs-up text-[14px] font-semibold leading-[22px] text-brand-orange xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]" style={{ "--d": "560ms" }}>
+                      {current.industry || `${current.title}`}
+                    </p>
+                    <ul className="mt-2.5 flex flex-wrap gap-2 xl:mt-[calc(12*var(--u))] xl:gap-[calc(10*var(--u))]">
+                      {logos.map((src, i) => (
+                        <li key={src + i} className="fs-up fs-logo flex h-[40px] w-[68px] sm:h-[46px] sm:w-[84px] items-center justify-center rounded-md border border-black/10 bg-white p-1.5 xl:h-[calc(64*var(--u))] xl:w-[calc(120*var(--u))] xl:p-[calc(8*var(--u))]" style={{ "--d": `${620 + i * 70}ms` }}>
+                          <Image src={src} alt="" width={240} height={111} className="h-full w-full object-contain" />
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+                <div className="fs-up mt-5 xl:mt-[calc(32*var(--u))]" style={{ "--d": `${640 + logos.length * 70}ms` }}>
                   <RequestButton href={current.href} locale={locale} label={cta} />
                 </div>
               </div>
