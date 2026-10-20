@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getDefaultsDictionary as getBaseDictionary } from "@/lib/defaultsDictionary";
-import { SECTION_MAP, editableShape, deepMerge, getOverrides } from "@/lib/siteContent";
+import { SECTION_MAP, editableShape, deepMerge, dropStaleOverride, getOverrides } from "@/lib/siteContent";
 import { findByContentKey } from "@/lib/adminPages";
 import ContentForm from "@/components/admin/ContentForm";
 
@@ -19,7 +19,7 @@ export default async function ContentSectionPage({ params }) {
   for (const lang of ["en", "ar"]) {
     const base = editableShape(section, (await getBaseDictionary(lang))[section]);
     defaults[lang] = base;
-    current[lang] = deepMerge(base, overrides[section]?.[lang]);
+    current[lang] = deepMerge(base, dropStaleOverride(section, base, overrides[section]?.[lang]));
   }
 
   return (
