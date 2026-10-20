@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { desc } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { getDb, schema } from "@/db";
 import { deletePost, importStarterPosts } from "./actions";
 import DeleteButton from "@/components/admin/DeleteButton";
@@ -15,14 +15,23 @@ export default async function InsightsAdminPage() {
   const db = getDb();
   let posts = [];
   let failed = false;
+  let importDone = false;
   if (db) {
     try {
       posts = await db.select().from(schema.posts).orderBy(desc(schema.posts.updatedAt));
+      const flag = await db.select().from(schema.siteContent).where(eq(schema.siteContent.key, "insightsStarterImported")).limit(1);
+      importDone = Boolean(flag[0]);
     } catch {
       failed = true;
     }
   } else {
     failed = true;
+  }
+
+  const titleCount = {};
+  for (const post of posts) {
+    const key = (post.data?.en?.title || "").trim().toLowerCase();
+    if (key) titleCount[key] = (titleCount[key] || 0) + 1;
   }
 
   return (
@@ -37,7 +46,7 @@ export default async function InsightsAdminPage() {
         </Link>
       </div>
 
-      {!failed && !posts.some((post) => post.slug === "insight-1") ? (
+      {!failed && !importDone && posts.length === 0 ? (
         <form action={importStarterPosts} className="mt-6 flex flex-wrap items-center gap-3 rounded-lg border border-brand-orange/30 bg-brand-orange/5 px-4 py-3">
           <p className="min-w-0 flex-1 text-sm text-ink/70">
             The 12 articles currently on the website are not in the dashboard yet. Import them once to edit or delete them here.
@@ -60,7 +69,12 @@ export default async function InsightsAdminPage() {
             {posts.map((post) => (
               <li key={post.id} className="flex flex-wrap items-center gap-3 px-4 py-4 sm:px-5">
                 <div className="min-w-0 flex-1">
-                  <p className="truncate font-medium text-brand-navy">{post.data?.en?.title || "(no title)"}</p>
+                  <p className="truncate font-medium text-brand-navy">
+                    {post.data?.en?.title || "(no title)"}
+                    {titleCount[(post.data?.en?.title || "").trim().toLowerCase()] > 1 ? (
+                      <span className="ms-2 rounded-full bg-red-50 px-2 py-0.5 text-[11px] font-medium text-red-600">Duplicate title</span>
+                    ) : null}
+                  </p>
                   <p className="mt-0.5 truncate text-xs text-ink/50">/{post.slug} · Updated {formatDate(post.updatedAt)}</p>
                 </div>
                 <span

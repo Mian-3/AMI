@@ -46,7 +46,7 @@ export default function PostForm({ post }) {
     status: post?.status || "draft",
     imageUrl: post?.imageUrl || "",
     heroImage: post?.data?.hero?.image || "",
-    heroFit: post?.data?.hero?.fit === "contain" ? "contain" : "cover",
+    heroFit: post?.data?.hero?.fit === "cover" ? "cover" : "contain",
     heroFocus: ["top", "bottom"].includes(post?.data?.hero?.focus) ? post.data.hero.focus : "center",
     category: CATEGORIES.some((c) => c.key === post?.data?.en?.category) ? post.data.en.category : "",
     data: {
@@ -148,8 +148,8 @@ export default function PostForm({ post }) {
             <div>
               <label className={LABEL} htmlFor="heroFit">How the banner fits</label>
               <select id="heroFit" value={form.heroFit} onChange={(e) => setForm((f) => ({ ...f, heroFit: e.target.value }))} className={FIELD}>
-                <option value="cover">Fill the banner (crops the edges)</option>
                 <option value="contain">Show the whole image (nothing cut off)</option>
+                <option value="cover">Fill the banner (crops the edges)</option>
               </select>
             </div>
             <div>

@@ -19,7 +19,7 @@ function CalendarIcon() {
   );
 }
 
-export default function ArticleHero({ post, label, image, fit = "cover", focus = "center", locale, backLabel }) {
+export default function ArticleHero({ post, label, image, fit = "contain", focus = "center", locale, backLabel }) {
   const pos = focus === "top" ? "object-top" : focus === "bottom" ? "object-bottom" : "object-center";
   return (
     <section className="bg-[#f1ece3]">
@@ -63,20 +63,19 @@ export default function ArticleHero({ post, label, image, fit = "cover", focus =
         </AboutReveal>
       </div>
 
-      <div className="relative h-[240px] w-full overflow-hidden bg-[#e7e0d3] sm:h-[340px] lg:h-[440px]">
-        {fit === "contain" ? (
-          <Image src={image} alt="" aria-hidden="true" fill sizes="100vw" className="scale-110 object-cover opacity-60 blur-2xl" />
-        ) : null}
-        <Image
-          src={image}
-          alt={post.title}
-          fill
-          priority
-          sizes="100vw"
-          className={`${fit === "contain" ? "object-contain" : `${pos} animate-about-zoom motion-reduce:animate-none object-cover`}`}
-        />
-        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-      </div>
+      {fit === "contain" ? (
+        <div className="mx-auto max-w-[1100px] px-4 sm:px-6">
+          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl bg-[#e7e0d3] shadow-[0_24px_60px_-30px_rgba(10,30,63,0.4)]">
+            <Image src={image} alt="" aria-hidden="true" fill sizes="100vw" className="scale-110 object-cover opacity-50 blur-2xl" />
+            <Image src={image} alt={post.title} fill priority sizes="(min-width: 1100px) 1100px, 100vw" className="object-contain" />
+          </div>
+        </div>
+      ) : (
+        <div className="relative h-[240px] w-full overflow-hidden bg-[#e7e0d3] sm:h-[340px] lg:h-[440px]">
+          <Image src={image} alt={post.title} fill priority sizes="100vw" className={`${pos} animate-about-zoom motion-reduce:animate-none object-cover`} />
+          <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+        </div>
+      )}
     </section>
   );
 }

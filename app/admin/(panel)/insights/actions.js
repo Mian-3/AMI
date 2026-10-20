@@ -10,6 +10,20 @@ import { getPosts as getStaticPosts } from "@/lib/insightsData";
 import { getArticle as getStaticArticle } from "@/lib/insightsArticles";
 import { logActivity } from "@/lib/activity";
 
+const IMPORTED_KEY = "insightsStarterImported";
+
+// Remembers that the starter articles were handled, so deleted ones never come back.
+async function markStarterHandled(db) {
+  try {
+    await db
+      .insert(schema.siteContent)
+      .values({ key: IMPORTED_KEY, value: { done: true }, updatedAt: new Date() })
+      .onConflictDoUpdate({ target: schema.siteContent.key, set: { value: { done: true }, updatedAt: new Date() } });
+  } catch (error) {
+    console.error("[insights] could not save import flag", error);
+  }
+}
+
 function isDuplicate(error) {
   const code = error?.code ?? error?.cause?.code;
   const message = String(error?.cause?.message ?? error?.message ?? "");
@@ -79,6 +93,7 @@ export async function deletePost(formData) {
   if (db && Number.isInteger(id)) {
     const rows = await db.select({ slug: schema.posts.slug }).from(schema.posts).where(eq(schema.posts.id, id)).limit(1);
     await db.delete(schema.posts).where(eq(schema.posts.id, id));
+    await markStarterHandled(db);
     refreshSite(rows[0]?.slug);
     await logActivity(session, "Deleted article", rows[0]?.slug || "", "insights");
   }
@@ -93,6 +108,9 @@ export async function importStarterPosts() {
 
   const db = getDb();
   if (!db) redirect("/admin/insights");
+
+  const already = await db.select().from(schema.siteContent).where(eq(schema.siteContent.key, IMPORTED_KEY)).limit(1);
+  if (already[0]) redirect("/admin/insights");
 
   const enPosts = getStaticPosts("en");
   const arPosts = getStaticPosts("ar");
@@ -127,6 +145,7 @@ export async function importStarterPosts() {
     }
   }
 
+  await markStarterHandled(db);
   refreshSite();
   await logActivity(session, "Imported starter articles", "", "insights");
   redirect("/admin/insights");

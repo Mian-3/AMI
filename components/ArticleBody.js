@@ -82,14 +82,14 @@ function Block({ block, anchor, isLead }) {
   }
 }
 
-export default function ArticleBody({ blocks, tags, dict, title }) {
+export default function ArticleBody({ blocks, tags, dict, title, overlap = false }) {
   const t = dict.insightArticle;
   const toc = blocks.map((b, i) => ({ b, i })).filter((x) => x.b.type === "h");
   const leadIndex = blocks.findIndex((b) => b.type === "p");
 
   return (
     <div className="bg-[#f1ece3] pb-16 sm:pb-24">
-      <div className="relative z-10 mx-auto -mt-10 max-w-[1100px] px-4 sm:-mt-16 sm:px-6">
+      <div className={`relative z-10 mx-auto max-w-[1100px] px-4 sm:px-6 ${overlap ? "-mt-10 sm:-mt-16" : "pt-8 sm:pt-10"}`}>
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_230px] lg:items-start">
           <article
             id="article"

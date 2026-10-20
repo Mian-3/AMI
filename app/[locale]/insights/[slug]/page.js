@@ -44,7 +44,7 @@ export default async function InsightDetailPage({ params }) {
       <main>
         <ReadingProgress />
         <ArticleHero post={post} label={label} image={post.hero?.image || post.image} fit={post.hero?.fit} focus={post.hero?.focus} locale={locale} backLabel={dict.nav.insights} />
-        <ArticleBody blocks={post.body} tags={post.tags} dict={dict} title={post.title} />
+        <ArticleBody overlap={post.hero?.fit === "cover"} blocks={post.body} tags={post.tags} dict={dict} title={post.title} />
         <RelatedInsights posts={related} dict={dict} locale={locale} />
         <InsightsCta dict={dict} />
       </main>
