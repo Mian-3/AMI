@@ -282,7 +282,7 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
               id={`${kind}-panel`}
               role="tabpanel"
               aria-labelledby={`${kind}-tab-${current.orig}`}
-              className={`min-w-0 flex-1 md:mt-9 ${flip ? "md:grid-cols-[1fr_1.12fr] xl:grid-cols-[1fr_calc(500*var(--u))]" : "md:grid-cols-[1.12fr_1fr] xl:grid-cols-[calc(500*var(--u))_1fr]"} md:grid md:items-center md:gap-10 xl:mt-[calc(56*var(--u))] xl:gap-[calc(60*var(--u))]`}
+              className={`min-w-0 flex-1 md:mt-9 ${flip ? "md:grid-cols-[1fr_1.12fr] xl:grid-cols-[1fr_calc(480*var(--u))]" : "md:grid-cols-[1.12fr_1fr] xl:grid-cols-[calc(480*var(--u))_1fr]"} md:grid md:items-center md:gap-10 xl:mt-[calc(56*var(--u))] xl:gap-[calc(56*var(--u))]`}
             >
               <div
                 onPointerMove={(e) => {
@@ -334,8 +334,10 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
                     </p>
                     <ul className="mt-3 flex flex-wrap gap-2 xl:mt-[calc(14*var(--u))] xl:gap-[calc(8*var(--u))]">
                       {logos.map((src, i) => (
-                        <li key={src + i} className="fs-logo-pop fs-logo flex h-[44px] w-[72px] sm:h-[52px] sm:w-[92px] items-center justify-center rounded-md border border-black/10 bg-white p-1.5 xl:h-[calc(68*var(--u))] xl:w-[calc(120*var(--u))] xl:p-[calc(10*var(--u))]" style={{ "--d": `${700 + i * 90}ms` }}>
-                          <Image src={src} alt="" width={240} height={111} className="h-full w-full object-contain" />
+                        <li key={src + i} className="fs-logo-pop fs-logo flex h-[44px] w-[72px] sm:h-[52px] sm:w-[92px] items-center justify-center overflow-hidden rounded-md border border-black/10 bg-white p-0 xl:h-[calc(70*var(--u))] xl:w-[calc(124*var(--u))]" style={{ "--d": `${700 + i * 90}ms` }}>
+                          {/* The bundled sample logos have empty margins built into the file, so they are zoomed to fill the box.
+                              Logos uploaded in the admin are shown as they are, edge to edge. */}
+                          <Image src={src} alt="" width={240} height={111} className={`h-full w-full object-contain ${src.startsWith("/images/clients/") ? "scale-[1.55]" : ""}`} />
                         </li>
                       ))}
                     </ul>
