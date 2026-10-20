@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Image from "next/image";
 import Reveal from "@/components/Reveal";
+import InsightImage from "@/components/InsightImage";
    import { useParams } from "next/navigation";
 
 const PAGE_SIZE = 8;
@@ -128,15 +128,14 @@ export default function BlogExplorer({ dict, posts }) {
                     href={`/${locale}/insights/${post.slug}`}
                     className="group flex h-full flex-col overflow-hidden rounded-2xl border border-brand-navy/10 bg-white transition duration-300 hover:-translate-y-1 hover:border-brand-orange/30 hover:shadow-md motion-reduce:transition-none motion-reduce:hover:translate-y-0"
                   >
-                    <div className="relative h-[170px] w-full overflow-hidden">
-                      <Image src={post.image} alt={post.title} fill sizes="(min-width: 1024px) 285px, (min-width: 640px) 50vw, 100vw" className="object-cover transition duration-700 ease-out group-hover:scale-[1.05] motion-reduce:transition-none" />
+                    <InsightImage src={post.image} alt={post.title} sizes="(min-width: 1024px) 285px, (min-width: 640px) 50vw, 100vw">
                       <span className="absolute start-3 top-3 rounded-full bg-brand-orange px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-white rtl:tracking-normal">{t.filters[post.category]}</span>
-                    </div>
+                    </InsightImage>
                     <div className="flex flex-1 flex-col p-4">
                       <p className="text-[11px] text-ink/50">{post.readTime} · {post.date}</p>
-                      <h3 className="mt-2 text-[15px] font-semibold leading-snug text-brand-navy">{post.title}</h3>
-                      <p className="mt-2 flex-1 text-[12.5px] leading-[19px] text-ink/60">{post.excerpt}</p>
-                      <span className="mt-4 inline-flex items-center gap-1 text-[12px] font-medium text-brand-orange transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1">
+                      <h3 className="mt-2 line-clamp-3 text-[15px] font-semibold leading-snug text-brand-navy">{post.title}</h3>
+                      <p className="mt-2 line-clamp-3 text-[12.5px] leading-[19px] text-ink/60">{post.excerpt}</p>
+                      <span className="mt-auto inline-flex items-center gap-1 pt-4 text-[12px] font-medium text-brand-orange transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1">
                         {t.seeDetails}
                         <span className="inline-block rtl:-scale-x-100" aria-hidden="true">→</span>
                       </span>

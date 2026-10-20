@@ -1,4 +1,4 @@
-import Image from "next/image";
+import InsightImage from "@/components/InsightImage";
 import AboutReveal from "@/components/AboutReveal";
 
 export default function RelatedInsights({ posts, dict, locale }) {
@@ -17,23 +17,16 @@ export default function RelatedInsights({ posts, dict, locale }) {
                   href={`/${locale}/insights/${p.slug}`}
                   className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-lg"
                 >
-                  <div className="relative h-[150px] overflow-hidden">
-                    <Image
-                      src={p.image}
-                      alt=""
-                      fill
-                      sizes="(min-width: 1024px) 25vw, 50vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
+                  <InsightImage src={p.image} alt="" sizes="(min-width: 1024px) 25vw, 50vw">
                     <span className="absolute start-3 top-3 rounded-full bg-brand-orange px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-white">
                       {dict.insightsPage.filters[p.category] ?? p.category}
                     </span>
-                  </div>
+                  </InsightImage>
                   <div className="flex flex-1 flex-col p-4">
                     <p className="text-[11px] text-ink/50">
                       {p.readTime} · {p.date}
                     </p>
-                    <h3 className="mt-2 text-[16px] font-semibold leading-[22px] text-brand-navy">{p.title}</h3>
+                    <h3 className="mt-2 line-clamp-3 text-[16px] font-semibold leading-[22px] text-brand-navy">{p.title}</h3>
                     <p className="mt-2 line-clamp-3 text-[12px] leading-[18px] text-ink/60">{p.excerpt}</p>
                     <span className="mt-auto pt-3 text-[11px] font-medium text-brand-orange">
                       {dict.insightsPage.seeDetails} <span className="inline-block rtl:-scale-x-100">→</span>

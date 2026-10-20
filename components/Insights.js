@@ -1,4 +1,4 @@
-import Image from "next/image";
+import InsightImage from "@/components/InsightImage";
 import Reveal from "@/components/Reveal";
 import CatalogueDownloadLink from "@/components/CatalogueDownloadLink";
 
@@ -21,11 +21,9 @@ export default function Insights({ dict, locale, posts = [] }) {
             {articles.map((article, index) => (
               <Reveal key={article.slug} delay={300 + index * 110} className="h-full">
                 <a href={`/${locale}/insights/${article.slug}`} className="group flex h-full flex-col overflow-hidden rounded-2xl border border-brand-navy/10 bg-white transition duration-300 hover:-translate-y-1 hover:border-brand-orange/30 hover:shadow-md motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-                  <div className="relative w-full shrink-0 overflow-hidden bg-[#f1ece3]">
-                    {/* The whole image is shown at the card width, never cropped. */}
-                    <Image src={article.image} alt={article.title} width={0} height={0} sizes="(min-width: 1024px) 285px, (min-width: 640px) 50vw, 100vw" style={{ width: "100%", height: "auto" }} className="block transition duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transition-none" />
+                  <InsightImage src={article.image} alt={article.title} sizes="(min-width: 1024px) 285px, (min-width: 640px) 50vw, 100vw">
                     <span className="absolute start-3 top-3 rounded-full bg-brand-orange px-2.5 py-1 text-[10px] font-medium text-white">{filters[article.category] || ""}</span>
-                  </div>
+                  </InsightImage>
                   <div className="flex flex-1 flex-col p-4">
                     <p className="text-[11px] text-ink/50">{article.readTime} · {article.date}</p>
                     <h3 className="mt-2 line-clamp-3 text-[15px] font-semibold leading-snug text-brand-navy">{article.title}</h3>
