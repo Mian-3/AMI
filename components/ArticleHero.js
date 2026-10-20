@@ -19,8 +19,7 @@ function CalendarIcon() {
   );
 }
 
-export default function ArticleHero({ post, label, image, fit = "contain", focus = "center", locale, backLabel }) {
-  const pos = focus === "top" ? "object-top" : focus === "bottom" ? "object-bottom" : "object-center";
+export default function ArticleHero({ post, label, image, locale, backLabel }) {
   return (
     <section className="bg-[#f1ece3]">
       <div className="mx-auto max-w-[1100px] px-4 pb-10 pt-8 sm:px-6 sm:pb-14 sm:pt-12">
@@ -63,25 +62,12 @@ export default function ArticleHero({ post, label, image, fit = "contain", focus
         </AboutReveal>
       </div>
 
-      {fit === "contain" ? (
-        <div className="w-full overflow-hidden bg-[#e7e0d3]">
-          <Image
-            src={image}
-            alt={post.title}
-            width={0}
-            height={0}
-            priority
-            sizes="100vw"
-            style={{ width: "100%", height: "auto" }}
-            className="block max-h-[88vh] object-cover object-top"
-          />
-        </div>
-      ) : (
-        <div className="relative h-[240px] w-full overflow-hidden bg-[#e7e0d3] sm:h-[340px] lg:h-[440px]">
-          <Image src={image} alt={post.title} fill priority sizes="100vw" className={`${pos} animate-about-zoom motion-reduce:animate-none object-cover`} />
-          <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-        </div>
-      )}
+      {/* Fixed banner size: 1920 x 720 (8:3). An image of that size fills it exactly; any other
+          shape is shown whole (never cropped) on a soft blurred backdrop of itself. */}
+      <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#e7e0d3] sm:aspect-[8/3]">
+        <Image src={image} alt="" aria-hidden="true" fill sizes="100vw" className="scale-110 object-cover opacity-50 blur-2xl" />
+        <Image src={image} alt={post.title} fill priority sizes="100vw" className="object-contain" />
+      </div>
     </section>
   );
 }
