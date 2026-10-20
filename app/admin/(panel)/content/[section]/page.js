@@ -25,7 +25,7 @@ export default async function ContentSectionPage({ params }) {
   return (
     <div className="mx-auto max-w-6xl">
       <p className="text-sm text-ink/50">
-        <Link href="/admin/pages" className="hover:text-brand-orange">Pages</Link> / {owner ? owner.page.label : meta.group}
+        <Link href="/admin/content" className="hover:text-brand-orange">Pages</Link> / {owner ? owner.page.label : meta.group}
       </p>
       <h1 className="mt-1 text-2xl font-bold text-brand-navy">{owner ? owner.section.label : meta.label}</h1>
       <ContentForm section={section} defaults={defaults} initial={current} hasOverrides={Boolean(overrides[section])} />

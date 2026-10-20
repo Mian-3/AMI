@@ -3,8 +3,6 @@ import { getSession } from "@/lib/auth";
 import { allowedPages } from "@/lib/adminPages";
 import { getOverrides } from "@/lib/siteContent";
 
-export const dynamic = "force-dynamic";
-
 export default async function PagesHub() {
   const session = await getSession();
   const pages = allowedPages(session?.sections || [], Boolean(session?.isOwner));

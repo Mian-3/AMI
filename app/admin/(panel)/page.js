@@ -164,7 +164,7 @@ export default async function DashboardPage({ searchParams }) {
     can("insights") && { href: "/admin/insights", label: "Write an article", hint: "Publish news on Insights", icon: "insights" },
     can("events") && { href: "/admin/events", label: "Add an event", hint: "Show it on the events page", icon: "events" },
     can("downloads") && { href: "/admin/downloads", label: "Manage downloads", hint: "Catalogues and price lists", icon: "downloads" },
-    can("content") && { href: "/admin/pages", label: "Edit pages", hint: "Every page and its sections", icon: "content" },
+    can("content") && { href: "/admin/content", label: "Edit pages", hint: "Every page and its sections", icon: "content" },
     can("media") && { href: "/admin/media", label: "Media and links", hint: "Hero, logos, social links", icon: "media" },
   ].filter(Boolean);
 

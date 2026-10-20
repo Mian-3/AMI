@@ -1,6 +1,7 @@
-import { redirect } from "next/navigation";
+import PagesHub from "@/components/admin/PagesHub";
 
-// The old list of all text sections now lives in the Pages overview.
-export default function ContentIndexPage() {
-  redirect("/admin/pages");
+export const dynamic = "force-dynamic";
+
+export default function Page() {
+  return <PagesHub />;
 }

@@ -89,7 +89,7 @@ function buildGroups(sections, isOwner) {
   const wide = pages.find((p) => p.id === SITE_WIDE.id);
   const groups = [{ items: TOP.filter(okItem) }];
   if (regular.length) {
-    groups.push({ title: "Pages", items: [{ href: "/admin/pages", label: "All pages", icon: "content" }, ...regular.map((p) => ({ tree: p }))] });
+    groups.push({ title: "Pages", items: [{ href: "/admin/content", label: "All pages", icon: "content", exact: true }, ...regular.map((p) => ({ tree: p }))] });
   }
   if (wide) groups.push({ title: "Site wide", items: [{ tree: wide }] });
   groups.push({ title: "Admin", items: ADMIN.filter(okItem) });
@@ -115,7 +115,7 @@ function TreeItem({ page, pathname, onNavigate }) {
         href={page.sections[0].href}
         onClick={onNavigate}
         aria-current={here ? "page" : undefined}
-        className={`group flex h-9 items-center gap-3 rounded-lg px-3 text-[14px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white/60 ${
+        className={`group flex h-8 items-center gap-3 rounded-lg px-3 text-[13.5px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white/60 ${
           here ? "bg-white/[0.14] font-semibold text-white" : "font-medium text-white/75 hover:bg-white/[0.08] hover:text-white"
         }`}
       >
@@ -161,21 +161,21 @@ function Sidebar({ groups, pathname, user, logoutAction, onNavigate, onSearch, i
         </button>
       </div>
 
-      <nav aria-label="Admin" className="flex-1 overflow-y-auto px-3 pb-3 [scrollbar-width:thin]">
+      <nav aria-label="Admin" className="adm-scroll flex-1 overflow-y-auto px-3 pb-3">
         {groups.map((g, gi) => (
-          <div key={gi} className={gi === 0 ? "pt-1" : "pt-5"}>
-            {g.title ? <p className="px-3 pb-1.5 text-[12px] font-medium tracking-wide text-white/45">{g.title}</p> : null}
+          <div key={gi} className={gi === 0 ? "pt-1" : "pt-3.5"}>
+            {g.title ? <p className="px-3 pb-1 text-[11px] font-medium uppercase tracking-[0.12em] text-white/40">{g.title}</p> : null}
             <ul className="space-y-0.5">
               {g.items.map((item) => {
                 if (item.tree) return <TreeItem key={item.tree.id} page={item.tree} pathname={pathname} onNavigate={onNavigate} />;
-                const active = isActive(pathname, item.href);
+                const active = item.exact ? pathname === item.href : isActive(pathname, item.href);
                 return (
                   <li key={item.href}>
                     <Link
                       href={item.href}
                       onClick={onNavigate}
                       aria-current={active ? "page" : undefined}
-                      className={`group flex h-9 items-center gap-3 rounded-lg px-3 text-[14px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white/60 ${
+                      className={`group flex h-8 items-center gap-3 rounded-lg px-3 text-[13.5px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white/60 ${
                         active ? "bg-white/[0.14] font-semibold text-white" : "font-medium text-white/75 hover:bg-white/[0.08] hover:text-white"
                       }`}
                     >
@@ -353,6 +353,19 @@ export default function AdminShell({ user, sections = [], isOwner = true, logout
 
   return (
     <div className="min-h-screen bg-[#1a1a1a]">
+      <style>{`
+        .adm-scroll{scrollbar-width:thin;scrollbar-color:transparent transparent}
+        .adm-scroll:hover{scrollbar-color:rgba(255,255,255,.22) transparent}
+        .adm-scroll::-webkit-scrollbar{width:6px}
+        .adm-scroll::-webkit-scrollbar-track{background:transparent}
+        .adm-scroll::-webkit-scrollbar-thumb{background:transparent;border-radius:6px}
+        .adm-scroll:hover::-webkit-scrollbar-thumb{background:rgba(255,255,255,.22)}
+        html{scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.28) #f6f6f4}
+        html::-webkit-scrollbar{width:10px}
+        html::-webkit-scrollbar-track{background:#f6f6f4}
+        html::-webkit-scrollbar-thumb{background:rgba(0,0,0,.25);border-radius:10px;border:2px solid #f6f6f4}
+        html::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.4)}
+      `}</style>
       {/* desktop sidebar */}
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-[240px] md:block">
         <Sidebar {...sidebarProps} onSearch={() => setPalette(true)} />
