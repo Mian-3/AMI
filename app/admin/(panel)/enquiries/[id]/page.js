@@ -31,7 +31,7 @@ export default async function EnquiryPage({ params }) {
   const r = rows[0];
   if (!r) notFound();
 
-  const subject = encodeURIComponent(`Re: your enquiry to AM International`);
+  const subject = encodeURIComponent(`Re: your enquiry to A.M International`);
 
   return (
     <div className="mx-auto max-w-3xl">

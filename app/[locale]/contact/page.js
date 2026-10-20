@@ -11,11 +11,11 @@ import ContactCta from "@/components/ContactCta";
 export async function generateMetadata({ params }) {
   const { locale } = await params;
   return {
-    title: locale === "ar" ? "اتصل بنا | AM International" : "Contact Us | AM International",
+    title: locale === "ar" ? "اتصل بنا | A.M International" : "Contact Us | A.M International",
     description:
       locale === "ar"
-        ? "تواصل مع فريق AM International للنكهات والعطور."
-        : "Talk to the AM International team about flavours, fragrances and tailored ingredient solutions.",
+        ? "تواصل مع فريق A.M International للنكهات والعطور."
+        : "Talk to the A.M International team about flavours, fragrances and tailored ingredient solutions.",
   };
 }
 

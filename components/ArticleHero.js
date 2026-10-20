@@ -26,7 +26,7 @@ export default function ArticleHero({ post, label, image, locale, backLabel }) {
         <AboutReveal>
           <a
             href={`/${locale}/insights`}
-            className="group inline-flex items-center gap-2 text-[12px] font-medium text-brand-navy/70 transition-colors hover:text-brand-orange"
+            className="group inline-flex items-center gap-2 text-[12px] font-medium text-brand-navy/70 transition-colors hover:text-brand-orange xl:text-[max(12px,calc(15*var(--u)))]"
           >
             <span className="inline-block transition-transform duration-300 group-hover:-translate-x-1 rtl:-scale-x-100 rtl:group-hover:translate-x-1">←</span>
             {backLabel}
@@ -34,27 +34,27 @@ export default function ArticleHero({ post, label, image, locale, backLabel }) {
         </AboutReveal>
 
         <AboutReveal delay={80}>
-          <p className="mt-8 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.18em] text-brand-navy/70">
+          <p className="mt-8 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.18em] text-brand-navy/70 xl:text-[max(12px,calc(16*var(--u)))]">
             <span aria-hidden="true" className="h-[2px] w-8 bg-brand-orange" />
             {label}
           </p>
         </AboutReveal>
 
         <AboutReveal delay={160}>
-          <h1 className="mt-4 max-w-[860px] text-[30px] font-semibold leading-[1.1] text-brand-navy sm:text-[46px]">{post.title}</h1>
+          <h1 className="mt-4 max-w-[860px] text-[26px] font-semibold leading-[1.2] text-brand-navy sm:text-[32px] xl:max-w-[calc(960*var(--u))] xl:text-[max(28px,calc(40*var(--u)))] xl:leading-[calc(48*var(--u))]">{post.title}</h1>
         </AboutReveal>
 
         <AboutReveal delay={240}>
-          <p className="mt-5 max-w-[720px] text-[16px] leading-[26px] text-ink/70">{post.excerpt}</p>
+          <p className="mt-5 max-w-[720px] text-[14px] leading-[22px] text-ink/70 xl:max-w-[calc(860*var(--u))] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">{post.excerpt}</p>
         </AboutReveal>
 
         <AboutReveal delay={320}>
           <div className="mt-6 flex flex-wrap items-center gap-2.5">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1.5 text-[12px] text-ink/70">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1.5 text-[12px] text-ink/70 xl:text-[max(12px,calc(15*var(--u)))]">
               <ClockIcon />
               {post.readTime}
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1.5 text-[12px] text-ink/70">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1.5 text-[12px] text-ink/70 xl:text-[max(12px,calc(15*var(--u)))]">
               <CalendarIcon />
               {post.date}
             </span>

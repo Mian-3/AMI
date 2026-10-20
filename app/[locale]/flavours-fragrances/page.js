@@ -13,11 +13,11 @@ export const revalidate = 60;
 export async function generateMetadata({ params }) {
   const { locale } = await params;
   return {
-    title: locale === "ar" ? "النكهات والعطور | AM International" : "Flavours & Fragrances | AM International",
+    title: locale === "ar" ? "النكهات والعطور | A.M International" : "Flavours & Fragrances | A.M International",
     description:
       locale === "ar"
-        ? "استكشف حلول النكهات والعطور من AM International والقطاعات التي نخدمها."
-        : "Explore AM International flavour and fragrance solutions and the industries we serve.",
+        ? "استكشف حلول النكهات والعطور من A.M International والقطاعات التي نخدمها."
+        : "Explore A.M International flavour and fragrance solutions and the industries we serve.",
   };
 }
 

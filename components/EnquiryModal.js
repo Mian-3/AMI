@@ -309,7 +309,7 @@ export default function EnquiryModal({ dict, locale }) {
         {/* ---------- side ---------- */}
         <aside className="eq-side">
           <span className="eq-logo">
-            <Image src="/images/logo/am-international-logo.svg" alt="AM International" width={1184} height={329} />
+            <Image src="/images/logo/am-international-logo.svg" alt="A.M International" width={1184} height={329} />
           </span>
           <p className="eq-side-eyebrow">{t.side.eyebrow}</p>
           <h2 className="eq-side-h">{t.side.heading}</h2>
@@ -332,7 +332,7 @@ export default function EnquiryModal({ dict, locale }) {
             <span className="eq-grab" aria-hidden="true" />
             <div className="eq-top">
               <span className="eq-mlogo">
-                <Image src="/images/logo/am-international-logo.svg" alt="AM International" width={1184} height={329} />
+                <Image src="/images/logo/am-international-logo.svg" alt="A.M International" width={1184} height={329} />
               </span>
               <span className="eq-count">
                 {done ? null : (

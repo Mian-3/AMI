@@ -11,7 +11,7 @@ import { getDictionary } from "@/lib/getDictionary";
 export async function generateMetadata({ params }) {
   const { locale } = await params;
   return {
-    title: locale === "ar" ? "من نحن | AM International" : "About Us | AM International",
+    title: locale === "ar" ? "من نحن | A.M International" : "About Us | A.M International",
   };
 }
 

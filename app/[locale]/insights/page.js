@@ -12,7 +12,7 @@ export const revalidate = 60;
 export async function generateMetadata({ params }) {
   const { locale } = await params;
   return {
-    title: locale === "ar" ? "الرؤى | AM International" : "Insights | AM International",
+    title: locale === "ar" ? "الرؤى | A.M International" : "Insights | A.M International",
   };
 }
 

@@ -17,29 +17,29 @@ function Block({ block, anchor, isLead }) {
   switch (block.type) {
     case "h":
       return (
-        <h2 id={anchor} className="scroll-mt-32 text-[24px] font-semibold leading-[1.25] text-brand-navy sm:text-[28px]">
+        <h2 id={anchor} className="scroll-mt-32 text-[22px] font-semibold leading-[1.25] text-brand-navy sm:text-[26px] xl:text-[max(26px,calc(36*var(--u)))] xl:leading-[calc(44*var(--u))]">
           <span aria-hidden="true" className="mb-3 block h-[3px] w-10 bg-brand-orange" />
           {block.text}
         </h2>
       );
     case "p":
       return isLead ? (
-        <p className="text-[18px] leading-[31px] text-brand-navy/90">{block.text}</p>
+        <p className="text-[15px] leading-[24px] text-brand-navy/90 sm:text-[16px] sm:leading-[26px] xl:text-[max(16px,calc(22*var(--u)))] xl:leading-[calc(34*var(--u))]">{block.text}</p>
       ) : (
-        <p className="text-[16px] leading-[29px] text-ink/75">{block.text}</p>
+        <p className="text-[14px] leading-[22px] text-ink/75 xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">{block.text}</p>
       );
     case "quote":
       return (
-        <blockquote className="border-s-4 border-brand-orange bg-[#f1ece3]/60 py-5 pe-5 ps-6 text-[20px] font-medium leading-[32px] text-brand-navy">
+        <blockquote className="border-s-4 border-brand-orange bg-[#f1ece3]/60 py-5 pe-5 ps-6 text-[16px] font-medium leading-[26px] text-brand-navy sm:text-[18px] sm:leading-[28px] xl:text-[max(18px,calc(24*var(--u)))] xl:leading-[calc(36*var(--u))]">
           {block.text}
-          {(block.cite || block.author) && <footer className="mt-3 text-[12px] font-normal text-ink/60">{block.cite || block.author}</footer>}
+          {(block.cite || block.author) && <footer className="mt-3 text-[12px] font-normal text-ink/60 xl:text-[max(12px,calc(15*var(--u)))]">{block.cite || block.author}</footer>}
         </blockquote>
       );
     case "callout":
       return (
         <div className="rounded-xl bg-brand-navy p-6 text-white sm:p-7">
-          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-brand-orange">{block.title}</p>
-          <p className="mt-2 text-[15px] leading-[26px] text-white/90">{block.text}</p>
+          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-brand-orange xl:text-[max(12px,calc(16*var(--u)))]">{block.title}</p>
+          <p className="mt-2 text-[14px] leading-[22px] text-white/90 xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">{block.text}</p>
         </div>
       );
     case "image":
@@ -48,7 +48,7 @@ function Block({ block, anchor, isLead }) {
           <div className="relative aspect-[16/9] overflow-hidden rounded-xl">
             <Image src={block.src} alt={block.alt || block.caption || ""} fill sizes="(min-width: 1024px) 760px, 100vw" className="object-cover" />
           </div>
-          {block.caption && <figcaption className="mt-2 text-center text-[12px] text-ink/50">{block.caption}</figcaption>}
+          {block.caption && <figcaption className="mt-2 text-center text-[12px] text-ink/50 xl:text-[max(12px,calc(15*var(--u)))]">{block.caption}</figcaption>}
         </figure>
       );
     case "list": {
@@ -60,15 +60,15 @@ function Block({ block, anchor, isLead }) {
       const cols = items.length === 2 ? "sm:grid-cols-2" : items.length === 3 ? "sm:grid-cols-3" : "sm:grid-cols-2 lg:grid-cols-3";
       return (
         <div>
-          {block.intro ? <p className="text-[15px] font-semibold text-brand-navy">{block.intro}</p> : null}
+          {block.intro ? <p className="text-[14px] font-semibold leading-[22px] text-brand-navy xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">{block.intro}</p> : null}
           <ul className={`${block.intro ? "mt-4" : ""} grid gap-4 ${cols}`}>
             {items.map((item, i) => (
               <li key={i} className="h-full">
                 <AboutReveal delay={i * 120} className="h-full">
                   <div className="group h-full rounded-xl border border-ink/10 bg-[#f1ece3]/60 p-5 transition duration-300 hover:-translate-y-1 hover:border-brand-orange/50 hover:bg-white hover:shadow-md">
                     <span className="text-[32px] font-semibold leading-none text-brand-orange">{item.n}</span>
-                    {item.title ? <p className="mt-4 text-[15px] font-semibold text-brand-navy">{item.title}</p> : null}
-                    {item.text ? <p className={`${item.title ? "mt-1.5" : "mt-4"} text-[13px] leading-[21px] text-ink/70`}>{item.text}</p> : null}
+                    {item.title ? <p className="mt-4 text-[14px] font-semibold text-brand-navy xl:text-[max(15px,calc(20*var(--u)))]">{item.title}</p> : null}
+                    {item.text ? <p className={`${item.title ? "mt-1.5" : "mt-4"} text-[13px] leading-[21px] text-ink/70 xl:text-[max(14px,calc(17*var(--u)))] xl:leading-[calc(26*var(--u))]`}>{item.text}</p> : null}
                   </div>
                 </AboutReveal>
               </li>
@@ -105,7 +105,7 @@ export default function ArticleBody({ blocks, tags, dict, title, overlap = false
               <div className="flex flex-wrap items-center gap-2 text-ink/60">
                 <TagIcon />
                 {(tags || []).map((tag) => (
-                  <span key={tag} className="rounded-full bg-[#f1ece3] px-3 py-1 text-[11px] text-ink/70">
+                  <span key={tag} className="rounded-full bg-[#f1ece3] px-3 py-1 text-[11px] text-ink/70 xl:text-[max(12px,calc(14*var(--u)))]">
                     {tag}
                   </span>
                 ))}
@@ -116,13 +116,13 @@ export default function ArticleBody({ blocks, tags, dict, title, overlap = false
 
           {toc.length > 0 && (
             <aside className="hidden rounded-2xl bg-white p-5 shadow-[0_24px_60px_-30px_rgba(10,30,63,0.4)] lg:sticky lg:top-28 lg:block">
-              <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-brand-navy/70">{t.toc}</p>
+              <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-brand-navy/70 xl:text-[max(11px,calc(14*var(--u)))]">{t.toc}</p>
               <ul className="mt-4 space-y-1 border-s-2 border-brand-navy/10">
                 {toc.map(({ b, i }) => (
                   <li key={i}>
                     <a
                       href={`#section-${i}`}
-                      className="-ms-[2px] block border-s-2 border-transparent py-1.5 ps-4 text-[13px] leading-[18px] text-ink/75 transition-colors hover:border-brand-orange hover:text-brand-orange"
+                      className="-ms-[2px] block border-s-2 border-transparent py-1.5 ps-4 text-[13px] leading-[18px] text-ink/75 xl:text-[max(13px,calc(16*var(--u)))] xl:leading-[calc(22*var(--u))] transition-colors hover:border-brand-orange hover:text-brand-orange"
                     >
                       {b.text}
                     </a>

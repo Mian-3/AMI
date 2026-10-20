@@ -368,7 +368,7 @@ export default function ContactLocations({ dict }) {
           {/* Original design image: shown as supplied until the animated layers are ready (and kept if they cannot be built) */}
           <Image
             src={MAP_SRC}
-            alt="Map of Pakistan with AM International office locations"
+            alt="Map of Pakistan with A.M International office locations"
             fill
             sizes="100vw"
             className={`object-cover transition-opacity duration-700 ${layer ? "opacity-0" : "opacity-100"}`}

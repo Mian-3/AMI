@@ -171,7 +171,7 @@ export default function NavigationLoader({ children }) {
         >
           <Image
   src="/images/logo/am-international-logo.svg"
-  alt="AM International"
+  alt="A.M International"
   width={1184}
   height={329}
   priority

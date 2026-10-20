@@ -17,7 +17,7 @@ export async function generateMetadata({ params }) {
   const { locale, slug } = await params;
   const post = await getPostBySlug(slug, locale);
   return {
-    title: post ? `${post.title} | AM International` : "Insights | AM International",
+    title: post ? `${post.title} | A.M International` : "Insights | A.M International",
     description: post?.excerpt || undefined,
   };
 }
@@ -41,7 +41,7 @@ export default async function InsightDetailPage({ params }) {
   return (
     <>
       <Header dict={dict} locale={locale} active="insights" />
-      <main>
+      <main className="[--u:1px] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
         <ReadingProgress />
         <ArticleHero post={post} label={label} image={post.hero?.image || post.image} locale={locale} backLabel={dict.nav.insights} />
         <ArticleBody blocks={post.body} tags={post.tags} dict={dict} title={post.title} />

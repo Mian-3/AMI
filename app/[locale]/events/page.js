@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata({ params }) {
   const { locale } = await params;
   return {
-    title: locale === "ar" ? "الفعاليات | AM International" : "Events | AM International",
+    title: locale === "ar" ? "الفعاليات | A.M International" : "Events | A.M International",
   };
 }
 

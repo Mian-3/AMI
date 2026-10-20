@@ -22,7 +22,7 @@ export default async function InvitePage({ params }) {
   return (
     <main className="flex min-h-screen items-center justify-center px-4 py-10">
       <div className="w-full max-w-[26rem] rounded-2xl border border-black/5 bg-white p-8 shadow-[0_20px_60px_rgba(10,37,64,0.08)]">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-orange">AM International</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-orange">A.M International</p>
         {valid ? (
           <>
             <h1 className="mt-2 text-2xl font-bold text-brand-navy">Accept your invitation</h1>

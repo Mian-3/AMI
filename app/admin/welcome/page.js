@@ -18,7 +18,7 @@ export default async function WelcomePage() {
   return (
     <main className="flex min-h-screen items-center justify-center px-4 py-10">
       <div className="w-full max-w-[30rem] rounded-2xl border border-black/5 bg-white p-8 shadow-[0_20px_60px_rgba(10,37,64,0.08)]">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-orange">AM International</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-orange">A.M International</p>
         <h1 className="mt-2 text-2xl font-bold text-brand-navy">Welcome{session.name ? `, ${session.name}` : ""}</h1>
         <p className="mt-1 text-sm text-ink/60">Your account is ready. Here is how to come back any time. You do not need this invitation link again.</p>
 
@@ -27,7 +27,7 @@ export default async function WelcomePage() {
           <ol className="mt-3 space-y-3 text-sm text-ink/75">
             <li className="flex gap-3">
               <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-orange text-xs font-bold text-white">1</span>
-              <span>Open the AM International website and tap the <strong>search</strong> icon at the top.</span>
+              <span>Open the A.M International website and tap the <strong>search</strong> icon at the top.</span>
             </li>
             <li className="flex gap-3">
               <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-orange text-xs font-bold text-white">2</span>

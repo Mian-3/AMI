@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "AM International",
+  title: "A.M International",
 };
 
 export default function RootLayout({ children }) {

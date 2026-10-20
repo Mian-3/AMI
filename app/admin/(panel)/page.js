@@ -182,7 +182,7 @@ export default async function DashboardPage({ searchParams }) {
           <h1 className="mt-1 text-[26px] font-bold leading-8 tracking-[-0.015em] text-brand-navy">
             {greeting()}{first ? `, ${first}` : ""}
           </h1>
-          <p className="mt-1 text-[14px] text-ink/60">Here is what is happening on the AM International website.</p>
+          <p className="mt-1 text-[14px] text-ink/60">Here is what is happening on the A.M International website.</p>
         </div>
         {primary.length ? (
           <div className="flex flex-wrap gap-2">

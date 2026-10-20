@@ -1,7 +1,7 @@
 import "../globals.css";
 
 export const metadata = {
-  title: "Admin | AM International",
+  title: "Admin | A.M International",
   robots: { index: false, follow: false },
 };
 

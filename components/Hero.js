@@ -55,7 +55,7 @@ export default function Hero({ dict, locale }) {
     };
   }, [open]);
 
-  const videoLabel = dict.hero.videoLabel || (isRtl ? "فيديو AM International" : "AM International Video");
+  const videoLabel = dict.hero.videoLabel || (isRtl ? "فيديو A.M International" : "A.M International Video");
 
   return (
     <section className="relative flex min-h-[480px] items-end overflow-hidden bg-brand-navy text-white [--u:1px] md:h-[625px] xl:h-[calc(818*var(--u))] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">

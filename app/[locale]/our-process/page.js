@@ -9,11 +9,11 @@ import { PROCESS_CSS } from "@/lib/processStyles";
 export async function generateMetadata({ params }) {
   const { locale } = await params;
   return {
-    title: locale === "ar" ? "عمليتنا | AM International" : "Our Process | AM International",
+    title: locale === "ar" ? "عمليتنا | A.M International" : "Our Process | A.M International",
     description:
       locale === "ar"
-        ? "من البحث والتطوير إلى مراقبة الجودة، تعرف على كيف تنتقل AM International من الحاجة إلى الحل."
-        : "From research and development to quality control, see how AM International moves from need to solution.",
+        ? "من البحث والتطوير إلى مراقبة الجودة، تعرف على كيف تنتقل A.M International من الحاجة إلى الحل."
+        : "From research and development to quality control, see how A.M International moves from need to solution.",
   };
 }
 
