@@ -83,7 +83,7 @@ const GROUPS = [
   {
     title: "Website",
     items: [
-      { href: "/admin/home", label: "Home page", icon: "home", section: "content" },
+      { href: "/admin/home", label: "Intro and Stats", icon: "home", section: "content" },
       { href: "/admin/content", label: "Site content", icon: "content", section: "content" },
       { href: "/admin/flavours", label: "Flavours page", icon: "flavours", section: "content" },
       { href: "/admin/media", label: "Media and links", icon: "media", section: "media" },
