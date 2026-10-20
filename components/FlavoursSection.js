@@ -155,8 +155,8 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
   const current = visible[activePos] || visible[0];
 
   const chips = [
-    { key: "powder", label: section.powder },
     { key: "liquid", label: section.liquid },
+    { key: "powder", label: section.powder },
   ];
   const logos = current
     ? [1, 2, 3, 4, 5, 6].map((n) => current[`logo${n}Image`]).filter((src) => typeof src === "string" && src.trim())
@@ -197,11 +197,8 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
       <div className={COL}>
         {/* Heading and format switch */}
         <div className="text-center">
-          <Reveal as="p" className={eyebrow}>
-            {section.eyebrow}
-          </Reveal>
           <Reveal as="div" delay={80}>
-            <h2 className="mt-2 text-[26px] font-semibold leading-[1.2] text-brand-navy sm:text-[32px] xl:mt-[calc(12*var(--u))] xl:text-[max(28px,calc(40*var(--u)))] xl:leading-[calc(48*var(--u))]">{heading}</h2>
+            <h2 className="text-[26px] font-semibold leading-[1.2] text-brand-navy sm:text-[32px] xl:text-[max(28px,calc(40*var(--u)))] xl:leading-[calc(48*var(--u))]">{section.heading || heading}</h2>
           </Reveal>
           <Reveal as="p" delay={160} className="mx-auto mt-3 max-w-[44rem] text-[14px] leading-[22px] text-ink/60 xl:mt-[calc(16*var(--u))] xl:max-w-[calc(900*var(--u))] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">
             {section.bandText}
@@ -281,7 +278,7 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
               id={`${kind}-panel`}
               role="tabpanel"
               aria-labelledby={`${kind}-tab-${current.orig}`}
-              className={`min-w-0 flex-1 md:mt-9 ${flip ? "md:grid-cols-[1fr_1.12fr] xl:grid-cols-[1fr_calc(560*var(--u))]" : "md:grid-cols-[1.12fr_1fr] xl:grid-cols-[calc(560*var(--u))_1fr]"} md:grid md:items-center md:gap-10 xl:mt-[calc(56*var(--u))] xl:gap-[calc(80*var(--u))]`}
+              className={`min-w-0 flex-1 md:mt-9 ${flip ? "md:grid-cols-[1fr_1.12fr] xl:grid-cols-[1fr_calc(500*var(--u))]" : "md:grid-cols-[1.12fr_1fr] xl:grid-cols-[calc(500*var(--u))_1fr]"} md:grid md:items-center md:gap-10 xl:mt-[calc(56*var(--u))] xl:gap-[calc(60*var(--u))]`}
             >
               <div
                 onPointerMove={(e) => {
@@ -294,14 +291,14 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
                   e.currentTarget.style.setProperty("--px", 0);
                   e.currentTarget.style.setProperty("--py", 0);
                 }}
-                className={`group relative aspect-[4/3] overflow-hidden rounded-[18px] bg-brand-navy/5 md:aspect-[600/420] xl:rounded-[calc(28*var(--u))] ${flip ? "md:order-2" : ""}`}>
+                className={`group relative aspect-[4/3] overflow-hidden rounded-[18px] bg-brand-navy/5 md:aspect-[600/420] xl:aspect-[8/7] xl:rounded-[calc(28*var(--u))] ${flip ? "md:order-2" : ""}`}>
                 <div className={`absolute inset-0 ${dirRef.current === "f" ? "fs-img-f" : "fs-img-b"}`}>
                   <div className="fs-img-in absolute inset-0">
                     <Image
                       src={current.image}
                       alt={current.title}
                       fill
-                      sizes="(min-width: 1920px) 600px, (min-width: 768px) 50vw, 70vw"
+                      sizes="(min-width: 1920px) 520px, (min-width: 768px) 50vw, 70vw"
                       className="fs-par object-cover"
                     />
                   </div>
@@ -331,10 +328,9 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
                     <p className="fs-up text-[14px] font-semibold leading-[22px] text-brand-orange xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]" style={{ "--d": "560ms" }}>
                       {current.industry || `${current.title}`}
                     </p>
-                    <span aria-hidden="true" className="fs-line mt-1.5 block h-[2px] w-10 rounded-full bg-brand-orange/70 xl:mt-[calc(6*var(--u))] xl:w-[calc(48*var(--u))]" style={{ "--d": "640ms" }} />
-                    <ul className="mt-2.5 flex flex-wrap gap-2 xl:mt-[calc(12*var(--u))] xl:gap-[calc(8*var(--u))]">
+                    <ul className="mt-3 flex flex-wrap gap-2 xl:mt-[calc(14*var(--u))] xl:gap-[calc(8*var(--u))]">
                       {logos.map((src, i) => (
-                        <li key={src + i} className="fs-logo-pop fs-logo flex h-[44px] w-[72px] sm:h-[52px] sm:w-[92px] items-center justify-center rounded-md border border-black/10 bg-white p-1.5 xl:h-[calc(60*var(--u))] xl:w-[calc(104*var(--u))] xl:p-[calc(8*var(--u))]" style={{ "--d": `${700 + i * 90}ms` }}>
+                        <li key={src + i} className="fs-logo-pop fs-logo flex h-[44px] w-[72px] sm:h-[52px] sm:w-[92px] items-center justify-center rounded-md border border-black/10 bg-white p-1.5 xl:h-[calc(68*var(--u))] xl:w-[calc(120*var(--u))] xl:p-[calc(10*var(--u))]" style={{ "--d": `${700 + i * 90}ms` }}>
                           <Image src={src} alt="" width={240} height={111} className="h-full w-full object-contain" />
                         </li>
                       ))}
