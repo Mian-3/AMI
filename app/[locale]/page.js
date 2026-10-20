@@ -14,6 +14,7 @@ import Certifications from "@/components/Certifications";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import Footer from "@/components/Footer";
 import { getLatestPosts } from "@/lib/insightsDb";
+import { getHomeStats } from "@/lib/homeStatsServer";
 
 // Safety net: home refreshes at least once a minute even if a manual refresh is missed.
 export const revalidate = 60;
@@ -22,6 +23,7 @@ export default async function Home({ params }) {
   const { locale } = await params;
   const dict = await getDictionary(locale);
   const insightPosts = await getLatestPosts(locale, 4);
+  const stats = await getHomeStats(locale, dict);
 
   return (
     <>
@@ -30,7 +32,7 @@ export default async function Home({ params }) {
       <main>
         <Hero dict={dict} locale={locale} />
         <Intro dict={dict} />
-        <Stats dict={dict} />
+        <Stats dict={dict} items={stats} />
         <Clients dict={dict} locale={locale} />
         <Expertise dict={dict} />
         <Process dict={dict} />

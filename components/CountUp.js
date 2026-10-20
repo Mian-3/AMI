@@ -3,9 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 
 export default function CountUp({ value, duration = 1600 }) {
-  const match = String(value).match(/^(\d+)(.*)$/);
-  const end = match ? parseInt(match[1], 10) : 0;
+  // Numbers may have thousands separators (100,000+). Text after the number is kept as it is.
+  const match = String(value).match(/^(\d[\d,]*)(.*)$/);
+  const digits = match ? match[1].replace(/,/g, "") : "";
+  const end = match ? parseInt(digits, 10) : 0;
   const suffix = match ? match[2] : "";
+  const grouped = match ? match[1].includes(",") : false;
+  const show = (n) => (grouped ? n.toLocaleString("en-US") : String(n));
   const ref = useRef(null);
   const [current, setCurrent] = useState(end);
 
@@ -42,7 +46,7 @@ export default function CountUp({ value, duration = 1600 }) {
 
   return (
     <span ref={ref}>
-      {current}
+      {show(current)}
       {suffix}
     </span>
   );
