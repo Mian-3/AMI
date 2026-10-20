@@ -3,6 +3,8 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { getMedia } from "@/lib/media";
 import { resolveHref, isExternal } from "@/lib/mediaShared";
 import { inter, dmSans } from "@/lib/fonts";
+import { getFooterContact } from "@/lib/footerContactServer";
+import { telHref } from "@/lib/footerContact";
 
 /*
   Fixed pixel sizes taken from the 1920 design (no scaling), so text is always the design size.
@@ -81,6 +83,7 @@ const CSS = `
 
 export default async function Footer({ dict, locale }) {
   const media = await getMedia();
+  const contact = await getFooterContact(dict);
   const { links, footerLinks } = media;
   const href = (v) => resolveHref(v, locale);
   const extra = (v) => (isExternal(v) ? { target: "_blank", rel: "noopener noreferrer" } : {});
@@ -99,7 +102,7 @@ export default async function Footer({ dict, locale }) {
           <div className="ft-rise">
             <Image
               src="/images/logo/am-international-logo.svg"
-              alt="AM International"
+              alt="A.M International"
               width={1184}
               height={329}
               className="ft-logo h-10 w-auto xl:h-[54px]"
@@ -107,12 +110,16 @@ export default async function Footer({ dict, locale }) {
             <p className={HEAD + " mt-5 xl:mt-[28px]"}>{dict.footer.contactLabel}</p>
             <ul className="mt-3 space-y-3 text-[12px] text-[#5f6663] xl:mt-[10px] xl:space-y-[calc(9*var(--u))] xl:text-[max(11.5px,calc(13*var(--u)))] xl:leading-[calc(19*var(--u))]">
               <li className="xl:max-w-[300px]">{dict.footer.address}</li>
-              <li>
-                <a href={"mailto:" + dict.footer.email} dir="ltr" className={LINK}>{dict.footer.email}</a>
-              </li>
-              <li>
-                <a href={"tel:" + dict.footer.phone.replace(/\s/g, "")} dir="ltr" className={LINK}>{dict.footer.phone}</a>
-              </li>
+              {contact.emails.map((email) => (
+                <li key={email}>
+                  <a href={"mailto:" + email} dir="ltr" className={LINK}>{email}</a>
+                </li>
+              ))}
+              {contact.phones.map((phone) => (
+                <li key={phone}>
+                  <a href={telHref(phone)} dir="ltr" className={LINK}>{phone}</a>
+                </li>
+              ))}
             </ul>
           </div>
 
