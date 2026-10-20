@@ -62,12 +62,17 @@ export default function ArticleHero({ post, label, image, locale, backLabel }) {
         </AboutReveal>
       </div>
 
-      {/* Fixed banner size: 1920 x 720 (8:3). An image of that size fills it exactly; any other
-          shape is shown whole (never cropped) on a soft blurred backdrop of itself. */}
-      <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#e7e0d3] sm:aspect-[8/3]">
-        <Image src={image} alt="" aria-hidden="true" fill sizes="100vw" className="scale-110 object-cover opacity-50 blur-2xl" />
-        <Image src={image} alt={post.title} fill priority sizes="100vw" className="object-contain" />
-      </div>
+      {/* Full width banner: the image keeps its own shape, so nothing is ever cropped or cut. */}
+      <Image
+        src={image}
+        alt={post.title}
+        width={0}
+        height={0}
+        priority
+        sizes="100vw"
+        style={{ width: "100%", height: "auto" }}
+        className="block"
+      />
     </section>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import ImageField from "@/components/admin/ImageField";
 import BlockEditor from "@/components/admin/BlockEditor";
@@ -28,27 +28,6 @@ function loadLocale(src) {
 }
 
 // Tells the editor whether the banner image has the banner shape (8:3, for example 1920 x 720).
-function BannerCheck({ url }) {
-  const [size, setSize] = useState(null);
-  useEffect(() => {
-    setSize(null);
-    if (!url) return;
-    const img = new window.Image();
-    img.onload = () => setSize({ w: img.naturalWidth, h: img.naturalHeight });
-    img.src = url;
-  }, [url]);
-  if (!size) return <p className="mt-2 text-xs text-ink/50">Banner size: 1920 x 720 px. A banner of that size fills the top of the article edge to edge with nothing cut off.</p>;
-  const ratio = size.w / size.h;
-  const ok = Math.abs(ratio - 8 / 3) < 0.15 && size.w >= 1600;
-  return (
-    <p className={`mt-2 rounded-lg px-3 py-2 text-xs ${ok ? "bg-emerald-50 text-emerald-800" : "bg-amber-50 text-amber-800"}`}>
-      {ok
-        ? `Perfect banner size (${size.w} x ${size.h}). It fills the banner edge to edge.`
-        : `This image is ${size.w} x ${size.h}. It will show whole, with soft space on the sides. For a full edge to edge banner, upload 1920 x 720 px.`}
-    </p>
-  );
-}
-
 function slugify(value) {
   return value
     .toLowerCase()
@@ -164,9 +143,9 @@ export default function PostForm({ post }) {
         <div className="mt-4 rounded-lg border border-black/5 bg-[#faf8f4] p-4">
           <p className="text-sm font-semibold text-brand-navy">Article banner (top of the article page)</p>
           <div className="mt-3">
-            <ImageField label="Banner image (optional)" value={form.heroImage} onChange={(url) => setForm((f) => ({ ...f, heroImage: url }))} hint="Banner size: 1920 x 720 px (wide, 8:3). Leave empty to use the cover image." />
+            <ImageField label="Banner image (optional)" value={form.heroImage} onChange={(url) => setForm((f) => ({ ...f, heroImage: url }))} hint="Shown full width at the top of the article, exactly as uploaded (never cropped). A wide image such as 1920 x 720 px gives a shorter banner." />
           </div>
-          <BannerCheck url={form.heroImage || form.imageUrl} />
+          <p className="mt-2 text-xs text-ink/50">The whole image is always shown, edge to edge. The taller the image, the taller the banner, so use a wide image (1920 x 720 px) for a slim banner.</p>
         </div>
       </section>
 
