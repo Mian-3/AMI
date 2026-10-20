@@ -43,7 +43,7 @@ export default async function InsightDetailPage({ params }) {
       <Header dict={dict} locale={locale} active="insights" />
       <main>
         <ReadingProgress />
-        <ArticleHero post={post} label={label} image={post.image} locale={locale} backLabel={dict.nav.insights} />
+        <ArticleHero post={post} label={label} image={post.hero?.image || post.image} fit={post.hero?.fit} focus={post.hero?.focus} locale={locale} backLabel={dict.nav.insights} />
         <ArticleBody blocks={post.body} tags={post.tags} dict={dict} title={post.title} />
         <RelatedInsights posts={related} dict={dict} locale={locale} />
         <InsightsCta dict={dict} />

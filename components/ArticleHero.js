@@ -19,7 +19,8 @@ function CalendarIcon() {
   );
 }
 
-export default function ArticleHero({ post, label, image, locale, backLabel }) {
+export default function ArticleHero({ post, label, image, fit = "cover", focus = "center", locale, backLabel }) {
+  const pos = focus === "top" ? "object-top" : focus === "bottom" ? "object-bottom" : "object-center";
   return (
     <section className="bg-[#f1ece3]">
       <div className="mx-auto max-w-[1100px] px-4 pb-10 pt-8 sm:px-6 sm:pb-14 sm:pt-12">
@@ -62,16 +63,19 @@ export default function ArticleHero({ post, label, image, locale, backLabel }) {
         </AboutReveal>
       </div>
 
-      <div className="relative h-[260px] w-full overflow-hidden sm:h-[360px] lg:h-[460px]">
+      <div className="relative h-[240px] w-full overflow-hidden bg-[#e7e0d3] sm:h-[340px] lg:h-[440px]">
+        {fit === "contain" ? (
+          <Image src={image} alt="" aria-hidden="true" fill sizes="100vw" className="scale-110 object-cover opacity-60 blur-2xl" />
+        ) : null}
         <Image
           src={image}
           alt={post.title}
           fill
           priority
           sizes="100vw"
-          className="animate-about-zoom object-cover motion-reduce:animate-none"
+          className={`${fit === "contain" ? "object-contain" : `${pos} animate-about-zoom motion-reduce:animate-none object-cover`}`}
         />
-        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
+        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
       </div>
     </section>
   );

@@ -45,6 +45,9 @@ export default function PostForm({ post }) {
     slug: post?.slug || "",
     status: post?.status || "draft",
     imageUrl: post?.imageUrl || "",
+    heroImage: post?.data?.hero?.image || "",
+    heroFit: post?.data?.hero?.fit === "contain" ? "contain" : "cover",
+    heroFocus: ["top", "bottom"].includes(post?.data?.hero?.focus) ? post.data.hero.focus : "center",
     category: CATEGORIES.some((c) => c.key === post?.data?.en?.category) ? post.data.en.category : "",
     data: {
       en: loadLocale(post?.data?.en),
@@ -67,6 +70,9 @@ export default function PostForm({ post }) {
         slug: form.slug,
         status,
         imageUrl: form.imageUrl,
+        heroImage: form.heroImage,
+        heroFit: form.heroFit,
+        heroFocus: form.heroFocus,
         category: form.category,
         data: form.data,
       });
@@ -131,7 +137,31 @@ export default function PostForm({ post }) {
           <p className="mt-1 text-xs text-ink/50">Used for the filter buttons on the Insights page.</p>
         </div>
         <div className="mt-4">
-          <ImageField label="Cover image" value={form.imageUrl} onChange={(url) => setForm((f) => ({ ...f, imageUrl: url }))} hint="Shown on the article card and at the top of the article. Landscape, at least 1600 px wide." />
+          <ImageField label="Cover image" value={form.imageUrl} onChange={(url) => setForm((f) => ({ ...f, imageUrl: url }))} hint="Shown on the article card. Also used at the top of the article unless you add a separate banner below." />
+        </div>
+        <div className="mt-4 rounded-lg border border-black/5 bg-[#faf8f4] p-4">
+          <p className="text-sm font-semibold text-brand-navy">Article banner (top of the article page)</p>
+          <div className="mt-3">
+            <ImageField label="Banner image (optional)" value={form.heroImage} onChange={(url) => setForm((f) => ({ ...f, heroImage: url }))} hint="Leave empty to use the cover image. Wide image, at least 1600 px." />
+          </div>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className={LABEL} htmlFor="heroFit">How the banner fits</label>
+              <select id="heroFit" value={form.heroFit} onChange={(e) => setForm((f) => ({ ...f, heroFit: e.target.value }))} className={FIELD}>
+                <option value="cover">Fill the banner (crops the edges)</option>
+                <option value="contain">Show the whole image (nothing cut off)</option>
+              </select>
+            </div>
+            <div>
+              <label className={LABEL} htmlFor="heroFocus">Keep this part visible</label>
+              <select id="heroFocus" value={form.heroFocus} onChange={(e) => setForm((f) => ({ ...f, heroFocus: e.target.value }))} disabled={form.heroFit === "contain"} className={`${FIELD} disabled:opacity-50`}>
+                <option value="top">Top</option>
+                <option value="center">Middle</option>
+                <option value="bottom">Bottom</option>
+              </select>
+            </div>
+          </div>
+          <p className="mt-2 text-xs text-ink/50">Tip: if the image has text written on it, choose "Show the whole image" so nothing gets cut.</p>
         </div>
       </section>
 

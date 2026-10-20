@@ -115,14 +115,14 @@ export default function ArticleBody({ blocks, tags, dict, title }) {
           </article>
 
           {toc.length > 0 && (
-            <aside className="hidden lg:sticky lg:top-32 lg:block">
+            <aside className="hidden rounded-2xl bg-white p-5 shadow-[0_24px_60px_-30px_rgba(10,30,63,0.4)] lg:sticky lg:top-28 lg:block">
               <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-brand-navy/70">{t.toc}</p>
               <ul className="mt-4 space-y-1 border-s-2 border-brand-navy/10">
                 {toc.map(({ b, i }) => (
                   <li key={i}>
                     <a
                       href={`#section-${i}`}
-                      className="-ms-[2px] block border-s-2 border-transparent py-1.5 ps-4 text-[13px] leading-[18px] text-ink/70 transition-colors hover:border-brand-orange hover:text-brand-orange"
+                      className="-ms-[2px] block border-s-2 border-transparent py-1.5 ps-4 text-[13px] leading-[18px] text-ink/75 transition-colors hover:border-brand-orange hover:text-brand-orange"
                     >
                       {b.text}
                     </a>
