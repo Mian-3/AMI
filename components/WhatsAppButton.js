@@ -8,11 +8,48 @@ function WhatsAppIcon() {
   );
 }
 
+function YouTubeIcon() {
+  return (
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8ZM9.6 15.6V8.4l6.2 3.6-6.2 3.6Z" />
+    </svg>
+  );
+}
+
+// Same floating button style as WhatsApp, stacked above it. The link comes from the admin
+// (Site content, WhatsApp button, "Youtube Url"). Nothing is shown unless it is a valid https link.
+function YouTubeButton({ dict }) {
+  const url = String(dict.whatsapp?.youtubeUrl || "").trim();
+  if (!/^https:\/\/[^\s]+$/i.test(url)) return null;
+  const label = dict.whatsapp?.youtubeLabel || "Watch our video on YouTube";
+
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      style={{ animationDelay: "1.75s" }}
+      className="group fixed bottom-[5.5rem] end-4 z-[60] flex h-14 w-14 items-center justify-center rounded-full bg-[#FF0000] text-white shadow-[0_8px_24px_rgba(255,0,0,0.32)] outline-none transition duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(255,0,0,0.48)] focus-visible:ring-2 focus-visible:ring-brand-navy focus-visible:ring-offset-2 motion-safe:animate-wa-in motion-reduce:transition-none sm:bottom-[6.25rem] sm:end-6 sm:h-[60px] sm:w-[60px]"
+    >
+      <span className="absolute inset-0 -z-10 rounded-full bg-[#FF0000] opacity-35 motion-safe:animate-ping motion-safe:[animation-duration:2.6s] motion-reduce:hidden" aria-hidden="true" />
+      <span className="transition-transform duration-300 ease-out group-hover:scale-110 motion-reduce:transition-none">
+        <YouTubeIcon />
+      </span>
+      <span className="pointer-events-none absolute end-full top-1/2 me-3 hidden -translate-y-1/2 translate-x-2 whitespace-nowrap rounded-md bg-brand-navy px-3 py-2 text-[12px] font-medium text-white opacity-0 shadow-lg transition duration-300 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 rtl:-translate-x-2 rtl:group-hover:translate-x-0 rtl:group-focus-visible:translate-x-0 md:block">
+        {label}
+      </span>
+    </a>
+  );
+}
+
 export default function WhatsAppButton({ dict }) {
   const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(dict.whatsapp.message)}`;
 
   return (
-    <a
+    <>
+      <YouTubeButton dict={dict} />
+      <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
@@ -25,5 +62,6 @@ export default function WhatsAppButton({ dict }) {
         {dict.whatsapp.label}
       </span>
     </a>
+    </>
   );
 }
