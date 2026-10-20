@@ -13,28 +13,32 @@ const COL = "mx-auto w-full max-w-[64rem] px-5 sm:px-6 xl:w-[max(calc(1200*var(-
 
 // Line icons for the category tabs, matched by position (same order as the page content).
 const P = {
+  // Food: Confectionery, Baking, Beverages, Pharmaceutical, Frozen Food, Savory, Cup Cake
   food: [
-    <><path d="M7 3h10l-1.2 16.2a2 2 0 0 1-2 1.8h-3.6a2 2 0 0 1-2-1.8L7 3Z" /><path d="M6.6 8h10.8" /><path d="m13 3 1-2" /></>,
-    <><path d="M4 11c0-4 3.5-7 8-7s8 3 8 7" /><path d="M3 11h18" /><path d="m5 11 1.2 8h11.6L19 11" /><path d="M9 14v2M12 14v2M15 14v2" /></>,
     <><ellipse cx="12" cy="12" rx="4.5" ry="3.5" transform="rotate(-45 12 12)" /><path d="M8.7 8.7 5 7l-1 3 3 1.5M15.3 15.3 19 17l1-3-3-1.5" /></>,
-    <><path d="M8 3h8l2 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7l2-4Z" /><path d="M6 7h12" /><path d="M10 12h4v4h-4z" /></>,
-    <><path d="M5 4h14l-1 16H6L5 4Z" /><path d="M5 8c2 1.5 4 1.5 7 0s5-1.5 7 0" /><circle cx="12" cy="14" r="2" /></>,
+    <><path d="M4 11c0-4 3.5-7 8-7s8 3 8 7" /><path d="M3 11h18" /><path d="m5 11 1.2 8h11.6L19 11" /><path d="M9 14v2M12 14v2M15 14v2" /></>,
+    <><path d="M7 3h10l-1.2 16.2a2 2 0 0 1-2 1.8h-3.6a2 2 0 0 1-2-1.8L7 3Z" /><path d="M6.6 8h10.8" /><path d="m13 3 1-2" /></>,
     <><rect x="3" y="9" width="12" height="6" rx="3" transform="rotate(-35 9 12)" /><path d="m7.5 14.2 4.5-6.3" /><circle cx="17" cy="17" r="3.5" /></>,
+    <><path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5 4.2 16.5" /><path d="m9.5 4.5 2.5 2 2.5-2M9.5 19.5l2.5-2 2.5 2" /></>,
+    <><path d="M5 4h14l-1 16H6L5 4Z" /><path d="M5 8c2 1.5 4 1.5 7 0s5-1.5 7 0" /><circle cx="12" cy="14" r="2" /></>,
+    <><path d="M5.5 12h13l-1.4 8H6.9L5.5 12Z" /><path d="M6 12c0-3.2 2.7-5.2 6-5.2s6 2 6 5.2" /><path d="M12 6.8V4M9.5 15v2.5M12 15v2.5M14.5 15v2.5" /></>,
   ],
+  // Fragrance: Soap, Detergents, Cosmetics, Paints, Baby / Skin Care, Home Care, Leather & Car Care
   fragrance: [
+    <><rect x="3.5" y="9" width="17" height="9" rx="3.2" /><path d="M8 13.5h3M14 13.5h2" /><circle cx="8" cy="5.5" r="1.4" /><circle cx="13" cy="4.6" r="1" /></>,
     <><path d="M9 3h5v3H9z" /><path d="M14 4.5h4" /><path d="M8 9h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z" /><path d="M6 14h11" /></>,
     <><path d="M9 21v-7h6v7z" /><path d="M10 14V9h4v5" /><path d="m10 9 4-5v5" /></>,
-    <><path d="M10 3h4v2h-4z" /><path d="M9 5h6l1 3v11a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V8l1-3Z" /><path d="M8 12h3M8 15h3" /></>,
-    <><path d="m5 16 1.5-5.5A2 2 0 0 1 8.4 9h7.2a2 2 0 0 1 1.9 1.5L19 16" /><path d="M3 16h18v3H3z" /><circle cx="7" cy="19" r="1.5" /><circle cx="17" cy="19" r="1.5" /></>,
-    <><path d="m3 11 9-7 9 7" /><path d="M5 10v10h14V10" /><path d="M10 20v-5h4v5" /></>,
     <><rect x="4" y="3" width="14" height="5" rx="1" /><path d="M18 5.5h2v5h-8v3" /><rect x="10.5" y="13.5" width="3" height="7" rx="1" /></>,
+    <><path d="M10 3h4v2h-4z" /><path d="M9 5h6l1 3v11a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V8l1-3Z" /><path d="M8 12h3M8 15h3" /></>,
+    <><path d="m3 11 9-7 9 7" /><path d="M5 10v10h14V10" /><path d="M10 20v-5h4v5" /></>,
+    <><path d="m5 16 1.5-5.5A2 2 0 0 1 8.4 9h7.2a2 2 0 0 1 1.9 1.5L19 16" /><path d="M3 16h18v3H3z" /><circle cx="7" cy="19" r="1.5" /><circle cx="17" cy="19" r="1.5" /></>,
   ],
 };
 
 function TabIcon({ kind, i }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="fs-ico h-[22px] w-[22px] shrink-0 md:h-[18px] md:w-[18px] xl:h-[max(18px,calc(24*var(--u)))] xl:w-[max(18px,calc(24*var(--u)))]">
-      {(P[kind] || P.food)[i % 6]}
+      {(P[kind] || P.food)[i % 7]}
     </svg>
   );
 }
