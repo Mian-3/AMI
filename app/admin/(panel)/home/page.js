@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { getDictionary } from "@/lib/getDictionary";
 import { getSavedStats } from "@/lib/homeStatsServer";
 import { defaultItems } from "@/lib/homeStats";
@@ -17,15 +16,7 @@ export default async function HomeAdminPage() {
   return (
     <div className="mx-auto max-w-5xl">
       <h1 className="text-2xl font-bold text-brand-navy">Intro and Stats</h1>
-      <p className="mt-1 text-sm text-ink/60">Home page sections: the introduction text and the statistics cards under it.</p>
-      <div className="mt-4 flex flex-wrap gap-3 text-sm">
-        <Link href="/en" target="_blank" className="rounded-full border border-black/10 bg-white px-4 py-1.5 font-medium transition hover:border-brand-orange hover:text-brand-orange">
-          View Home page
-        </Link>
-        <Link href="/admin/content" className="rounded-full border border-black/10 bg-white px-4 py-1.5 font-medium transition hover:border-brand-orange hover:text-brand-orange">
-          Other site text
-        </Link>
-      </div>
+      <p className="mt-1 text-sm text-ink/60">The introduction text and the statistics cards under it.</p>
       <HomeForm
         intro={{ en: pick(en.intro), ar: pick(ar.intro) }}
         introEdited={Boolean(overrides.intro)}

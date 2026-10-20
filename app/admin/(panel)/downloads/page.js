@@ -13,7 +13,7 @@ export default async function DownloadsAdminPage() {
       <p className="mt-1 text-sm text-ink/60">
         Each block below is one row on the Downloads page. Add a new block, upload its PDF, and it opens in a new tab when a visitor clicks it.
         The page heading, banner image and button text are in{" "}
-        <Link href="/admin/content/downloadsPage" className="text-brand-orange hover:underline">Site content &rarr; Downloads page</Link>.
+        <Link href="/admin/content/downloadsPage" className="text-brand-orange hover:underline">Downloads &rarr; Page text</Link>.
       </p>
       <DownloadsForm initial={items} />
     </div>

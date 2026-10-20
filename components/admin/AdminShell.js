@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { allowedPages, findOwner, SITE_WIDE } from "@/lib/adminPages";
+import PageWorkspace from "@/components/admin/PageWorkspace";
 
 /* ---------- icons (18px, 1.6 stroke, one visual family) ---------- */
 const P = {
@@ -70,34 +72,29 @@ function Icon({ name, className = "" }) {
 }
 
 /* ---------- navigation model ---------- */
-const GROUPS = [
-  {
-    items: [
-      { href: "/admin", label: "Home", icon: "home" },
-      { href: "/admin/insights", label: "Insights", icon: "insights", section: "insights" },
-      { href: "/admin/events", label: "Events", icon: "events", section: "events" },
-      { href: "/admin/downloads", label: "Downloads", icon: "downloads", section: "downloads" },
-      { href: "/admin/enquiries", label: "Enquiries", icon: "enquiries", section: "enquiries" },
-    ],
-  },
-  {
-    title: "Website",
-    items: [
-      { href: "/admin/home", label: "Intro and Stats", icon: "home", section: "content" },
-      { href: "/admin/content", label: "Site content", icon: "content", section: "content" },
-      { href: "/admin/flavours", label: "Flavours page", icon: "flavours", section: "content" },
-      { href: "/admin/footer", label: "Footer contacts", icon: "enquiries", section: "content" },
-      { href: "/admin/media", label: "Media and links", icon: "media", section: "media" },
-    ],
-  },
-  {
-    title: "Admin",
-    items: [
-      { href: "/admin/team", label: "Team and access", icon: "team", ownerOnly: true },
-      { href: "/admin/activity", label: "Activity", icon: "activity", ownerOnly: true },
-    ],
-  },
+const TOP = [
+  { href: "/admin", label: "Dashboard", icon: "home" },
+  { href: "/admin/enquiries", label: "Enquiries", icon: "enquiries", section: "enquiries" },
 ];
+const ADMIN = [
+  { href: "/admin/team", label: "Team and access", icon: "team", ownerOnly: true },
+  { href: "/admin/activity", label: "Activity", icon: "activity", ownerOnly: true },
+];
+
+// Sidebar model: flat links, plus "tree" entries for pages (a page and its sections).
+function buildGroups(sections, isOwner) {
+  const okItem = (i) => (i.ownerOnly ? isOwner : i.section ? sections.includes(i.section) : true);
+  const pages = allowedPages(sections, isOwner);
+  const regular = pages.filter((p) => p.id !== SITE_WIDE.id);
+  const wide = pages.find((p) => p.id === SITE_WIDE.id);
+  const groups = [{ items: TOP.filter(okItem) }];
+  if (regular.length) {
+    groups.push({ title: "Pages", items: [{ href: "/admin/pages", label: "All pages", icon: "content" }, ...regular.map((p) => ({ tree: p }))] });
+  }
+  if (wide) groups.push({ title: "Site wide", items: [{ tree: wide }] });
+  groups.push({ title: "Admin", items: ADMIN.filter(okItem) });
+  return groups.filter((g) => g.items.length);
+}
 
 function isActive(pathname, href) {
   return href === "/admin" ? pathname === "/admin" : pathname === href || pathname.startsWith(href + "/");
@@ -107,6 +104,27 @@ function initials(user) {
   const s = (user.name || user.email || "A").trim();
   const parts = s.split(/[\s@._-]+/).filter(Boolean);
   return ((parts[0]?.[0] || "A") + (parts[1]?.[0] || "")).toUpperCase();
+}
+
+/* ---------- sidebar page link: opens the page; its sections are listed beside the editor ---------- */
+function TreeItem({ page, pathname, onNavigate }) {
+  const here = findOwner(pathname)?.page.id === page.id;
+  return (
+    <li>
+      <Link
+        href={page.sections[0].href}
+        onClick={onNavigate}
+        aria-current={here ? "page" : undefined}
+        className={`group flex h-9 items-center gap-3 rounded-lg px-3 text-[14px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white/60 ${
+          here ? "bg-white/[0.14] font-semibold text-white" : "font-medium text-white/75 hover:bg-white/[0.08] hover:text-white"
+        }`}
+      >
+        <Icon name={page.icon} className={`shrink-0 ${here ? "text-brand-orange" : "text-white/60 group-hover:text-white/90"}`} />
+        <span className="flex-1 truncate">{page.short || page.label}</span>
+        <span className="text-[11px] font-normal text-white/35">{page.sections.length > 1 ? page.sections.length : ""}</span>
+      </Link>
+    </li>
+  );
 }
 
 /* ---------- sidebar ---------- */
@@ -149,6 +167,7 @@ function Sidebar({ groups, pathname, user, logoutAction, onNavigate, onSearch, i
             {g.title ? <p className="px-3 pb-1.5 text-[12px] font-medium tracking-wide text-white/45">{g.title}</p> : null}
             <ul className="space-y-0.5">
               {g.items.map((item) => {
+                if (item.tree) return <TreeItem key={item.tree.id} page={item.tree} pathname={pathname} onNavigate={onNavigate} />;
                 const active = isActive(pathname, item.href);
                 return (
                   <li key={item.href}>
@@ -290,16 +309,19 @@ export default function AdminShell({ user, sections = [], isOwner = true, logout
   const [palette, setPalette] = useState(false);
   const [isMac, setIsMac] = useState(false);
 
-  const groups = useMemo(
+  const groups = useMemo(() => buildGroups(sections, isOwner), [sections, isOwner]);
+  const flat = useMemo(
     () =>
-      GROUPS.map((g) => ({
-        ...g,
-        items: g.items.filter((i) => (i.ownerOnly ? isOwner : i.section ? sections.includes(i.section) : true)),
-      })).filter((g) => g.items.length),
-    [sections, isOwner],
+      groups.flatMap((g) =>
+        g.items.flatMap((i) => (i.tree ? i.tree.sections.map((sec) => ({ href: sec.href, label: `${i.tree.label}: ${sec.label}`, icon: i.tree.icon })) : [i])),
+      ),
+    [groups],
   );
-  const flat = useMemo(() => groups.flatMap((g) => g.items), [groups]);
-  const current = flat.find((i) => isActive(pathname, i.href)) || flat[0];
+  const owner = findOwner(pathname);
+  const current = owner
+    ? { label: `${owner.page.label} / ${owner.section.label}`, icon: owner.page.icon }
+    : flat.find((i) => isActive(pathname, i.href)) || flat[0];
+  const wsPage = owner ? allowedPages(sections, isOwner).find((p) => p.id === owner.page.id) : null;
 
   useEffect(() => {
     setIsMac(/Mac|iPhone|iPad/.test(navigator.platform || ""));
@@ -378,7 +400,15 @@ export default function AdminShell({ user, sections = [], isOwner = true, logout
               <Icon name="external" className="text-ink/55" />
             </a>
           </header>
-          <main className="p-4 md:p-8">{children}</main>
+          <main className="p-4 md:p-8">
+            {wsPage ? (
+              <PageWorkspace page={wsPage} sections={wsPage.sections} activeHref={owner.section.href}>
+                {children}
+              </PageWorkspace>
+            ) : (
+              children
+            )}
+          </main>
         </div>
       </div>
 
