@@ -64,11 +64,17 @@ export default function ArticleHero({ post, label, image, fit = "contain", focus
       </div>
 
       {fit === "contain" ? (
-        <div className="mx-auto max-w-[1100px] px-4 sm:px-6">
-          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl bg-[#e7e0d3] shadow-[0_24px_60px_-30px_rgba(10,30,63,0.4)]">
-            <Image src={image} alt="" aria-hidden="true" fill sizes="100vw" className="scale-110 object-cover opacity-50 blur-2xl" />
-            <Image src={image} alt={post.title} fill priority sizes="(min-width: 1100px) 1100px, 100vw" className="object-contain" />
-          </div>
+        <div className="w-full overflow-hidden bg-[#e7e0d3]">
+          <Image
+            src={image}
+            alt={post.title}
+            width={0}
+            height={0}
+            priority
+            sizes="100vw"
+            style={{ width: "100%", height: "auto" }}
+            className="block max-h-[88vh] object-cover object-top"
+          />
         </div>
       ) : (
         <div className="relative h-[240px] w-full overflow-hidden bg-[#e7e0d3] sm:h-[340px] lg:h-[440px]">

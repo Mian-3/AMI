@@ -148,7 +148,7 @@ export default function PostForm({ post }) {
             <div>
               <label className={LABEL} htmlFor="heroFit">How the banner fits</label>
               <select id="heroFit" value={form.heroFit} onChange={(e) => setForm((f) => ({ ...f, heroFit: e.target.value }))} className={FIELD}>
-                <option value="contain">Show the whole image (nothing cut off)</option>
+                <option value="contain">Full width, natural height (nothing cut off)</option>
                 <option value="cover">Fill the banner (crops the edges)</option>
               </select>
             </div>
@@ -161,7 +161,7 @@ export default function PostForm({ post }) {
               </select>
             </div>
           </div>
-          <p className="mt-2 text-xs text-ink/50">Tip: if the image has text written on it, choose "Show the whole image" so nothing gets cut.</p>
+          <p className="mt-2 text-xs text-ink/50">Tip: if the image has text written on it, choose "Full width, natural height". A wide image (for example 1920 x 700) gives a shorter banner.</p>
         </div>
       </section>
 
