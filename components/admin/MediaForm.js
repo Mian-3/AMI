@@ -98,6 +98,42 @@ export default function MediaForm({ initial, labels }) {
         <ImageField label="Fragrances card photo" value={m.expertise.fragrances} onChange={(v) => setPath("expertise", "fragrances", v)} />
       </Card>
 
+      <Card title="Home page: Flavours and Fragrances section background" note="Optional background behind the whole section. Choose Image or Video: only the chosen one shows, the other is hidden. Text can be edited in Site content, Expertise.">
+        <div>
+          <label className={LABEL}>Background</label>
+          <div className="inline-flex overflow-hidden rounded-lg border border-black/10">
+            {[["none", "None"], ["image", "Image"], ["video", "Video"]].map(([v, l]) => (
+              <button key={v} type="button" onClick={() => setPath("expertise", "bgMode", v)} className={`h-10 px-5 text-sm font-medium transition ${m.expertise.bgMode === v ? "bg-brand-navy text-white" : "bg-white text-ink/70 hover:bg-black/5"}`}>{l}</button>
+            ))}
+          </div>
+        </div>
+        {m.expertise.bgMode === "image" ? (
+          <ImageField label="Background image" value={m.expertise.bgImage} onChange={(v) => setPath("expertise", "bgImage", v)} />
+        ) : null}
+        {m.expertise.bgMode === "video" ? (
+          <>
+            <FileField label="Background video (mp4)" value={m.expertise.bgVideo} onChange={(v) => setPath("expertise", "bgVideo", v)} accept="video/mp4,video/webm" hint="Plays muted on a loop. Keep it under about 10 MB and 15 seconds." />
+            <ImageField label="Poster image (shows while loading)" value={m.expertise.bgPoster} onChange={(v) => setPath("expertise", "bgPoster", v)} />
+          </>
+        ) : null}
+        {m.expertise.bgMode !== "none" ? (
+          <>
+            <div>
+              <label className={LABEL}>Text colour over the background</label>
+              <select value={m.expertise.bgOverlay} onChange={(e) => setPath("expertise", "bgOverlay", e.target.value)} className={FIELD}>
+                <option value="light">Dark text on a light wash</option>
+                <option value="dark">White text on a dark overlay</option>
+              </select>
+            </div>
+            <div>
+              <label className={LABEL}>Overlay strength: {m.expertise.bgStrength}%</label>
+              <input type="range" min="0" max="90" step="5" value={m.expertise.bgStrength} onChange={(e) => setPath("expertise", "bgStrength", Number(e.target.value))} className="w-full accent-[#f58220]" />
+              <p className="mt-1 text-xs text-ink/50">Lower shows more of the picture or video. Keep it high enough for the text to stay readable.</p>
+            </div>
+          </>
+        ) : null}
+      </Card>
+
       <Card title="Buttons and social links" note="Use /{locale}/contact style links for pages on this site ({locale} becomes en or ar). Use a full https:// link for other sites. # means no link yet.">
         {linkRow("links", "requestSample", "Request for Sample button")}
         {linkRow("links", "facebook", "Facebook")}

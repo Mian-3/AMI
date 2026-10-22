@@ -42,15 +42,25 @@ export default async function Expertise({ dict }) {
   const items = getItems(dict, media);
   const processCta = dict.expertise?.processCta ?? (dict.nav?.process === "Our Process" ? "Explore Our Process →" : dict.nav?.process);
 
+  const ex = media.expertise;
+  const mode = ex.bgMode === "video" && ex.bgVideo ? "video" : ex.bgMode === "image" && ex.bgImage ? "image" : "none";
+  const dark = mode !== "none" && ex.bgOverlay === "dark";
+  const overlayRgb = dark ? "11,23,54" : "252,252,250";
+
   return (
-    <section className="bg-[#fcfcfa] py-16 [--u:1px] md:py-20 xl:pb-[calc(101*var(--u))] xl:pt-[calc(92*var(--u))] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
+    <section className="relative isolate overflow-hidden bg-[#fcfcfa] py-16 [--u:1px] md:py-20 xl:pb-[calc(101*var(--u))] xl:pt-[calc(92*var(--u))] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
+      {mode === "video" ? (
+        <video key={ex.bgVideo} src={ex.bgVideo} poster={ex.bgPoster || undefined} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" className="absolute inset-0 -z-20 h-full w-full object-cover" />
+      ) : null}
+      {mode === "image" ? <Image src={ex.bgImage} alt="" fill sizes="100vw" className="-z-20 object-cover" /> : null}
+      {mode !== "none" ? <div className="absolute inset-0 -z-10" style={{ backgroundColor: `rgba(${overlayRgb},${(ex.bgStrength ?? 70) / 100})` }} aria-hidden="true" /> : null}
       <div className="mx-auto max-w-[900px] px-4 sm:px-6 xl:max-w-[calc(1200*var(--u))] xl:px-0">
         <div className="flex flex-col items-center text-center">
           <Reveal as="p" className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-brand-orange xl:mb-[calc(12*var(--u))] xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))]">{dict.expertise.eyebrow}</Reveal>
           <Reveal as="div" delay={100}>
-            <h2 className="max-w-[560px] text-[26px] font-semibold leading-[1.25] tracking-[-0.015em] text-brand-navy md:text-[32px] md:leading-[40px] xl:max-w-none xl:text-[max(28px,calc(40*var(--u)))] xl:leading-[calc(48*var(--u))]">{dict.expertise.heading}</h2>
+            <h2 className={`max-w-[720px] text-[26px] font-semibold leading-[1.25] tracking-[-0.015em] ${dark ? "text-white" : "text-brand-navy"} md:text-[32px] md:leading-[40px] xl:max-w-none xl:text-[max(28px,calc(40*var(--u)))] xl:leading-[calc(48*var(--u))]`}>{dict.expertise.heading}</h2>
           </Reveal>
-          <Reveal as="p" delay={250} className="mt-5 max-w-[560px] text-[14px] leading-[22px] text-ink/60 xl:mt-[calc(15*var(--u))] xl:max-w-[calc(800*var(--u))] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">{dict.expertise.paragraph}</Reveal>
+          <Reveal as="p" delay={250} className={`mt-5 max-w-[720px] text-[14px] leading-[22px] ${dark ? "text-white/85" : "text-ink/60"} xl:mt-[calc(15*var(--u))] xl:max-w-[calc(1080*var(--u))] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]`}>{dict.expertise.paragraph}</Reveal>
         </div>
 
         <div className="mx-auto mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:mt-[calc(46*var(--u))] xl:gap-[calc(26*var(--u))]">
@@ -66,7 +76,7 @@ export default async function Expertise({ dict }) {
           <CatalogueDownloadLink
             label={dict.buttons.downloadCatalogueArrow ?? dict.buttons.downloadCatalogue}
             icon="none"
-            className="flex h-9 items-center whitespace-nowrap px-1 text-[12px] font-medium text-brand-navy transition duration-200 hover:opacity-70 motion-reduce:transition-none xl:h-[max(40px,calc(48*var(--u)))] xl:text-[max(12px,calc(14*var(--u)))]"
+            className={`flex h-9 items-center whitespace-nowrap px-1 text-[12px] font-medium ${dark ? "text-white" : "text-brand-navy"} transition duration-200 hover:opacity-70 motion-reduce:transition-none xl:h-[max(40px,calc(48*var(--u)))] xl:text-[max(12px,calc(14*var(--u)))]`}
           />
         </Reveal>
       </div>
