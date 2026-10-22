@@ -68,6 +68,28 @@ export default function MediaForm({ initial, labels }) {
     </div>
   );
 
+  const cardMedia = (key, title) => {
+    const mode = m.expertise[`${key}Mode`];
+    return (
+      <div key={key} className="rounded-lg border border-black/10 bg-[#fafafa] p-4">
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <p className="text-sm font-medium text-brand-navy">{title}</p>
+          <div className="inline-flex overflow-hidden rounded-lg border border-black/10">
+            {[["image", "Image"], ["video", "Video"]].map(([v, l]) => (
+              <button key={v} type="button" onClick={() => setPath("expertise", `${key}Mode`, v)} className={`h-9 px-4 text-sm font-medium transition ${mode === v ? "bg-brand-navy text-white" : "bg-white text-ink/70 hover:bg-black/5"}`}>{l}</button>
+            ))}
+          </div>
+        </div>
+        <div className="space-y-4">
+          {mode === "video" ? (
+            <FileField label="Card video (mp4)" value={m.expertise[`${key}Video`]} onChange={(v) => setPath("expertise", `${key}Video`, v)} accept="video/mp4,video/webm" hint="Plays muted on a loop. Keep it under about 10 MB and 15 seconds." />
+          ) : null}
+          <ImageField label={mode === "video" ? "Poster image (shows while the video loads)" : "Card photo"} value={m.expertise[key]} onChange={(v) => setPath("expertise", key, v)} />
+        </div>
+      </div>
+    );
+  };
+
   const footerList = (list, title) => (
     <div key={list}>
       <p className="mb-2 text-sm font-medium text-brand-navy">{title}</p>
@@ -93,9 +115,9 @@ export default function MediaForm({ initial, labels }) {
         <ImageField label="Poster image" value={m.hero.poster} onChange={(v) => setPath("hero", "poster", v)} />
       </Card>
 
-      <Card title="Home page: Flavours and Fragrances cards" note="The two photo cards in the Flavours and Fragrances section of the home page. Both open the Flavours and Fragrances page. Their text is in Site content, Expertise.">
-        <ImageField label="Flavours card photo" value={m.expertise.flavours} onChange={(v) => setPath("expertise", "flavours", v)} />
-        <ImageField label="Fragrances card photo" value={m.expertise.fragrances} onChange={(v) => setPath("expertise", "fragrances", v)} />
+      <Card title="Home page: Flavours and Fragrances cards" note="The two photo cards in the Flavours and Fragrances section of the home page. Each card can show a photo or a looping video. Both open the Flavours and Fragrances page. Their text is in Site content, Expertise.">
+        {cardMedia("flavours", "Flavours card")}
+        {cardMedia("fragrances", "Fragrances card")}
       </Card>
 
       <Card title="Home page: Flavours and Fragrances section background" note="Optional background behind the whole section. Choose Image or Video: only the chosen one shows, the other is hidden. Text can be edited in Site content, Expertise.">

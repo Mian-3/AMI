@@ -18,15 +18,19 @@ function ArrowIcon() {
 
 function getItems(dict, media) {
   return [
-    { title: dict.expertise.items.flavours.title, desc: dict.expertise.items.flavours.desc, src: media.expertise.flavours },
-    { title: dict.expertise.items.fragrances.title, desc: dict.expertise.items.fragrances.desc, src: media.expertise.fragrances },
+    { title: dict.expertise.items.flavours.title, desc: dict.expertise.items.flavours.desc, src: media.expertise.flavours, video: media.expertise.flavoursMode === "video" ? media.expertise.flavoursVideo : "" },
+    { title: dict.expertise.items.fragrances.title, desc: dict.expertise.items.fragrances.desc, src: media.expertise.fragrances, video: media.expertise.fragrancesMode === "video" ? media.expertise.fragrancesVideo : "" },
   ];
 }
 
 function ExpertiseCard({ item }) {
   return (
     <LocaleLink href="/flavours-fragrances" className="group relative block aspect-[3/4] transform-gpu overflow-hidden rounded-2xl bg-brand-navy outline-none [-webkit-tap-highlight-color:transparent] sm:aspect-[4/3] xl:aspect-[587/447] xl:rounded-[calc(32*var(--u))]">
-      <Image src={item.src} alt={item.title} fill sizes="(min-width: 1280px) 600px, (min-width: 640px) 440px, 90vw" className="object-cover transition duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transition-none" />
+      {item.video ? (
+        <video key={item.video} src={item.video} poster={item.src} autoPlay muted loop playsInline preload="metadata" aria-label={item.title} className="absolute inset-0 h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transition-none" />
+      ) : (
+        <Image src={item.src} alt={item.title} fill sizes="(min-width: 1280px) 600px, (min-width: 640px) 440px, 90vw" className="object-cover transition duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transition-none" />
+      )}
       <div className="absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-brand-navy/95 via-brand-navy/45 to-transparent" aria-hidden="true" />
       <span className="absolute end-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white text-brand-orange transition-all duration-300 ease-out group-hover:rotate-45 group-hover:bg-brand-orange group-hover:text-white rtl:group-hover:-rotate-45 motion-reduce:transition-none motion-reduce:group-hover:rotate-0 xl:end-[calc(32*var(--u))] xl:top-[calc(32*var(--u))] xl:h-[max(36px,calc(56*var(--u)))] xl:w-[max(36px,calc(56*var(--u)))]"><ArrowIcon /></span>
       <div className="absolute inset-x-0 bottom-0 p-4 xl:px-[calc(32*var(--u))] xl:pb-[calc(52*var(--u))] xl:pt-0">
