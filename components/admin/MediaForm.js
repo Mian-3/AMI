@@ -32,6 +32,15 @@ export default function MediaForm({ initial, labels }) {
     setM((s) => ({ ...s, footerLinks: { ...s.footerLinks, [list]: s.footerLinks[list].map((x, i) => (i === index ? value : x)) } }));
 
   const setSocial = (i, patch) => setM((st) => ({ ...st, socials: st.socials.map((x, j) => (j === i ? { ...x, ...patch } : x)) }));
+  const setCert = (i, patch) => setM((st) => ({ ...st, certifications: st.certifications.map((x, j) => (j === i ? { ...x, ...patch } : x)) }));
+  const moveCert = (i, d) =>
+    setM((st) => {
+      const j = i + d;
+      if (j < 0 || j >= st.certifications.length) return st;
+      const next = [...st.certifications];
+      [next[i], next[j]] = [next[j], next[i]];
+      return { ...st, certifications: next };
+    });
   const setClients = (next) => setM((s) => ({ ...s, clients: next }));
   const moveClient = (i, d) => {
     const j = i + d;
@@ -191,6 +200,35 @@ export default function MediaForm({ initial, labels }) {
         {footerList("fragrances", "Fragrances")}
         {footerList("foodFlavours", "Food flavours")}
         {footerList("quick", "Quick links")}
+      </Card>
+
+      <Card title="Home page: Certifications" note="The round certification badges at the bottom of the home page. Change the picture, add the PDF certificate it opens, reorder, add or remove badges. A badge with no PDF is just a picture.">
+        <ul className="space-y-3">
+          {m.certifications.map((c, i) => (
+            <li key={i} className="rounded-lg border border-black/10 bg-[#fafafa] p-3">
+              <div className="mb-3 flex items-center justify-between text-xs text-ink/50">
+                <span>Badge {i + 1}</span>
+                <span className="flex items-center gap-1">
+                  <button type="button" onClick={() => moveCert(i, -1)} disabled={i === 0} className="rounded px-2 py-1 hover:bg-black/5 disabled:opacity-30" aria-label="Move up">&uarr;</button>
+                  <button type="button" onClick={() => moveCert(i, 1)} disabled={i === m.certifications.length - 1} className="rounded px-2 py-1 hover:bg-black/5 disabled:opacity-30" aria-label="Move down">&darr;</button>
+                  <button type="button" onClick={() => setM((st) => ({ ...st, certifications: st.certifications.filter((_, j) => j !== i) }))} className="rounded px-2 py-1 text-red-600 hover:bg-red-50">Remove</button>
+                </span>
+              </div>
+              <div className="space-y-4">
+                <ImageField label="Badge picture" value={c.image} onChange={(v) => setCert(i, { image: v })} />
+                <FileField label="Certificate PDF (opens when the badge is clicked)" value={c.pdf} onChange={(v) => setCert(i, { pdf: v })} accept="application/pdf" hint="Upload a PDF, or paste a link. Leave empty for a badge that is only a picture." />
+                <div>
+                  <label className={LABEL}>Name (for screen readers and the download file name)</label>
+                  <input value={c.alt} onChange={(e) => setCert(i, { alt: e.target.value })} className={FIELD} />
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+        {m.certifications.length === 0 ? <p className="text-xs text-ink/50">No certification badges are shown on the home page.</p> : null}
+        {m.certifications.length < 12 ? (
+          <button type="button" onClick={() => setM((st) => ({ ...st, certifications: [...st.certifications, { image: "", pdf: "", alt: `Certification ${st.certifications.length + 1}` }] }))} className="h-10 rounded-lg border border-black/10 bg-white px-4 text-sm font-medium text-brand-navy hover:bg-black/5">Add badge</button>
+        ) : null}
       </Card>
 
       <Card title="Client logos" note="Shown in the scrolling strip on the home page. Use a PNG or WebP with a transparent or white background.">

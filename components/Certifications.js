@@ -1,16 +1,13 @@
 import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import CertificateLink from "@/components/CertificateLink";
+import { getMedia } from "@/lib/media";
 
-const badges = [
-  { img: "/images/certifications/Mask group.png", pdf: "/documents/certificates/FSSC Intertek AMI.pdf", alt: "Certification FSSC Intertek AMI" },
-  { img: "/images/certifications/Mask group (1).png", pdf: "/documents/certificates/isoqar14001.pdf", alt: "Certification 2" },
-  { img: "/images/certifications/Mask group (2).png", pdf: "/documents/certificates/isoqar9001.pdf", alt: "Certification 3" },
-  { img: "/images/certifications/Mask group (3).png", pdf: "/documents/certificates/IHC Halal Certificate-AM INTERNATIONAL-2026-2027.pdf", alt: "Certification 4" },
-  { img: "/images/certifications/Mask group (4).png", pdf: "/documents/certificates/punjabfoodauth.pdf", alt: "Certification 5" },
-];
+// The badges (image, PDF certificate and name) are managed in the admin under Media and links.
+export default async function Certifications({ dict }) {
+  const { certifications: badges } = await getMedia();
+  if (!badges.length) return null;
 
-export default function Certifications({ dict }) {
   return (
     <section className="bg-offwhite px-4 py-16 sm:px-6 md:py-20 xl:px-0">
       <div className="mx-auto max-w-[1200px]">
@@ -20,22 +17,27 @@ export default function Certifications({ dict }) {
         </div>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-6 sm:gap-8">
-          {badges.map((badge, index) => (
-            <Reveal key={badge.img} delay={250 + index * 90}>
-              <CertificateLink
-                pdfSrc={badge.pdf}
-                downloadName={`AMI-${badge.alt.replace(/\s+/g, "-")}.pdf`}
-                className="group block"
+          {badges.map((badge, index) => {
+            const circle = (
+              <div
+                className="relative h-[90px] w-[90px] overflow-hidden rounded-full outline-none transition-transform duration-300 ease-out group-focus-visible:ring-2 group-focus-visible:ring-brand-orange motion-safe:animate-cert-float motion-reduce:animate-none sm:h-[110px] sm:w-[110px]"
+                style={{ animationDelay: `${index * 0.35}s` }}
               >
-                <div
-                  className="relative h-[90px] w-[90px] overflow-hidden rounded-full outline-none transition-transform duration-300 ease-out group-focus-visible:ring-2 group-focus-visible:ring-brand-orange motion-safe:animate-cert-float motion-reduce:animate-none sm:h-[110px] sm:w-[110px]"
-                  style={{ animationDelay: `${index * 0.35}s` }}
-                >
-                  <Image src={badge.img} alt={badge.alt} fill sizes="110px" className="object-contain" />
-                </div>
-              </CertificateLink>
-            </Reveal>
-          ))}
+                <Image src={badge.image} alt={badge.alt} fill sizes="110px" className="object-contain" />
+              </div>
+            );
+            return (
+              <Reveal key={badge.image + index} delay={250 + index * 90}>
+                {badge.pdf ? (
+                  <CertificateLink pdfSrc={badge.pdf} downloadName={`AMI-${badge.alt.replace(/\s+/g, "-")}.pdf`} className="group block">
+                    {circle}
+                  </CertificateLink>
+                ) : (
+                  <div className="group block">{circle}</div>
+                )}
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>
