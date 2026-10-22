@@ -88,22 +88,33 @@ const CSS = `
 @keyframes fs-word{from{transform:translateY(110%)}to{transform:none}}
 @keyframes fs-line{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes fs-logo-in{0%{opacity:0;transform:translateY(14px) scale(.82)}60%{opacity:1;transform:translateY(-2px) scale(1.04)}100%{opacity:1;transform:none}}
+@keyframes fs-clients-rise{from{transform:translateY(115%) rotate(2deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes fs-clients-line{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes fs-clients-shine{from{background-position:160% 0}to{background-position:-60% 0}}
+@keyframes fs-focus{from{opacity:0;filter:blur(10px);transform:translateY(18px) scale(.94)}to{opacity:1;filter:blur(0);transform:none}}
+@keyframes fs-wave{0%,18%,100%{transform:none;box-shadow:0 1px 2px rgba(15,31,75,.06),0 10px 26px -14px rgba(15,31,75,.22)}8%{transform:translateY(-5px);box-shadow:0 2px 4px rgba(15,31,75,.05),0 16px 28px -12px rgba(242,143,59,.45)}}
 @keyframes fs-shine-loop{0%{transform:translateX(-120%) skewX(-18deg)}30%,100%{transform:translateX(260%) skewX(-18deg)}}
 @keyframes fs-twinkle{0%,70%,100%{box-shadow:0 0 0 0 rgba(242,143,59,0)}82%{box-shadow:0 0 0 3px rgba(242,143,59,.22),0 6px 18px rgba(242,143,59,.28)}}
 @keyframes fs-shine{from{transform:translateX(-120%) skewX(-18deg)}to{transform:translateX(260%) skewX(-18deg)}}
+.fs-clients{position:relative;display:inline-block;vertical-align:baseline}
+.fs-clients-mask{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.14em;margin-bottom:-.14em}
+.fs-clients-rise{display:inline-block;animation:fs-clients-rise .8s cubic-bezier(.22,1,.36,1) both;animation-delay:640ms}
+.fs-clients-shine{display:inline-block;color:var(--color-brand-orange);background:linear-gradient(100deg,var(--color-brand-orange) 0%,var(--color-brand-orange) 42%,#ffd7a6 50%,var(--color-brand-orange) 58%,var(--color-brand-orange) 100%);background-size:260% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:fs-clients-shine 3.4s linear infinite;animation-delay:1500ms}
+.fs-clients-line{position:absolute;inset-inline:0;bottom:-3px;height:2px;border-radius:2px;background:var(--color-brand-orange);transform-origin:left center;animation:fs-clients-line .7s cubic-bezier(.22,1,.36,1) both;animation-delay:1000ms}
+[dir=rtl] .fs-clients-line{transform-origin:right center}
 .fs-word{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.12em;margin-bottom:-.12em}
 .fs-word>span{display:inline-block;animation:fs-word .75s cubic-bezier(.22,1,.36,1) both;animation-delay:var(--d,0ms)}
 .fs-line{transform-origin:left center;animation:fs-line .7s cubic-bezier(.22,1,.36,1) both;animation-delay:var(--d,0ms)}
 [dir=rtl] .fs-line{transform-origin:right center}
 .fs-logo-pop{opacity:0;animation:fs-logo-in .7s cubic-bezier(.34,1.56,.64,1) both;animation-delay:var(--d,0ms)}
-.fs-logo{position:relative;overflow:hidden}
-.fs-logo::after{content:"";position:absolute;inset:0;width:40%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.9),transparent);transform:translateX(-120%) skewX(-18deg);animation:fs-shine-loop 4.2s ease-in-out infinite;animation-delay:calc(1600ms + var(--i,0) * 520ms);pointer-events:none}
-.fs-logo{animation:fs-logo-in .7s cubic-bezier(.34,1.56,.64,1) both,fs-twinkle 4.2s ease-in-out infinite;animation-delay:var(--d,0ms),calc(1600ms + var(--i,0) * 520ms)}
+.fs-logo{position:relative;overflow:hidden;isolation:isolate}
+.fs-logo{opacity:0;box-shadow:0 1px 2px rgba(15,31,75,.06),0 10px 26px -14px rgba(15,31,75,.22);animation:fs-focus .9s cubic-bezier(.22,1,.36,1) both,fs-wave 6s ease-in-out infinite;animation-delay:var(--d,0ms),calc(2200ms + var(--i,0) * 260ms)}
+.fs-logo::before{content:"";position:absolute;inset:0;z-index:0;border-radius:inherit;background:radial-gradient(circle 90px at var(--mx,50%) var(--my,50%),rgba(242,143,59,.2),transparent 70%);opacity:0;transition:opacity .35s ease;pointer-events:none}
+.fs-logo:hover::before{opacity:1}
+.fs-logo img{position:relative;z-index:1}
 .fs-btn::after{content:"";position:absolute;inset:0;width:35%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:translateX(-130%) skewX(-18deg)}
 .fs-btn:hover::after,.fs-btn:focus-visible::after{animation:fs-shine .8s ease-out}
 .fs-par{transition:transform .5s cubic-bezier(.22,1,.36,1);transform:translate3d(calc(var(--px,0)*-12px),calc(var(--py,0)*-9px),0) scale(1.06)}
-.fs-logo{transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s,border-color .3s}
-.fs-logo:hover{transform:translateY(-3px);border-color:rgba(242,143,59,.5);box-shadow:0 8px 18px rgba(15,31,75,.1)}
 .fs-btn{transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s}
 .fs-btn:hover,.fs-btn:focus-visible{transform:translateY(-2px)}
 .fs-btn:hover .fs-arr,.fs-btn:focus-visible .fs-arr{transform:translateX(4px)}
@@ -111,7 +122,8 @@ const CSS = `
 [dir=rtl] .fs-arr{transform:scaleX(-1)}
 .fs-arr{transition:transform .35s cubic-bezier(.22,1,.36,1)}
 @media (prefers-reduced-motion:reduce){
-.fs-word>span,.fs-line,.fs-logo-pop,.fs-logo,.fs-logo::after,.fs-btn:hover::after{animation:none;opacity:1;transform:none}
+.fs-word>span,.fs-line,.fs-logo-pop,.fs-logo,.fs-btn:hover::after,.fs-clients-rise,.fs-clients-line{animation:none;opacity:1;transform:none;filter:none}
+.fs-clients-shine{animation:none;background:none;-webkit-text-fill-color:currentColor}
 .fs-par{transform:none;transition:none}
 .fs-up,.fs-img-f,.fs-img-b,.fs-img-in,.fs-on .fs-ico,.fs-notch{animation:none;opacity:1}
 .fs-slide,.fs-ico,.fs-arr,.fs-btn,.fs-logo{transition:none}
@@ -173,7 +185,7 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
     : [];
   const industryBase = (current?.industry || current?.title || "").trim();
   const clientsWord = (section.clientsLabel || (locale === "ar" ? "العملاء" : "Clients")).trim();
-  const industryLabel = industryBase.toLowerCase().includes(clientsWord.toLowerCase()) ? industryBase : `${industryBase} ${clientsWord}`;
+  const addClients = !industryBase.toLowerCase().includes(clientsWord.toLowerCase());
   const panelEyebrow = flip ? chips.find((c) => c.key === format)?.label || section.eyebrow : section.eyebrow;
   const fmtIndex = chips.findIndex((c) => c.key === format);
 
@@ -339,13 +351,31 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
                 {logos.length ? (
                   <div className="mt-5 xl:mt-[calc(24*var(--u))]">
                     <p className="fs-up text-[14px] font-semibold leading-[22px] text-brand-orange xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]" style={{ "--d": "560ms" }}>
-                      {industryLabel}
+                      {industryBase}
+                      {addClients ? (
+                        <span className="fs-clients ms-[0.5em]">
+                          <span className="fs-clients-mask">
+                            <span className="fs-clients-rise">
+                              <span className="fs-clients-shine">{clientsWord}</span>
+                            </span>
+                          </span>
+                          <span className="fs-clients-line" aria-hidden="true" />
+                        </span>
+                      ) : null}
                     </p>
-                    <ul className="mt-3 flex flex-wrap gap-2 xl:mt-[calc(14*var(--u))] xl:gap-[calc(8*var(--u))]">
+                    <ul className="mt-3 flex flex-wrap gap-2.5 xl:mt-[calc(14*var(--u))] xl:gap-[calc(10*var(--u))]">
                       {logos.map((src, i) => (
-                        <li key={src + i} className="fs-logo-pop fs-logo flex h-[44px] w-[72px] items-center justify-center overflow-hidden rounded-md border border-black/10 bg-white p-0 sm:h-[52px] sm:w-[92px] xl:h-[calc(70*var(--u))] xl:w-[calc(124*var(--u))]" style={{ "--d": `${700 + i * 90}ms`, "--i": i }}>
-                          {/* The whole logo is shown, never cropped or zoomed. The bundled sample logos are 3x sharpened copies with their empty margins already trimmed
-                              (/images/clients-hd), so they fill the box and stay crisp. Logos uploaded in the admin are shown as they are. */}
+                        <li
+                          key={src + i}
+                          onPointerMove={(e) => {
+                            if (e.pointerType === "touch") return;
+                            const r = e.currentTarget.getBoundingClientRect();
+                            e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
+                            e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
+                          }}
+                          className="fs-logo flex h-[48px] w-[76px] items-center justify-center overflow-hidden rounded-xl bg-white p-[5px] sm:h-[56px] sm:w-[96px] sm:p-[6px] xl:h-[calc(70*var(--u))] xl:w-[calc(124*var(--u))] xl:p-[calc(8*var(--u))]"
+                          style={{ "--d": `${700 + i * 110}ms`, "--i": i }}>
+                          {/* Whole logo, never cropped or zoomed, with a small even gap to the edges. Sample logos are 3x sharpened copies with their empty margins trimmed (/images/clients-hd). */}
                           <Image src={hdLogo(src)} alt="" width={960} height={444} unoptimized className="h-full w-full object-contain" />
                         </li>
                       ))}
