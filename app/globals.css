@@ -216,3 +216,34 @@ body {
     line-height: calc(30 * var(--u));
   }
 }
+
+/* Home: Flavours and Fragrances section entrance. Text slides up out of a mask,
+   cards open with a curtain wipe while the media settles, card text rises last. */
+.xp { --xp-ease: cubic-bezier(0.22, 1, 0.36, 1); --xp-r: 16px; }
+@media (min-width: 1280px) { .xp { --xp-r: calc(32 * var(--u)); } }
+
+.xp-mask { overflow: hidden; padding-bottom: 0.12em; margin-bottom: -0.12em; }
+.xp-up { display: block; transition: transform 0.9s var(--xp-ease), opacity 0.6s ease; transition-delay: var(--d, 0ms); }
+.xp[data-xp="pending"] .xp-up { transform: translateY(110%); opacity: 0; }
+
+.xp-card { transition: clip-path 1.1s var(--xp-ease), opacity 0.5s ease; transition-delay: var(--d, 0ms); clip-path: inset(0 0 0 0 round var(--xp-r)); }
+.xp[data-xp="pending"] .xp-card { clip-path: inset(0 0 100% 0 round var(--xp-r)); opacity: 0; }
+
+.xp-media { transition: transform 1.8s var(--xp-ease); transition-delay: var(--d, 0ms); }
+.xp[data-xp="pending"] .xp-media { transform: scale(1.22); }
+
+.xp-text { transition: transform 0.9s var(--xp-ease), opacity 0.7s ease; transition-delay: calc(var(--d, 0ms) + 420ms); }
+.xp[data-xp="pending"] .xp-text { transform: translateY(28px); opacity: 0; }
+
+.xp-fade { transition: transform 0.8s var(--xp-ease), opacity 0.7s ease; transition-delay: var(--d, 0ms); }
+.xp[data-xp="pending"] .xp-fade { transform: translateY(16px); opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .xp-up, .xp-card, .xp-media, .xp-text, .xp-fade { transition: none !important; }
+}
+
+/* Card description: each word rises out of a mask, one after another. */
+.xp-wm { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.18em; margin-bottom: -0.18em; }
+.xp-word { display: inline-block; transition: transform 0.8s var(--xp-ease), opacity 0.6s ease; transition-delay: calc(var(--d, 0ms) + 760ms + var(--i, 0) * 40ms); }
+.xp[data-xp="pending"] .xp-word { transform: translateY(115%); opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .xp-word { transition: none !important; } }

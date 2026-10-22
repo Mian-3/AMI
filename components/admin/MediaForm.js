@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import ImageField from "@/components/admin/ImageField";
 import FileField from "@/components/admin/FileField";
 import { saveMedia, resetMedia } from "@/app/admin/(panel)/media/actions";
+import { SOCIAL_PLATFORMS } from "@/lib/mediaShared";
 
 const FIELD =
   "h-10 w-full rounded-lg border border-black/10 bg-white px-3 text-sm text-ink outline-none transition focus:border-brand-orange focus:ring-4 focus:ring-brand-orange/15";
@@ -30,6 +31,7 @@ export default function MediaForm({ initial, labels }) {
   const setFooter = (list, index, value) =>
     setM((s) => ({ ...s, footerLinks: { ...s.footerLinks, [list]: s.footerLinks[list].map((x, i) => (i === index ? value : x)) } }));
 
+  const setSocial = (i, patch) => setM((st) => ({ ...st, socials: st.socials.map((x, j) => (j === i ? { ...x, ...patch } : x)) }));
   const setClients = (next) => setM((s) => ({ ...s, clients: next }));
   const moveClient = (i, d) => {
     const j = i + d;
@@ -116,6 +118,11 @@ export default function MediaForm({ initial, labels }) {
       </Card>
 
       <Card title="Home page: Flavours and Fragrances cards" note="The two photo cards in the Flavours and Fragrances section of the home page. Each card can show a photo or a looping video. Both open the Flavours and Fragrances page. Their text is in Site content, Expertise.">
+        <div>
+          <label className={LABEL}>Card overlay (text clarity): {m.expertise.cardOverlay}%</label>
+          <input type="range" min="0" max="80" step="5" value={m.expertise.cardOverlay} onChange={(e) => setPath("expertise", "cardOverlay", Number(e.target.value))} className="w-full accent-[#f58220]" />
+          <p className="mt-1 text-xs text-ink/50">A dark tint over both card photos or videos. Raise it if the title and text are hard to read.</p>
+        </div>
         {cardMedia("flavours", "Flavours card")}
         {cardMedia("fragrances", "Fragrances card")}
       </Card>
@@ -156,11 +163,28 @@ export default function MediaForm({ initial, labels }) {
         ) : null}
       </Card>
 
-      <Card title="Buttons and social links" note="Use /{locale}/contact style links for pages on this site ({locale} becomes en or ar). Use a full https:// link for other sites. # means no link yet.">
+      <Card title="Buttons" note="Use /{locale}/contact style links for pages on this site ({locale} becomes en or ar). Use a full https:// link for other sites. # means no link yet.">
         {linkRow("links", "requestSample", "Request for Sample button")}
-        {linkRow("links", "facebook", "Facebook")}
-        {linkRow("links", "instagram", "Instagram")}
-        {linkRow("links", "linkedin", "LinkedIn")}
+      </Card>
+
+      <Card title="Social links" note="The social icons in the header and footer, in this order. Add the platforms you use, remove the ones you do not. Use a full https:// link.">
+        <ul className="space-y-2">
+          {m.socials.map((s, i) => (
+            <li key={i} className="grid items-center gap-2 sm:grid-cols-[170px_1fr_auto]">
+              <select value={s.platform} onChange={(e) => setSocial(i, { platform: e.target.value })} className={FIELD} aria-label="Platform">
+                {SOCIAL_PLATFORMS.map((p) => (
+                  <option key={p.id} value={p.id}>{p.label}</option>
+                ))}
+              </select>
+              <input value={s.url} onChange={(e) => setSocial(i, { url: e.target.value })} placeholder="https://" className={FIELD} aria-label="Link" />
+              <button type="button" onClick={() => setM((st) => ({ ...st, socials: st.socials.filter((_, j) => j !== i) }))} className="h-10 rounded-lg px-3 text-sm text-red-600 hover:bg-red-50">Remove</button>
+            </li>
+          ))}
+        </ul>
+        {m.socials.length === 0 ? <p className="text-xs text-ink/50">No social icons are shown on the website.</p> : null}
+        {m.socials.length < 8 ? (
+          <button type="button" onClick={() => setM((st) => ({ ...st, socials: [...st.socials, { platform: SOCIAL_PLATFORMS.find((p) => !st.socials.some((x) => x.platform === p.id))?.id || "facebook", url: "https://" }] }))} className="h-10 rounded-lg border border-black/10 bg-white px-4 text-sm font-medium text-brand-navy hover:bg-black/5">Add social link</button>
+        ) : null}
       </Card>
 
       <Card title="Footer links" note="Where each footer link goes. The link names are edited in Site content, Footer.">

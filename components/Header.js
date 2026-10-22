@@ -4,6 +4,9 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import CatalogueDownloadLink from "@/components/CatalogueDownloadLink";
 import EnquiryModal from "@/components/EnquiryModal";
 import SiteSearch from "@/components/SiteSearch";
+import SocialGlyph from "@/components/SocialIcons";
+import { getMedia } from "@/lib/media";
+import { SOCIAL_PLATFORMS, resolveHref, isExternal } from "@/lib/mediaShared";
 
 function getNavItems(dict, locale, active) {
   return [
@@ -35,34 +38,6 @@ function PenIcon() {
   );
 }
 
-function FacebookIcon() {
-  return (
-    <Icon>
-      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-    </Icon>
-  );
-}
-
-function InstagramIcon() {
-  return (
-    <Icon>
-      <rect x="2" y="2" width="20" height="20" rx="5" />
-      <circle cx="12" cy="12" r="4" />
-      <path d="M17.5 6.5h.01" />
-    </Icon>
-  );
-}
-
-function LinkedinIcon() {
-  return (
-    <Icon>
-      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-      <rect x="2" y="9" width="4" height="12" />
-      <circle cx="4" cy="4" r="2" />
-    </Icon>
-  );
-}
-
 
 const SOCIAL_CSS = `
 @keyframes hd-pop{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
@@ -73,15 +48,17 @@ const SOCIAL_CSS = `
 
 const SOC = "hd-soc";
 
-function Social({ label, i, children }) {
+function Social({ label, href, i, children }) {
+  const ext = isExternal(href) ? { target: "_blank", rel: "noopener noreferrer" } : {};
   return (
-    <a href="#" aria-label={label} className={SOC} style={{ "--i": i }}>
+    <a href={href} {...ext} aria-label={label} className={SOC} style={{ "--i": i }}>
       {children}
     </a>
   );
 }
 
-export default function Header({ dict, locale, active = "home" }) {
+export default async function Header({ dict, locale, active = "home" }) {
+  const media = await getMedia();
   const navItems = getNavItems(dict, locale, active);
 
   return (
@@ -106,9 +83,11 @@ export default function Header({ dict, locale, active = "home" }) {
             <style>{SOCIAL_CSS}</style>
             <LanguageSwitcher variant="dark" />
             <SiteSearch items={navItems} locale={locale} />
-            <Social label="Facebook" i={0}><FacebookIcon /></Social>
-            <Social label="Instagram" i={1}><InstagramIcon /></Social>
-            <Social label="LinkedIn" i={2}><LinkedinIcon /></Social>
+            {(media.socials || []).map((s, i) => (
+              <Social key={s.platform + i} label={SOCIAL_PLATFORMS.find((p) => p.id === s.platform)?.label} href={resolveHref(s.url, locale)} i={i}>
+                <SocialGlyph platform={s.platform} className="h-[14px] w-[14px] xl:h-[max(14px,calc(18*var(--u)))] xl:w-[max(14px,calc(18*var(--u)))]" strokeWidth={2} />
+              </Social>
+            ))}
           </div>
         </div>
       </div>
@@ -116,10 +95,10 @@ export default function Header({ dict, locale, active = "home" }) {
       {/* Main navigation bar */}
       <div className="relative border-b border-black/10 bg-[#fcfcfa]">
         <div className="mx-auto flex h-16 max-w-[1200px] items-center px-4 sm:px-6 xl:h-[calc(85*var(--u))] xl:max-w-[calc(1600*var(--u))] xl:px-0">
-          <a href={`/${locale}`} aria-label="A.M International home" className="shrink-0">
+          <a href={`/${locale}`} aria-label="AM International home" className="shrink-0">
             <Image
               src="/images/logo/am-international-logo.png"
-              alt="A.M International"
+              alt="AM International"
               width={1600}
               height={429}
               priority

@@ -5,6 +5,8 @@ import { resolveHref, isExternal } from "@/lib/mediaShared";
 import { inter, dmSans } from "@/lib/fonts";
 import { getFooterContact } from "@/lib/footerContactServer";
 import { telHref } from "@/lib/footerContact";
+import SocialGlyph from "@/components/SocialIcons";
+import { SOCIAL_PLATFORMS } from "@/lib/mediaShared";
 
 /*
   Fixed pixel sizes taken from the 1920 design (no scaling), so text is always the design size.
@@ -24,35 +26,6 @@ function SearchIcon() {
     <Icon>
       <circle cx="11" cy="11" r="8" />
       <path d="m21 21-4.3-4.3" />
-    </Icon>
-  );
-}
-
-function FacebookIcon() {
-  return (
-    <Icon>
-      <path d="M14.5 21v-8h2.7l.5-3.3h-3.2V7.6c0-1 .5-1.6 1.7-1.6h1.7V3.2C17.6 3.1 16.7 3 15.7 3 13.2 3 11.5 4.5 11.5 7.1v2.6H8.8V13h2.7v8z" />
-    </Icon>
-  );
-}
-
-function InstagramIcon() {
-  return (
-    <Icon>
-      <rect x="3" y="3" width="18" height="18" rx="5" />
-      <circle cx="12" cy="12" r="4.2" />
-      <circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" />
-    </Icon>
-  );
-}
-
-function LinkedinIcon() {
-  return (
-    <Icon>
-      <path d="M4.5 9.5v10" />
-      <circle cx="4.5" cy="5" r="1" fill="currentColor" />
-      <path d="M9.5 19.5v-10" />
-      <path d="M9.5 13.5a4 4 0 0 1 4-4h.5a4 4 0 0 1 4 4v6" />
     </Icon>
   );
 }
@@ -84,7 +57,7 @@ const CSS = `
 export default async function Footer({ dict, locale }) {
   const media = await getMedia();
   const contact = await getFooterContact(dict);
-  const { links, footerLinks } = media;
+  const { socials, footerLinks } = media;
   const href = (v) => resolveHref(v, locale);
   const extra = (v) => (isExternal(v) ? { target: "_blank", rel: "noopener noreferrer" } : {});
 
@@ -150,9 +123,9 @@ export default async function Footer({ dict, locale }) {
         </div>
         <div className="flex items-center gap-5 text-brand-navy xl:gap-[22px]">
           <a href="#" aria-label="Search" className="ft-soc"><SearchIcon /></a>
-          <a href={href(links.facebook)} {...extra(links.facebook)} aria-label="Facebook" className="ft-soc"><FacebookIcon /></a>
-          <a href={href(links.instagram)} {...extra(links.instagram)} aria-label="Instagram" className="ft-soc"><InstagramIcon /></a>
-          <a href={href(links.linkedin)} {...extra(links.linkedin)} aria-label="LinkedIn" className="ft-soc"><LinkedinIcon /></a>
+          {(socials || []).map((s, i) => (
+            <a key={s.platform + i} href={href(s.url)} {...extra(s.url)} aria-label={SOCIAL_PLATFORMS.find((p) => p.id === s.platform)?.label} className="ft-soc"><SocialGlyph platform={s.platform} className={ICON} /></a>
+          ))}
         </div>
       </div>
     </footer>
