@@ -1,5 +1,6 @@
 "use client";
 
+import Roll from "@/components/Roll";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -454,7 +455,7 @@ export default function ContactForm({ dict }) {
                   </>
                 ) : (
                   <>
-                    {c.send}
+                    <Roll>{c.send}</Roll>
                     <ArrowIcon />
                   </>
                 )}

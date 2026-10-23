@@ -1,5 +1,6 @@
 "use client";
 
+import Roll from "@/components/Roll";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { LAND_RINGS } from "@/lib/landData";
@@ -132,7 +133,7 @@ async function buildPakistanLayer(src) {
 }
 
 /* ---------- Slowly turning earth behind the map ---------- */
-function Globe({ run }) {
+function Globe({ run, below = false }) {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -145,7 +146,9 @@ function Globe({ run }) {
     let w = 0;
     let h = 0;
     let dpr = 1;
-    const start = performance.now();
+    // one shared clock, so the globe under the card keeps turning in step with the one above it
+    if (typeof window.__clGlobeStart !== "number") window.__clGlobeStart = performance.now();
+    const start = window.__clGlobeStart;
 
     function size() {
       const r = canvas.getBoundingClientRect();
@@ -180,9 +183,12 @@ function Globe({ run }) {
     }
 
     function draw(now) {
+      if (w < 2 || h < 2) return; // canvas not laid out yet (or hidden), nothing to draw
       const R = w * 0.88; // sphere radius: only its top cap shows, like the design
       const cx = w / 2;
-      const cy = w * 0.131 + R;
+      const bandH = (w * 626) / 1920;
+      const top = w * 0.131 - (below ? bandH : 0); // the lower canvas continues where the band ends
+      const cy = top + R;
       const lon0 = (60 - ((now - start) / 1000) * 3) * RAD; // 360 degrees in 2 minutes
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
@@ -191,7 +197,7 @@ function Globe({ run }) {
       ctx.beginPath();
       ctx.arc(cx, cy, R, 0, Math.PI * 2);
       ctx.clip();
-      const g = ctx.createLinearGradient(0, cy - R, 0, cy - R + h);
+      const g = ctx.createLinearGradient(0, top, 0, top + bandH);
       g.addColorStop(0, "#fff3e0");
       g.addColorStop(1, "#feeed8");
       ctx.fillStyle = g;
@@ -363,7 +369,7 @@ export default function ContactLocations({ dict }) {
       </div>
 
       {/* Map band */}
-      <div ref={band} className="relative w-full overflow-hidden" dir="ltr">
+      <div ref={band} className="relative isolate w-full overflow-hidden" dir="ltr">
         <div className="relative aspect-[1920/626] w-full">
           {/* Original design image: shown as supplied until the animated layers are ready (and kept if they cannot be built) */}
           <Image
@@ -402,13 +408,19 @@ export default function ContactLocations({ dict }) {
         </div>
       </div>
 
-      {/* Offices card, overlapping into the orange band below */}
-      <div className="bg-[linear-gradient(to_bottom,#fef4e5_0,#fef4e5_8rem,#f28a35_8rem)] px-4 sm:px-6 md:bg-[linear-gradient(to_bottom,#fef4e5_0,#fef4e5_13.25rem,#f28a35_13.25rem)] xl:px-0">
+      {/* Offices card on a soft light gradient that fades from the globe cream into white */}
+      <div className="relative isolate overflow-hidden px-4 pb-16 sm:px-6 md:pb-20 xl:px-0 xl:pb-[calc(96*var(--u))]">
+        {/* the turning globe carries on behind the card, so there is no flat colour band */}
+        {layer ? (
+          <>
+            <div aria-hidden="true" className="absolute inset-0 -z-10"><Globe run={ready} below /></div>
+            <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-24 bg-gradient-to-b from-transparent to-[#fcfcfa]" />
+          </>
+        ) : null}
         <Reveal className="mx-auto max-w-[75rem] xl:max-w-[calc(1200*var(--u))]">
-          <div className="rounded-b-[2.5rem] rounded-t-[1.5rem] bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.06)] md:rounded-t-[2.5rem] md:p-[3.125rem] md:pt-[3.5rem]">
+          <div className="rounded-b-[2.5rem] rounded-t-[1.5rem] bg-white p-6 shadow-[0_24px_70px_-20px_rgba(0,0,0,0.14)] md:rounded-t-[2.5rem] md:p-[3.125rem] md:pt-[3.5rem]">
             <h3 className="relative inline-block pb-3 text-[20px] font-semibold leading-[1.3] text-brand-orange xl:text-[max(20px,calc(29*var(--u)))] xl:leading-[1.2]">
               {c.cardHeading}
-              <span aria-hidden="true" className="cl-line absolute bottom-0 start-0 h-[2px] w-full bg-brand-orange/30" style={{ animationDelay: "500ms" }} />
             </h3>
             <div className="mt-6 grid gap-10 md:mt-8 md:grid-cols-[342fr_392fr_366fr] md:gap-8">
               {c.items.map((office, index) => {
@@ -429,7 +441,7 @@ export default function ContactLocations({ dict }) {
                         rel="noopener noreferrer"
                         className="group/link mt-5 inline-flex items-center gap-1.5 text-[13px] font-medium text-brand-orange xl:text-[max(13px,calc(14*var(--u)))] transition-colors hover:text-brand-orange/80"
                       >
-                        {c.directions}
+                        <Roll tint>{c.directions}</Roll>
                         <span className="transition-transform duration-300 group-hover/link:translate-x-1 rtl:group-hover/link:-translate-x-1"><ArrowIcon /></span>
                       </a>
                     </div>

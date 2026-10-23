@@ -1,3 +1,4 @@
+import Roll from "@/components/Roll";
 import AboutReveal from "@/components/AboutReveal";
 
 export default function InsightsCta({ dict }) {
@@ -18,10 +19,10 @@ export default function InsightsCta({ dict }) {
         <AboutReveal delay={300}>
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3 xl:mt-10 xl:gap-4">
             <a href="#" className="inline-flex h-11 items-center rounded-md bg-white px-6 text-[14px] font-semibold text-ink transition duration-200 hover:-translate-y-0.5 hover:opacity-90 xl:h-14 xl:px-9 xl:text-[16px]">
-              {dict.buttons.requestSample}
+              <Roll>{dict.buttons.requestSample}</Roll>
             </a>
             <a href="#" className="inline-flex h-11 items-center rounded-md border border-white/60 px-6 text-[14px] font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-white/10 xl:h-14 xl:px-9 xl:text-[16px]">
-              {t.talk}
+              <Roll>{t.talk}</Roll>
             </a>
           </div>
         </AboutReveal>

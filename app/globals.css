@@ -247,3 +247,142 @@ body {
 .xp-word { display: inline-block; transition: transform 0.8s var(--xp-ease), opacity 0.6s ease; transition-delay: calc(var(--d, 0ms) + 760ms + var(--i, 0) * 40ms); }
 .xp[data-xp="pending"] .xp-word { transform: translateY(115%); opacity: 0; }
 @media (prefers-reduced-motion: reduce) { .xp-word { transition: none !important; } }
+
+
+/* =====================================================================
+   Home page motion system (mx-*). Adds movement only, never layout.
+   A scope (<Mx>) starts as data-mx="pending" and flips to "in" when it
+   scrolls into view. Children opt in with one of the classes below and a
+   delay in the --d custom property.
+   ===================================================================== */
+@property --mx-p { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+
+.mx { --mx-ease: cubic-bezier(0.22, 1, 0.36, 1); --mx-spring: cubic-bezier(0.34, 1.56, 0.64, 1); --mx-r: 16px; }
+
+/* words rise out of a mask, one after another */
+.mx-w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+.mx-wi { display: inline-block; transition: transform 0.95s var(--mx-ease), opacity 0.6s ease; transition-delay: calc(var(--d, 0ms) + var(--i, 0) * 55ms); }
+.mx[data-mx="pending"] .mx-wi { transform: translateY(118%) rotate(3deg); opacity: 0; }
+
+/* eyebrow: wide tracking closes in while it fades up */
+.mx-eyebrow { transition: letter-spacing 1.3s var(--mx-ease), opacity 0.9s ease, transform 0.9s var(--mx-ease); transition-delay: var(--d, 0ms); }
+.mx[data-mx="pending"] .mx-eyebrow { letter-spacing: 0.34em; opacity: 0; transform: translateY(8px); }
+
+/* soft focus pull: blur and lift resolve into place */
+.mx-fade { transition: opacity 0.9s ease, transform 1s var(--mx-ease), filter 0.9s ease; transition-delay: var(--d, 0ms); }
+.mx[data-mx="pending"] .mx-fade { opacity: 0; transform: translateY(18px); filter: blur(6px); }
+
+/* cards open like a curtain (top to bottom), shadows stay visible afterwards */
+.mx[data-mx="pending"] .mx-curtain { opacity: 0; clip-path: inset(0 0 100% 0 round var(--mx-r)); }
+.mx[data-mx="in"] .mx-curtain { animation: mx-curtain 1.15s var(--mx-ease) backwards; animation-delay: var(--d, 0ms); }
+@keyframes mx-curtain {
+  from { opacity: 0; clip-path: inset(0 0 100% 0 round var(--mx-r)); transform: translateY(14px); }
+  35% { opacity: 1; }
+  to { opacity: 1; clip-path: inset(-80px -80px -80px -80px round var(--mx-r)); transform: none; }
+}
+
+/* picture settles from a slight zoom */
+.mx[data-mx="pending"] .mx-media { transform: scale(1.22); }
+.mx-media { transition: transform 1.9s var(--mx-ease); transition-delay: var(--d, 0ms); }
+
+/* spring pop for icons, chips and badges */
+.mx[data-mx="pending"] .mx-pop { opacity: 0; transform: scale(0.5); }
+.mx-pop { transition: transform 0.8s var(--mx-spring), opacity 0.4s ease; transition-delay: var(--d, 0ms); }
+
+/* lines that draw themselves */
+.mx-line-x { transform-origin: left center; transition: transform 1s var(--mx-ease); transition-delay: var(--d, 0ms); }
+[dir="rtl"] .mx-line-x { transform-origin: right center; }
+.mx[data-mx="pending"] .mx-line-x { transform: scaleX(0); }
+.mx-line-y { transform-origin: top center; transition: transform 0.9s var(--mx-ease); transition-delay: var(--d, 0ms); }
+.mx[data-mx="pending"] .mx-line-y { transform: scaleY(0); }
+
+/* icons draw their own outline */
+.mx[data-mx="pending"] .mx-ico * { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.mx[data-mx="in"] .mx-ico * { stroke-dasharray: 1; animation: mx-stroke 1.3s var(--mx-ease) both; animation-delay: var(--d, 0ms); }
+@keyframes mx-stroke { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+/* a one-off sheen crossing a card as it lands */
+.mx-sheen { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; pointer-events: none; }
+.mx-sheen::after { content: ""; position: absolute; inset: 0; width: 45%; background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.45), transparent); transform: translateX(-130%) skewX(-18deg); }
+.mx[data-mx="in"] .mx-sheen::after { animation: mx-sheen 1.5s ease-in-out both; animation-delay: calc(var(--d, 0ms) + 900ms); }
+@keyframes mx-sheen { to { transform: translateX(330%) skewX(-18deg); } }
+
+/* light that follows the pointer (set by <Mx> through --sx and --sy) */
+.mx-glow { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity 0.4s ease; background: radial-gradient(circle 160px at var(--sx, 50%) var(--sy, 50%), var(--mx-glow, rgba(255, 255, 255, 0.28)), transparent 70%); }
+[data-spot]:hover > .mx-glow, [data-spot]:hover .mx-glow { opacity: 1; }
+
+/* ring that draws around a badge */
+.mx-ring::before { content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none; z-index: 2; opacity: 0; background: conic-gradient(var(--color-brand-orange) var(--mx-p), transparent 0); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px)); mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px)); }
+.mx[data-mx="in"] .mx-ring::before { animation: mx-ring 1.6s var(--mx-ease) both; animation-delay: calc(var(--d, 0ms) + 250ms); }
+@keyframes mx-ring { 0% { --mx-p: 0deg; opacity: 1; } 70% { --mx-p: 360deg; opacity: 1; } 100% { --mx-p: 360deg; opacity: 0; } }
+
+/* scroll driven depth (progressive: browsers without it simply skip it) */
+@supports (animation-timeline: view()) {
+  .mx-parallax { animation: mx-parallax linear both; animation-timeline: view(); animation-range: entry 0% exit 100%; }
+  @keyframes mx-parallax { from { transform: translateY(-7%); } to { transform: translateY(7%); } }
+  .hero-video { animation: hero-settle 2.8s var(--mx-ease, cubic-bezier(0.22, 1, 0.36, 1)) both, hero-drift linear both; animation-timeline: auto, scroll(root); animation-range: normal, 0 90vh; }
+  .hero-content { animation: hero-out linear both; animation-timeline: scroll(root); animation-range: 0 70vh; }
+  @keyframes hero-drift { to { transform: translateY(9%) scale(1.04); } }
+  @keyframes hero-out { to { opacity: 0.15; transform: translateY(-36px); } }
+}
+@keyframes hero-settle { from { transform: scale(1.16); filter: brightness(0.7); } to { transform: scale(1); filter: none; } }
+
+/* clients strip: slows to a stop under the cursor, logos lift */
+.marquee-track:hover { animation-play-state: paused; }
+.marquee-item { transition: transform 0.45s var(--mx-ease, cubic-bezier(0.22, 1, 0.36, 1)), box-shadow 0.3s ease; }
+.marquee-item:hover { transform: translateY(-5px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .mx .mx-wi, .mx .mx-eyebrow, .mx .mx-fade, .mx .mx-media, .mx .mx-pop, .mx .mx-line-x, .mx .mx-line-y { transition: none !important; opacity: 1 !important; transform: none !important; filter: none !important; letter-spacing: inherit !important; }
+  .mx .mx-curtain, .mx .mx-ico *, .mx .mx-sheen::after, .mx .mx-ring::before, .mx-parallax, .hero-video, .hero-content { animation: none !important; clip-path: none !important; opacity: 1 !important; stroke-dashoffset: 0 !important; }
+}
+
+
+/* =====================================================================
+   Header motion (hd-*). Movement only, the header design is unchanged.
+   ===================================================================== */
+.hd-link { position: relative; }
+.hd-link::after { content: ""; position: absolute; inset-inline: 0; bottom: 0; height: calc(4 * var(--u, 1px)); background: var(--color-brand-orange); transform: scaleX(0); transform-origin: left center; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+[dir="rtl"] .hd-link::after { transform-origin: right center; }
+.hd-link:hover::after, .hd-link:focus-visible::after { transform: scaleX(1); }
+
+/* label rolls up and a copy rolls in from below (any link or button) */
+.hd-roll { position: relative; display: inline-block; overflow: hidden; vertical-align: top; }
+.hd-roll > .a, .hd-roll > .b { display: block; transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+.hd-roll > .b { position: absolute; inset: 0; transform: translateY(105%); }
+.hd-roll.hd-tint > .b { color: var(--color-brand-orange); }
+:is(a, button, [data-roll]):is(:hover, :focus-visible) .hd-roll > .a { transform: translateY(-105%); }
+:is(a, button, [data-roll]):is(:hover, :focus-visible) .hd-roll > .b { transform: none; }
+
+/* nav entrance */
+@keyframes hd-in { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+.hd-in { animation: hd-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards; animation-delay: calc(var(--i, 0) * 60ms + 250ms); }
+
+/* buttons: light sweep on hover */
+.hd-btn { position: relative; overflow: hidden; isolation: isolate; }
+.hd-btn::before { content: ""; position: absolute; inset: 0; z-index: -1; width: 40%; background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.4), transparent); transform: translateX(-140%) skewX(-18deg); }
+.hd-btn:hover::before { transform: translateX(320%) skewX(-18deg); transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
+
+/* utility bar links and social icons */
+.hd-ul { position: relative; }
+.hd-ul::after { content: ""; position: absolute; inset-inline: 0; bottom: -3px; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left center; transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+[dir="rtl"] .hd-ul::after { transform-origin: right center; }
+.hd-ul:hover::after { transform: scaleX(1); }
+.hd-soc { transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s; }
+.hd-soc:hover { transform: translateY(-3px) rotate(-6deg) scale(1.12); }
+
+/* mobile: hamburger morphs into a cross, rows slide in one by one */
+.mm-l { transform-box: view-box; transform-origin: 12px 12px; transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s; }
+.mm-open .mm-t { transform: translateY(6px) rotate(45deg); }
+.mm-open .mm-m { transform: scaleX(0); opacity: 0; }
+.mm-open .mm-b { transform: translateY(-6px) rotate(-45deg); }
+.mm-row { opacity: 0; transform: translateX(-14px); transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); transition-delay: 0ms; }
+[dir="rtl"] .mm-row { transform: translateX(14px); }
+.mm-open .mm-row { opacity: 1; transform: none; transition-delay: calc(var(--i, 0) * 45ms + 120ms); }
+.mm-row a { transition: padding 0.3s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s; }
+.mm-row a:active { padding-inline-start: 8px; color: var(--color-brand-orange); }
+@media (prefers-reduced-motion: reduce) {
+  .hd-in, .hd-btn::before { animation: none !important; }
+  .hd-link::after, .hd-roll > span, .hd-soc, .hd-ul::after, .mm-l, .mm-row { transition: none !important; }
+  .mm-row { opacity: 1; transform: none; }
+}

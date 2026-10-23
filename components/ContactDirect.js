@@ -1,3 +1,4 @@
+import Roll from "@/components/Roll";
 import Reveal from "@/components/Reveal";
 
 export default function ContactDirect({ dict }) {
@@ -18,13 +19,13 @@ export default function ContactDirect({ dict }) {
         <Reveal delay={320} className="mt-9 flex flex-col items-center justify-center gap-4 md:mt-12 md:flex-row md:gap-14 text-[14px] leading-[22px] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">
           <p className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
             <span className="font-bold">{c.call}</span>
-            <a href="tel:+923004018352" dir="ltr" className="underline-offset-4 transition-opacity hover:underline hover:opacity-90">+92 300 4018 352</a>
+            <a href="tel:+923004018352" dir="ltr" className="underline-offset-4 transition-opacity hover:opacity-90"><Roll>+92 300 4018 352</Roll></a>
             <span className="hidden h-6 w-px bg-white md:block" aria-hidden="true" />
-            <a href="tel:+923218404292" dir="ltr" className="underline-offset-4 transition-opacity hover:underline hover:opacity-90">+92 321 8404 292</a>
+            <a href="tel:+923218404292" dir="ltr" className="underline-offset-4 transition-opacity hover:opacity-90"><Roll>+92 321 8404 292</Roll></a>
           </p>
           <p className="flex flex-wrap items-center justify-center gap-x-3">
             <span className="font-bold">{c.email}</span>
-            <a href="mailto:sales@aminternational.pk" className="underline-offset-4 transition-opacity hover:underline hover:opacity-90">sales@aminternational.pk</a>
+            <a href="mailto:sales@aminternational.pk" className="underline-offset-4 transition-opacity hover:opacity-90"><Roll>sales@aminternational.pk</Roll></a>
           </p>
         </Reveal>
       </div>

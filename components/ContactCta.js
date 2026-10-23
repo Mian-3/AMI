@@ -1,3 +1,4 @@
+import Roll from "@/components/Roll";
 import Reveal from "@/components/Reveal";
 
 export default function ContactCta({ dict }) {
@@ -17,10 +18,10 @@ export default function ContactCta({ dict }) {
         </Reveal>
         <Reveal delay={340} className="mt-10 flex flex-wrap items-center justify-center gap-3 md:mt-12">
           <a href="#" className="flex items-center h-9 px-4 text-[12px] rounded-md xl:h-[max(40px,calc(48*var(--u)))] xl:px-[calc(36*var(--u))] xl:text-[max(12px,calc(14*var(--u)))] xl:rounded-[calc(8*var(--u))] bg-white font-medium text-[#201e1e] transition duration-200 hover:-translate-y-0.5 hover:bg-white/90 motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-            {c.sample}
+            <Roll>{c.sample}</Roll>
           </a>
           <a href="#contact-form" className="group flex items-center gap-2 h-9 px-4 text-[12px] rounded-md xl:h-[max(40px,calc(48*var(--u)))] xl:px-[calc(36*var(--u))] xl:text-[max(12px,calc(14*var(--u)))] xl:rounded-[calc(8*var(--u))] border border-white font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:bg-white/10 motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-            {c.talk}
+            <Roll>{c.talk}</Roll>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1">
               <path d="M5 12h14M13 6l6 6-6 6" />
             </svg>

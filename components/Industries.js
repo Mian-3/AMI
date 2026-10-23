@@ -1,9 +1,11 @@
 "use client";
 
+import Roll from "@/components/Roll";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Reveal from "@/components/Reveal";
+import Mx from "@/components/Mx";
+import MxText from "@/components/MxText";
 import CatalogueDownloadLink from "@/components/CatalogueDownloadLink";
 
 if (typeof window !== "undefined") {
@@ -12,7 +14,7 @@ if (typeof window !== "undefined") {
 
 function Icon({ children }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-[22px] w-[22px] xl:h-[max(28px,calc(40*var(--u)))] xl:w-[max(28px,calc(40*var(--u)))]">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="mx-pop h-[22px] w-[22px] xl:h-[max(28px,calc(40*var(--u)))] xl:w-[max(28px,calc(40*var(--u)))]">
       {children}
     </svg>
   );
@@ -151,12 +153,12 @@ export default function Industries({ dict }) {
   }, [dict]);
 
   return (
-    <section className="bg-[#fcfcfa] px-4 py-16 [--u:1px] sm:px-6 md:py-20 xl:px-0 xl:pb-[calc(110*var(--u))] xl:pt-[calc(87*var(--u))] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
+    <Mx as="section" className="bg-[#fcfcfa] px-4 py-16 [--u:1px] sm:px-6 md:py-20 xl:px-0 xl:pb-[calc(110*var(--u))] xl:pt-[calc(87*var(--u))] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
       <div className="mx-auto max-w-[1200px] xl:max-w-[calc(1200*var(--u))]">
         <div className="flex flex-col items-center text-center">
-          <Reveal as="p" className="mb-3 text-[11px] font-semibold uppercase tracking-[0.13em] text-brand-navy xl:mb-[calc(11*var(--u))] xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))]">{dict.industries.eyebrow}</Reveal>
-          <Reveal as="h2" delay={100} className="max-w-[560px] text-[26px] font-semibold leading-[1.25] tracking-[-0.015em] text-brand-navy md:text-[32px] md:leading-[40px] xl:max-w-none xl:text-[max(28px,calc(40*var(--u)))] xl:leading-[calc(48*var(--u))]">{dict.industries.heading}</Reveal>
-          <Reveal as="p" delay={200} className="mt-4 max-w-[560px] text-[14px] leading-[22px] text-ink/60 xl:mt-[calc(16*var(--u))] xl:max-w-[calc(820*var(--u))] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">{dict.industries.paragraph}</Reveal>
+          <p className="mx-eyebrow mb-3 text-[11px] font-semibold uppercase tracking-[0.13em] text-brand-navy xl:mb-[calc(11*var(--u))] xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))]">{dict.industries.eyebrow}</p>
+          <MxText as="h2" delay={150} className="max-w-[560px] text-[26px] font-semibold leading-[1.25] tracking-[-0.015em] text-brand-navy md:text-[32px] md:leading-[40px] xl:max-w-none xl:text-[max(28px,calc(40*var(--u)))] xl:leading-[calc(48*var(--u))]">{dict.industries.heading}</MxText>
+          <p style={{ "--d": "450ms" }} className="mx-fade mt-4 max-w-[560px] text-[14px] leading-[22px] text-ink/60 xl:mt-[calc(16*var(--u))] xl:max-w-[calc(820*var(--u))] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]">{dict.industries.paragraph}</p>
         </div>
 
         <div ref={gridRef} className="relative mt-10 grid grid-cols-2 md:grid-cols-4 xl:mt-[calc(51*var(--u))] xl:grid-cols-[295fr_305fr_305fr_295fr]">
@@ -174,15 +176,15 @@ export default function Industries({ dict }) {
           ))}
         </div>
 
-        <Reveal delay={450} className="mt-9 flex flex-wrap items-center justify-center gap-3 xl:mt-[calc(69*var(--u))] xl:gap-[calc(29*var(--u))]">
-          <a href="#" className="flex h-9 items-center justify-center whitespace-nowrap rounded-md border border-brand-navy/15 bg-white px-4 text-[12px] font-medium text-brand-navy transition duration-200 hover:-translate-y-0.5 hover:border-brand-orange hover:text-brand-orange motion-reduce:transition-none motion-reduce:hover:translate-y-0 xl:h-[max(40px,calc(48*var(--u)))] xl:w-[calc(230*var(--u))] xl:min-w-[170px] xl:rounded-[calc(8*var(--u))] xl:px-0 xl:text-[max(12px,calc(14*var(--u)))]">{dict.buttons.exploreIndustries}</a>
+        <div style={{ "--d": "300ms" }} className="mx-fade mt-9 flex flex-wrap items-center justify-center gap-3 xl:mt-[calc(69*var(--u))] xl:gap-[calc(29*var(--u))]">
+          <a href="#" className="flex h-9 items-center justify-center whitespace-nowrap rounded-md border border-brand-navy/15 bg-white px-4 text-[12px] font-medium text-brand-navy transition duration-200 hover:-translate-y-0.5 hover:border-brand-orange hover:text-brand-orange motion-reduce:transition-none motion-reduce:hover:translate-y-0 xl:h-[max(40px,calc(48*var(--u)))] xl:w-[calc(230*var(--u))] xl:min-w-[170px] xl:rounded-[calc(8*var(--u))] xl:px-0 xl:text-[max(12px,calc(14*var(--u)))]"><Roll>{dict.buttons.exploreIndustries}</Roll></a>
           <CatalogueDownloadLink
             label={dict.buttons.downloadCatalogueArrow ?? dict.buttons.downloadCatalogue}
             icon="none"
             className="flex h-9 items-center whitespace-nowrap px-1 text-[12px] font-medium text-brand-orange transition duration-200 hover:opacity-70 motion-reduce:transition-none xl:h-[max(40px,calc(48*var(--u)))] xl:text-[max(12px,calc(14*var(--u)))]"
           />
-        </Reveal>
+        </div>
       </div>
-    </section>
+    </Mx>
   );
 }

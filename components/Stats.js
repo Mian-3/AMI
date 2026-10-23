@@ -1,13 +1,13 @@
-import Reveal from "@/components/Reveal";
+import Mx from "@/components/Mx";
 import CountUp from "@/components/CountUp";
 import CardCarousel from "@/components/CardCarousel";
 import StatIcon from "@/components/StatIcons";
 import { defaultCards } from "@/lib/homeStats";
 
-function StatCard({ item }) {
+function StatCard({ item, index }) {
   return (
-    <div className="flex h-full min-h-[170px] min-w-0 flex-col justify-between rounded-[20px] bg-brand-orange p-5 text-white shadow-[0_8px_24px_rgba(242,143,59,0.25)] transition duration-300 hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0 lg:h-[200px] lg:p-4 xl:p-5">
-      <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/25">
+    <div data-spot style={{ "--mx-r": "20px" }} className="relative flex h-full min-h-[170px] min-w-0 flex-col justify-between rounded-[20px] bg-brand-orange p-5 text-white shadow-[0_8px_24px_rgba(242,143,59,0.25)] transition duration-300 hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0 lg:h-[200px] lg:p-4 xl:p-5">
+      <span className="mx-pop flex h-9 w-9 items-center justify-center rounded-lg bg-white/25" style={{ "--d": `${(index || 0) * 110 + 450}ms` }}>
         <StatIcon id={item.icon} />
       </span>
       <div className="min-w-0">
@@ -16,6 +16,8 @@ function StatCard({ item }) {
         </p>
         <p className="mt-2 text-[12px] leading-snug xl:text-[13px]">{item.label}</p>
       </div>
+      <span className="mx-sheen" style={{ "--d": `${(index || 0) * 110}ms` }} aria-hidden="true" />
+      <span className="mx-glow" aria-hidden="true" />
     </div>
   );
 }
@@ -26,18 +28,18 @@ export default function Stats({ dict, items }) {
   const cols = { "--c3": Math.min(stats.length, 3), "--c6": Math.min(stats.length, 6) };
 
   return (
-    <section className="relative bg-offwhite pb-10">
+    <Mx as="section" className="relative bg-offwhite pb-10">
       <div className="absolute inset-x-0 bottom-0 top-[calc(50%-20px)] bg-cream max-lg:hidden" aria-hidden="true" />
 
       {/* Mobile: swipeable carousel */}
       <div className="relative sm:hidden">
-        <Reveal>
+        <div className="mx-fade">
           <CardCarousel>
             {stats.map((item, index) => (
-              <StatCard key={`${item.label}-${index}`} item={item} />
+              <StatCard key={`${item.label}-${index}`} item={item} index={index} />
             ))}
           </CardCarousel>
-        </Reveal>
+        </div>
       </div>
 
       {/* Tablet and up: grid (6 cards in one row on desktop) */}
@@ -46,11 +48,11 @@ export default function Stats({ dict, items }) {
         className="relative mx-auto hidden max-w-[1200px] px-4 sm:grid sm:[grid-template-columns:repeat(var(--c3),minmax(0,1fr))] sm:gap-4 sm:px-6 lg:[grid-template-columns:repeat(var(--c6),minmax(0,1fr))] lg:gap-3 xl:gap-4 xl:px-0"
       >
         {stats.map((item, index) => (
-          <Reveal key={`${item.label}-${index}`} delay={index * 120}>
-            <StatCard item={item} />
-          </Reveal>
+          <div key={`${item.label}-${index}`} className="mx-curtain" style={{ "--d": `${index * 110}ms`, "--mx-r": "20px" }}>
+            <StatCard item={item} index={index} />
+          </div>
         ))}
       </div>
-    </section>
+    </Mx>
   );
 }

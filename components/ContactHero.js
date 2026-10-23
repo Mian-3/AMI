@@ -1,3 +1,4 @@
+import Roll from "@/components/Roll";
 import Reveal from "@/components/Reveal";
 
 function ArrowIcon() {
@@ -31,7 +32,7 @@ export default function ContactHero({ dict }) {
             href="#contact-form"
             className="group inline-flex items-center gap-2 h-9 px-4 text-[12px] rounded-md xl:h-[max(40px,calc(48*var(--u)))] xl:px-[calc(36*var(--u))] xl:text-[max(12px,calc(14*var(--u)))] xl:rounded-[calc(8*var(--u))] bg-brand-orange font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
           >
-            {c.cta}
+            <Roll>{c.cta}</Roll>
             <ArrowIcon />
           </a>
         </Reveal>

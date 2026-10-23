@@ -1,3 +1,4 @@
+import Roll from "@/components/Roll";
 import Image from "next/image";
 import MobileMenu from "@/components/MobileMenu";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
@@ -41,8 +42,7 @@ function PenIcon() {
 
 const SOCIAL_CSS = `
 @keyframes hd-pop{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
-.hd-soc{display:inline-flex;align-items:center;justify-content:center;animation:hd-pop .5s cubic-bezier(.22,1,.36,1) both;animation-delay:calc(var(--i,0)*80ms + 500ms);transition:opacity .2s}
-.hd-soc:hover{opacity:.8}
+.hd-soc{display:inline-flex;align-items:center;justify-content:center;animation:hd-pop .5s cubic-bezier(.22,1,.36,1) both;animation-delay:calc(var(--i,0)*80ms + 500ms)}
 @media (prefers-reduced-motion:reduce){.hd-soc{animation:none}}
 `;
 
@@ -69,15 +69,15 @@ export default async function Header({ dict, locale, active = "home" }) {
         <div className="mx-auto flex h-10 max-w-[1200px] items-center justify-end gap-5 px-4 text-[11px] sm:px-6 xl:h-[calc(40*var(--u))] xl:max-w-[calc(1600*var(--u))] xl:gap-[calc(28*var(--u))] xl:px-0 xl:text-[max(11px,calc(16*var(--u)))]">
           <a data-enquiry
             href={`/${locale}/contact`}
-            className="hidden items-center gap-2 transition-opacity hover:opacity-80 sm:inline-flex"
+            className="hd-ul hidden items-center gap-2 sm:inline-flex"
           >
             <PenIcon />
-            <span>{dict.buttons.requestSample}</span>
+            <Roll>{dict.buttons.requestSample}</Roll>
           </a>
           <CatalogueDownloadLink
             label={dict.buttons.downloadCatalogue}
             icon="doc"
-            className="hidden items-center gap-2 transition-opacity hover:opacity-80 sm:inline-flex"
+            className="hd-ul hidden items-center gap-2 sm:inline-flex"
           />
           <div className="flex items-center gap-3">
             <style>{SOCIAL_CSS}</style>
@@ -109,16 +109,18 @@ export default async function Header({ dict, locale, active = "home" }) {
           <nav aria-label="Main navigation" className="ms-3 hidden xl:ms-[calc(40*var(--u))] xl:block">
             <ul className="flex items-center gap-[17px] text-[13px] text-ink xl:gap-[calc(11*var(--u))] xl:text-[max(12px,calc(16*var(--u)))]">
               {navItems.map((item) => (
-                <li key={item.label}>
+                <li key={item.label} className="hd-in" style={{ "--i": navItems.indexOf(item) }}>
                   <a
                     href={item.href}
                     className={
                       item.active
                         ? "block whitespace-nowrap border-b-2 border-brand-orange pb-[21px] pt-[23px] font-medium text-brand-orange xl:border-b-[calc(4*var(--u))] xl:px-[calc(6.5*var(--u))] xl:pb-[calc(26*var(--u))] xl:pt-[calc(28*var(--u))]"
-                        : "block whitespace-nowrap py-6 transition-colors duration-200 hover:text-brand-orange xl:px-[calc(6.5*var(--u))] xl:py-[calc(30*var(--u))]"
+                        : "hd-link block whitespace-nowrap py-6 xl:px-[calc(6.5*var(--u))] xl:py-[calc(30*var(--u))]"
                     }
                   >
-                    {item.label}
+                    {item.active ? item.label : (
+                      <Roll tint>{item.label}</Roll>
+                    )}
                   </a>
                 </li>
               ))}
@@ -129,14 +131,14 @@ export default async function Header({ dict, locale, active = "home" }) {
             <a
               data-enquiry
               href={`/${locale}/contact`}
-              className="flex h-9 items-center justify-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white xl:h-[max(36px,calc(48*var(--u)))] xl:w-[calc(180*var(--u))] xl:min-w-[130px] xl:px-0 xl:text-[max(12px,calc(14*var(--u)))] transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+              className="hd-btn flex h-9 items-center justify-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white xl:h-[max(36px,calc(48*var(--u)))] xl:w-[calc(180*var(--u))] xl:min-w-[130px] xl:px-0 xl:text-[max(12px,calc(14*var(--u)))] transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
             >
-              {dict.buttons.requestSample}
+              <Roll>{dict.buttons.requestSample}</Roll>
             </a>
             <CatalogueDownloadLink
               label={dict.buttons.downloadCatalogueArrow}
               icon="none"
-              className="flex h-9 items-center justify-center whitespace-nowrap rounded-md border border-brand-navy/20 px-4 text-[12px] font-medium text-brand-navy xl:h-[max(36px,calc(48*var(--u)))] xl:w-[calc(191*var(--u))] xl:min-w-[140px] xl:px-0 xl:text-[max(12px,calc(14*var(--u)))] transition duration-200 hover:-translate-y-0.5 hover:bg-brand-navy/5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+              className="hd-btn flex h-9 items-center justify-center whitespace-nowrap rounded-md border border-brand-navy/20 px-4 text-[12px] font-medium text-brand-navy xl:h-[max(36px,calc(48*var(--u)))] xl:w-[calc(191*var(--u))] xl:min-w-[140px] xl:px-0 xl:text-[max(12px,calc(14*var(--u)))] transition duration-200 hover:-translate-y-0.5 hover:bg-brand-navy/5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
             />
           </div>
 

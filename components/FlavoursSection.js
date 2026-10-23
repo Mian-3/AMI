@@ -1,5 +1,6 @@
 "use client";
 
+import Roll from "@/components/Roll";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -135,7 +136,7 @@ function RequestButton({ href, locale, label }) {
     "fs-btn relative inline-flex h-9 items-center gap-2 overflow-hidden rounded-md border border-brand-orange bg-brand-orange px-4 text-[12px] font-medium text-white shadow-[0_6px_16px_rgba(242,143,59,0.28)] hover:shadow-[0_10px_24px_rgba(242,143,59,0.42)] focus-visible:outline-none xl:h-[max(40px,calc(48*var(--u)))] xl:gap-[calc(10*var(--u))] xl:px-[calc(24*var(--u))] xl:text-[max(12px,calc(16*var(--u)))]";
   const inner = (
     <>
-      <span className="relative z-10">{label}</span>
+      <span className="relative z-10"><Roll>{label}</Roll></span>
       <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="fs-arr relative z-10">
         <path d="M5 12h14M13 6l6 6-6 6" />
       </svg>

@@ -1,5 +1,6 @@
 "use client";
 
+import Roll from "@/components/Roll";
 import { useMedia } from "@/components/MediaProvider";
 
 const FILE_NAME = "AM-International-Catalogue.pdf";
@@ -44,7 +45,7 @@ export default function CatalogueDownloadLink({ label, className = "", icon = "d
     <a href={PDF_URL} onClick={handleClick} className={className}>
       {icon === "download" && <DownloadIcon />}
       {icon === "doc" && <DocIcon />}
-      <span>{label}</span>
+      <Roll>{label}</Roll>
     </a>
   );
 }

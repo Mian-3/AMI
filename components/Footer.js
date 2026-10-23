@@ -1,3 +1,4 @@
+import Roll from "@/components/Roll";
 import Image from "next/image";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { getMedia } from "@/lib/media";
@@ -37,7 +38,7 @@ const LINK = "ft-link";
 // Motion only: hover underline + lift, and a soft rise as the footer scrolls into view (CSS only, no JS,
 // and content is always visible in browsers that do not support scroll-driven animation).
 const CSS = `
-.ft-link{background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;padding-bottom:2px;transition:background-size .35s cubic-bezier(.2,.8,.2,1),color .2s ease}
+.ft-link{background:linear-gradient(#f28b33,#f28b33) 0 100%/0 1px no-repeat;padding-bottom:2px;transition:background-size .35s cubic-bezier(.2,.8,.2,1),color .2s ease}
 [dir=rtl] .ft-link{background-position:100% 100%}
 .ft-link:hover{color:#f28b33;background-size:100% 1px}
 .ft-soc{transition:transform .25s cubic-bezier(.2,.8,.2,1),color .2s ease}
@@ -85,12 +86,12 @@ export default async function Footer({ dict, locale }) {
               <li className="xl:max-w-[300px]">{dict.footer.address}</li>
               {contact.emails.map((email) => (
                 <li key={email}>
-                  <a href={"mailto:" + email} dir="ltr" className={LINK}>{email}</a>
+                  <a href={"mailto:" + email} dir="ltr" className={LINK}><Roll tint>{email}</Roll></a>
                 </li>
               ))}
               {contact.phones.map((phone) => (
                 <li key={phone}>
-                  <a href={telHref(phone)} dir="ltr" className={LINK}>{phone}</a>
+                  <a href={telHref(phone)} dir="ltr" className={LINK}><Roll tint>{phone}</Roll></a>
                 </li>
               ))}
             </ul>
@@ -103,7 +104,7 @@ export default async function Footer({ dict, locale }) {
                 <ul className={LIST}>
                   {col.labels.map((label, i) => (
                     <li key={label + i}>
-                      <a href={href(col.hrefs[i] || "#")} {...extra(col.hrefs[i])} className={LINK}>{label}</a>
+                      <a href={href(col.hrefs[i] || "#")} {...extra(col.hrefs[i])} className={LINK}><Roll tint>{label}</Roll></a>
                     </li>
                   ))}
                 </ul>

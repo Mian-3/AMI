@@ -1,5 +1,6 @@
 import Image from "next/image";
-import Reveal from "@/components/Reveal";
+import Mx from "@/components/Mx";
+import MxText from "@/components/MxText";
 import CertificateLink from "@/components/CertificateLink";
 import { getMedia } from "@/lib/media";
 
@@ -9,11 +10,11 @@ export default async function Certifications({ dict }) {
   if (!badges.length) return null;
 
   return (
-    <section className="bg-offwhite px-4 py-16 sm:px-6 md:py-20 xl:px-0">
+    <Mx as="section" className="bg-offwhite px-4 py-16 sm:px-6 md:py-20 xl:px-0">
       <div className="mx-auto max-w-[1200px]">
         <div className="flex flex-col items-center text-center">
-          <Reveal as="p" className="mb-3 text-[11px] font-medium uppercase tracking-[0.08em] text-brand-navy">{dict.certifications.eyebrow}</Reveal>
-          <Reveal as="h2" delay={100} className="max-w-[560px] text-[26px] font-semibold leading-[1.25] text-brand-navy md:text-[32px] md:leading-[40px]">{dict.certifications.heading}</Reveal>
+          <p className="mx-eyebrow mb-3 text-[11px] font-medium uppercase tracking-[0.08em] text-brand-navy">{dict.certifications.eyebrow}</p>
+          <MxText as="h2" delay={150} className="max-w-[560px] text-[26px] font-semibold leading-[1.25] text-brand-navy md:text-[32px] md:leading-[40px]">{dict.certifications.heading}</MxText>
         </div>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-6 sm:gap-8">
@@ -27,7 +28,7 @@ export default async function Certifications({ dict }) {
               </div>
             );
             return (
-              <Reveal key={badge.image + index} delay={250 + index * 90}>
+              <div key={badge.image + index} className="mx-pop mx-ring relative rounded-full" style={{ "--d": `${450 + index * 120}ms` }}>
                 {badge.pdf ? (
                   <CertificateLink pdfSrc={badge.pdf} downloadName={`AMI-${badge.alt.replace(/\s+/g, "-")}.pdf`} className="group block">
                     {circle}
@@ -35,11 +36,11 @@ export default async function Certifications({ dict }) {
                 ) : (
                   <div className="group block">{circle}</div>
                 )}
-              </Reveal>
+              </div>
             );
           })}
         </div>
       </div>
-    </section>
+    </Mx>
   );
 }

@@ -1,3 +1,4 @@
+import Roll from "@/components/Roll";
 import AboutReveal from "@/components/AboutReveal";
 import CertificateLink from "@/components/CertificateLink";
 import CatalogueDownloadLink from "@/components/CatalogueDownloadLink";
@@ -78,7 +79,7 @@ export default function AboutJourney({ dict }) {
               href="#meaning"
               className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 text-[12px] font-medium text-[#f28b33] transition duration-200 hover:-translate-y-0.5 hover:shadow-lg xl:h-[max(40px,calc(48*var(--u)))] xl:w-[calc(229*var(--u))] xl:min-w-[160px] xl:rounded-[calc(8*var(--u))] xl:px-0 xl:text-[max(12px,calc(14*var(--u)))]"
             >
-              {t.discover}
+              <Roll>{t.discover}</Roll>
             </a>
             <CatalogueDownloadLink
               label={dict.buttons.downloadCatalogueArrow}

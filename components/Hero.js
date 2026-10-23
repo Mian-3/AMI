@@ -1,5 +1,6 @@
 "use client";
 
+import Roll from "@/components/Roll";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import CatalogueDownloadLink from "@/components/CatalogueDownloadLink";
@@ -59,11 +60,11 @@ export default function Hero({ dict, locale }) {
 
   return (
     <section className="relative flex min-h-[480px] items-end overflow-hidden bg-brand-navy text-white [--u:1px] md:h-[625px] xl:h-[calc(818*var(--u))] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
-      <video key={media.hero.video} src={media.hero.video} poster={media.hero.poster} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
+      <video key={media.hero.video} src={media.hero.video} poster={media.hero.poster} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" className="hero-video absolute inset-0 h-full w-full object-cover" />
       <div className="absolute inset-0 bg-black/20" aria-hidden="true" />
       <div className={"absolute inset-0 " + (isRtl ? "bg-gradient-to-l" : "bg-gradient-to-r") + " from-black/60 via-black/20 to-transparent"} aria-hidden="true" />
 
-      <div className="relative mx-auto flex w-full max-w-[1200px] items-end justify-between gap-6 px-4 pb-14 sm:px-6 md:pb-[96px] xl:max-w-[calc(1600*var(--u))] xl:px-0 xl:pb-[calc(140*var(--u))]">
+      <div className="hero-content relative mx-auto flex w-full max-w-[1200px] items-end justify-between gap-6 px-4 pb-14 sm:px-6 md:pb-[96px] xl:max-w-[calc(1600*var(--u))] xl:px-0 xl:pb-[calc(140*var(--u))]">
         <div className="max-w-[640px] xl:max-w-[calc(760*var(--u))]">
           <div ref={eyebrowWrapRef} className="overflow-hidden">
             <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.12em] xl:mb-[calc(20*var(--u))] xl:text-[max(12px,calc(16*var(--u)))]">{dict.hero.eyebrow}</p>
@@ -73,7 +74,7 @@ export default function Hero({ dict, locale }) {
           </div>
           <p ref={taglineRef} className="mt-4 text-[15px] font-medium md:text-[18px] xl:mt-[calc(28*var(--u))] xl:text-[max(16px,calc(24*var(--u)))]">{dict.hero.tagline}</p>
           <div ref={buttonsRef} className="mt-6 flex flex-wrap items-center gap-3 xl:mt-[calc(28*var(--u))] xl:gap-[calc(28*var(--u))]">
-            <a href={resolveHref(media.links.requestSample, locale)} className="flex h-9 items-center justify-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0 xl:h-[max(40px,calc(48*var(--u)))] xl:w-[calc(180*var(--u))] xl:min-w-[150px] xl:rounded-[calc(8*var(--u))] xl:px-0 xl:text-[max(12px,calc(14*var(--u)))]">{dict.buttons.requestSample}</a>
+            <a href={resolveHref(media.links.requestSample, locale)} className="flex h-9 items-center justify-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0 xl:h-[max(40px,calc(48*var(--u)))] xl:w-[calc(180*var(--u))] xl:min-w-[150px] xl:rounded-[calc(8*var(--u))] xl:px-0 xl:text-[max(12px,calc(14*var(--u)))]"><Roll>{dict.buttons.requestSample}</Roll></a>
             <CatalogueDownloadLink
               label={dict.buttons.downloadCatalogueArrow}
               icon="none"

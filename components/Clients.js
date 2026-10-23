@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Reveal from "@/components/Reveal";
+import Mx from "@/components/Mx";
 import { getMedia } from "@/lib/media";
 
 const repeats = [0, 1];
@@ -32,14 +32,14 @@ export default async function Clients({ dict, locale }) {
   const { clients } = await getMedia();
 
   return (
-    <section className="bg-cream pb-14 pt-6">
-     <Reveal as="p" className="mb-6 text-center text-[13px] font-semibold uppercase tracking-[0.08em] text-brand-navy md:text-[12px] xl:text-[14px]">{dict.clients.label}</Reveal>
-      <div className="marquee-mask overflow-hidden" dir="ltr">
+    <Mx as="section" className="bg-cream pb-14 pt-6">
+     <p className="mx-eyebrow mb-6 text-center text-[13px] font-semibold uppercase tracking-[0.08em] text-brand-navy md:text-[12px] xl:text-[14px]">{dict.clients.label}</p>
+      <div className="mx-fade marquee-mask overflow-hidden" style={{ "--d": "250ms" }} dir="ltr">
         <div className={"marquee-track flex w-max motion-reduce:animate-none " + (isRtl ? "animate-marquee-reverse" : "animate-marquee")}>
           <LogoRow clients={clients} />
           <LogoRow clients={clients} hidden />
         </div>
       </div>
-    </section>
+    </Mx>
   );
 }
