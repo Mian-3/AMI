@@ -71,8 +71,8 @@ export default async function Footer({ dict, locale }) {
   return (
     <footer className={inter.className + " bg-cream [--u:1px] xl:[--u:clamp(0.667px,0.0520833vw,1px)]"}>
       <style>{CSS}</style>
-      <div className="mx-auto max-w-[1200px] px-4 py-16 sm:px-6 md:py-20 xl:max-w-[1680px] xl:px-[40px] xl:pb-[41px] xl:pt-[54px]">
-        <div className="grid grid-cols-1 gap-10 xl:grid-cols-[1fr_637px] xl:gap-0">
+      <div className="mx-auto max-w-[1200px] px-4 py-16 sm:px-6 md:py-20 xl:max-w-[calc(1600*var(--u))] xl:px-0 xl:pb-[41px] xl:pt-[54px]">
+        <div className="grid grid-cols-1 gap-10 xl:grid-cols-[1fr_calc(637*var(--u))] xl:gap-0">
           <div className="ft-rise">
             <Image
               src="/images/logo/am-international-logo.png"
@@ -114,10 +114,10 @@ export default async function Footer({ dict, locale }) {
         </div>
       </div>
 
-      <div className="mx-auto max-w-[1200px] xl:max-w-[1680px] xl:px-[40px]">
+      <div className="mx-auto max-w-[1200px] xl:max-w-[calc(1600*var(--u))] xl:px-0">
         <div className="border-t border-brand-navy/10 px-4 sm:px-6 xl:border-brand-navy/15 xl:px-0" />
       </div>
-      <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-4 px-4 py-5 text-[12px] text-[#2b2f2e] sm:flex-row sm:px-6 xl:max-w-[1680px] xl:px-[40px] xl:pb-[51px] xl:pt-[26px] xl:text-[14px]">
+      <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-4 px-4 py-5 text-[12px] text-[#2b2f2e] sm:flex-row sm:px-6 xl:max-w-[calc(1600*var(--u))] xl:px-0 xl:pb-[51px] xl:pt-[26px] xl:text-[14px]">
         <div className="flex flex-col items-center gap-3 sm:flex-row xl:gap-[19px]">
           <LanguageSwitcher openUpward />
           <p>{dict.footer.copyright}</p>
