@@ -17,6 +17,7 @@ export default function EventForm({ event }) {
   const [form, setForm] = useState({
     status: event?.status || "draft",
     date: event?.date || "",
+    endDate: event?.endDate || "",
     imageUrl: event?.imageUrl || "",
     heroImage: event?.heroImage || "",
     data: {
@@ -35,6 +36,7 @@ export default function EventForm({ event }) {
         id: event?.id ?? null,
         status,
         date: form.date,
+        endDate: form.endDate,
         imageUrl: form.imageUrl,
         heroImage: form.heroImage,
         data: form.data,
@@ -56,9 +58,14 @@ export default function EventForm({ event }) {
         <h2 className="mb-4 text-sm font-semibold text-brand-navy">Event details</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label className={LABEL} htmlFor="date">Event date *</label>
+            <label className={LABEL} htmlFor="date">Start date *</label>
             <input id="date" type="date" value={form.date} onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))} className={FIELD} />
-            <p className="mt-1 text-xs text-ink/50">Events are listed by date. The earliest one becomes the big banner.</p>
+            <p className="mt-1 text-xs text-ink/50">The next event to happen becomes the big banner. Upcoming events are listed by start date.</p>
+          </div>
+          <div>
+            <label className={LABEL} htmlFor="endDate">End date (optional)</label>
+            <input id="endDate" type="date" min={form.date || undefined} value={form.endDate} onChange={(e) => setForm((f) => ({ ...f, endDate: e.target.value }))} className={FIELD} />
+            <p className="mt-1 text-xs text-ink/50">Leave empty for a one day event. After this day the event moves to Previous Events by itself.</p>
           </div>
           <div>
             <label className={LABEL}>Status</label>

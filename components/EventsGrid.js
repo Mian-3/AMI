@@ -20,6 +20,7 @@ function Arrow() {
 }
 
 export default function EventsGrid({ events, dict, locale }) {
+  if (!events.length) return null;
   const hrefOf = (event) => eventHref(locale, event);
   return (
     <section className="bg-[#fcfbf8] px-4 pb-16 pt-12 sm:px-6 md:pb-20 md:pt-16 xl:px-0 xl:pb-[calc(239*var(--u))] xl:pt-[calc(72*var(--u))] [--u:1px] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">

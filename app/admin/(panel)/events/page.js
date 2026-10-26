@@ -3,6 +3,7 @@ import { asc } from "drizzle-orm";
 import { getDb, schema } from "@/db";
 import { deleteEvent, importDefaultEvents } from "./actions";
 import DeleteButton from "@/components/admin/DeleteButton";
+import { todayIso } from "@/lib/eventsData";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +12,17 @@ function formatDate(value) {
   return new Date(value).toLocaleDateString("en-GB", { dateStyle: "medium", timeZone: "UTC" });
 }
 
+function whenOf(row, today) {
+  const start = row.eventDate ? new Date(row.eventDate).toISOString().slice(0, 10) : "";
+  const end = row.data?.endDate && row.data.endDate > start ? row.data.endDate : start;
+  if (!start) return { label: "No date", cls: "bg-black/5 text-ink/60" };
+  if (end < today) return { label: "Past", cls: "bg-black/5 text-ink/60" };
+  if (start <= today) return { label: "Ongoing", cls: "bg-sky-50 text-sky-700" };
+  return { label: "Upcoming", cls: "bg-violet-50 text-violet-700" };
+}
+
 export default async function EventsAdminPage() {
+  const today = todayIso();
   const db = getDb();
   let rows = [];
   let failed = false;
@@ -31,7 +42,7 @@ export default async function EventsAdminPage() {
         <div>
           <h1 className="text-2xl font-bold text-brand-navy">Events</h1>
           <p className="mt-1 text-sm text-ink/60">
-            Cards on the Events page. The event with the earliest date is shown in the big banner at the top.
+            The next event to happen is the big banner on the Events page, the other upcoming ones are listed below it by date, and finished events move to Previous Events by themselves. Headings are edited in Pages, Events, Page text.
           </p>
         </div>
         <Link href="/admin/events/new" className="rounded-lg bg-brand-orange px-4 py-2.5 text-sm font-medium text-white transition hover:opacity-90">
@@ -64,9 +75,10 @@ export default async function EventsAdminPage() {
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-medium text-brand-navy">{row.data?.en?.title || "(no title)"}</p>
                   <p className="mt-0.5 truncate text-xs text-ink/50">
-                    {formatDate(row.eventDate)} · {row.data?.en?.location || "-"}
+                    {formatDate(row.eventDate)}{row.data?.endDate && row.data.endDate > new Date(row.eventDate).toISOString().slice(0, 10) ? ` to ${formatDate(row.data.endDate)}` : ""} · {row.data?.en?.location || "-"}
                   </p>
                 </div>
+                <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${whenOf(row, today).cls}`}>{whenOf(row, today).label}</span>
                 <span
                   className={`rounded-full px-2.5 py-1 text-xs font-medium ${
                     row.status === "published" ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"

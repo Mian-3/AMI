@@ -28,6 +28,7 @@ export default async function EditEventPage({ params }) {
           date: row.eventDate ? new Date(row.eventDate).toISOString().slice(0, 10) : "",
           imageUrl: row.imageUrl,
           heroImage: row.data?.heroImage || "",
+          endDate: row.data?.endDate || "",
           data: row.data,
         }}
       />
