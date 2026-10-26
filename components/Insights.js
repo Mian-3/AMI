@@ -1,13 +1,16 @@
 import Roll from "@/components/Roll";
+import { getItemLayout } from "@/lib/itemLayoutServer";
+import { arrange, partShown } from "@/lib/itemLayout";
 import InsightImage from "@/components/InsightImage";
 import Mx from "@/components/Mx";
 import MxText from "@/components/MxText";
 import CatalogueDownloadLink from "@/components/CatalogueDownloadLink";
 
 // `posts` comes from the database (see lib/insightsDb.js): the latest published articles.
-export default function Insights({ dict, locale, posts = [] }) {
+export default async function Insights({ dict, locale, posts = [] }) {
+  const IL = await getItemLayout();
   const filters = dict.insightsPage?.filters || {};
-  const articles = posts.slice(0, 4);
+  const articles = arrange(IL, "home.insights", posts.slice(0, 4)).map((x) => x.item);
 
   return (
     <Mx as="section" className="bg-offwhite px-4 py-16 sm:px-6 md:py-20 xl:px-0">

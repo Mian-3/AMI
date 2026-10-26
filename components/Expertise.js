@@ -4,6 +4,8 @@ import ExpertiseFx from "@/components/ExpertiseFx";
 import CatalogueDownloadLink from "@/components/CatalogueDownloadLink";
 import LocaleLink from "@/components/LocaleLink";
 import { getMedia } from "@/lib/media";
+import { getItemLayout } from "@/lib/itemLayoutServer";
+import { arrange, partShown } from "@/lib/itemLayout";
 
 /*
   Design artboard 1920. At xl+ every size is calc(N * var(--u)) with a floor,
@@ -54,11 +56,12 @@ function ExpertiseCard({ item, tint }) {
 
 export default async function Expertise({ dict }) {
   const media = await getMedia();
-  const items = getItems(dict, media);
+  const IL = await getItemLayout();
+  const items = arrange(IL, "home.expertise", getItems(dict, media)).map((x) => x.item);
   const processCta = dict.expertise?.processCta ?? (dict.nav?.process === "Our Process" ? "Explore Our Process →" : dict.nav?.process);
 
   const ex = media.expertise;
-  const mode = ex.bgMode === "video" && ex.bgVideo ? "video" : ex.bgMode === "image" && ex.bgImage ? "image" : "none";
+  const mode = !partShown(IL, "home.expertiseBg", 0) ? "none" : ex.bgMode === "video" && ex.bgVideo ? "video" : ex.bgMode === "image" && ex.bgImage ? "image" : "none";
   const dark = mode !== "none" && ex.bgOverlay === "dark";
   const overlayRgb = dark ? "11,23,54" : "252,252,250";
 

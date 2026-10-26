@@ -1,4 +1,6 @@
 import Roll from "@/components/Roll";
+import { getItemLayout } from "@/lib/itemLayoutServer";
+import { arrange, partShown } from "@/lib/itemLayout";
 import AboutReveal from "@/components/AboutReveal";
 import CertificateLink from "@/components/CertificateLink";
 import CatalogueDownloadLink from "@/components/CatalogueDownloadLink";
@@ -23,7 +25,9 @@ function MedalIcon() {
 
 const STRIPE = "absolute -inset-y-32 -skew-x-[30deg] animate-about-drift motion-reduce:animate-none";
 
-export default function AboutJourney({ dict }) {
+export default async function AboutJourney({ dict }) {
+  const IL = await getItemLayout();
+  const on = (i) => partShown(IL, "about.journey", i);
   const t = dict.about;
 
   return (
@@ -36,6 +40,8 @@ export default function AboutJourney({ dict }) {
       </div>
 
       <div className="relative mx-auto max-w-[75rem] px-4 sm:px-6 xl:max-w-[calc(1200*var(--u))] xl:px-0">
+      {on(0) && (
+<>
         <div className="mx-auto max-w-[61rem] text-center xl:max-w-[calc(980*var(--u))]">
           <AboutReveal>
             <p className="text-[11px] font-semibold uppercase tracking-[0.13em] text-white xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))] xl:tracking-[0.13em]">{t.journeyEyebrow}</p>
@@ -55,7 +61,11 @@ export default function AboutJourney({ dict }) {
             </AboutReveal>
           ) : null}
         </div>
+</>
+      )}
 
+      {on(1) && (
+<>
         <ul className="mt-12 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:mt-[4.25rem] lg:grid-cols-5 xl:mt-[calc(53*var(--u))] xl:gap-[calc(8*var(--u))]">
           {CERTS.map((c, i) => (
             <li key={c.n} className="h-full">
@@ -72,7 +82,11 @@ export default function AboutJourney({ dict }) {
             </li>
           ))}
         </ul>
+</>
+      )}
 
+      {on(2) && (
+<>
         <AboutReveal delay={200}>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 lg:mt-[4.2rem] xl:mt-[calc(66*var(--u))] xl:gap-x-[calc(30*var(--u))]">
             <a
@@ -88,6 +102,8 @@ export default function AboutJourney({ dict }) {
             />
           </div>
         </AboutReveal>
+</>
+      )}
       </div>
     </section>
   );

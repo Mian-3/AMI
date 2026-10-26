@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { getItemLayout } from "@/lib/itemLayoutServer";
+import { arrange, partShown } from "@/lib/itemLayout";
 import AboutReveal from "@/components/AboutReveal";
 
 /*
@@ -8,13 +10,17 @@ import AboutReveal from "@/components/AboutReveal";
 */
 const P = "text-[14px] leading-[22px] text-ink/60 xl:max-w-[calc(1170*var(--u))] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]";
 
-export default function AboutLeadership({ dict }) {
+export default async function AboutLeadership({ dict }) {
+  const IL = await getItemLayout();
+  const on = (i) => partShown(IL, "about.leadership", i);
   const t = dict.about;
   const paragraphs = [t.leadershipP1, t.leadershipP2, t.leadershipP3, t.leadershipP4].filter((p) => p && String(p).trim());
 
   return (
     <section className="bg-white pb-16 pt-14 [--u:1px] sm:pb-24 sm:pt-20 lg:pb-[12.5rem] lg:pt-[6.9rem] xl:pb-[calc(250*var(--u))] xl:pt-[calc(97*var(--u))] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
       <div className="mx-auto max-w-[75rem] px-4 sm:px-6 xl:max-w-[calc(1200*var(--u))] xl:px-0">
+      {on(0) && (
+<>
         <AboutReveal>
           <p className="text-[11px] font-semibold uppercase tracking-[0.13em] text-brand-navy/80 xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))] xl:tracking-[0.14em]">{t.leadershipEyebrow}</p>
         </AboutReveal>
@@ -26,9 +32,13 @@ export default function AboutLeadership({ dict }) {
             <p className={`${i === 0 ? "mt-4 xl:mt-[calc(14*var(--u))]" : "mt-5 xl:mt-[calc(20*var(--u))]"} max-w-[63rem] ${P}`}>{text}</p>
           </AboutReveal>
         ))}
+</>
+      )}
 
+      {on(1) && (
+<>
         <ul className="mt-10 grid grid-cols-2 gap-4 lg:mt-[4.25rem] lg:grid-cols-4 xl:mt-[calc(68*var(--u))] xl:gap-[calc(17*var(--u))]">
-          {t.team.map((person, i) => (
+          {arrange(IL, "about.team", t.team).map(({ item: person }, i) => (
             <li key={person.name + i} className="h-full">
               <AboutReveal delay={i * 120} className="h-full">
                 <article className="group flex h-full flex-col overflow-hidden border border-[#e8e8e8] bg-white transition duration-300 hover:-translate-y-1 hover:border-[#f28b33]/50 hover:shadow-lg xl:rounded-[calc(14*var(--u))]">
@@ -50,6 +60,8 @@ export default function AboutLeadership({ dict }) {
             </li>
           ))}
         </ul>
+</>
+      )}
       </div>
     </section>
   );

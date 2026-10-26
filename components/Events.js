@@ -1,4 +1,6 @@
 import Roll from "@/components/Roll";
+import { getItemLayout } from "@/lib/itemLayoutServer";
+import { arrange, partShown } from "@/lib/itemLayout";
 import Image from "next/image";
 import Mx from "@/components/Mx";
 import MxText from "@/components/MxText";
@@ -36,8 +38,9 @@ function getEvents(dict) {
   ];
 }
 
-export default function Events({ dict, locale }) {
-  const events = getEvents(dict);
+export default async function Events({ dict, locale }) {
+  const IL = await getItemLayout();
+  const events = arrange(IL, "home.events", getEvents(dict)).map((x) => x.item);
   const eventsHref = `/${locale}/events`;
 
   return (

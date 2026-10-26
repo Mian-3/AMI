@@ -1,15 +1,21 @@
 import Image from "next/image";
+import { getItemLayout } from "@/lib/itemLayoutServer";
+import { arrange, partShown } from "@/lib/itemLayout";
 import AboutReveal from "@/components/AboutReveal";
 
 /*
   Design artboard 1920. At xl+ every size is calc(N * var(--u)) with a floor,
   so the hero scales exactly like the Figma frame. Below xl the compact layout is kept.
 */
-export default function AboutHero({ dict }) {
+export default async function AboutHero({ dict }) {
+  const IL = await getItemLayout();
+  const on = (i) => partShown(IL, "about.hero", i);
   const t = dict.about;
 
   return (
     <section className="[--u:1px] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
+      {on(0) && (
+<>
       <div className="bg-[#f3eee7] py-12 sm:py-16 lg:pb-20 lg:pt-[5.5rem] xl:pb-[calc(80*var(--u))] xl:pt-[calc(75*var(--u))]">
         <div className="mx-auto max-w-[75rem] px-4 sm:px-6 xl:max-w-[calc(1200*var(--u))] xl:px-0">
           <AboutReveal>
@@ -34,7 +40,11 @@ export default function AboutHero({ dict }) {
           </AboutReveal>
         </div>
       </div>
+</>
+      )}
 
+      {on(1) && (
+<>
       <div className="relative h-[13.75rem] w-full overflow-hidden sm:h-[20rem] lg:h-auto lg:aspect-[1920/500]">
         <Image
           src="/images/about/about-hero.jpg"
@@ -45,6 +55,8 @@ export default function AboutHero({ dict }) {
           className="animate-about-zoom object-cover motion-reduce:animate-none"
         />
       </div>
+</>
+      )}
     </section>
   );
 }

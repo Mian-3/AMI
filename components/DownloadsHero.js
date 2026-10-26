@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { getItemLayout } from "@/lib/itemLayoutServer";
+import { arrange, partShown } from "@/lib/itemLayout";
 import Reveal from "@/components/Reveal";
 
 /*
@@ -19,12 +21,16 @@ const CSS = `
 @media (prefers-reduced-motion:reduce){.dh-wipe,.dh-settle,.dh-line,.dh-par{animation:none!important}}
 `;
 
-export default function DownloadsHero({ dict }) {
+export default async function DownloadsHero({ dict }) {
+  const IL = await getItemLayout();
+  const on = (i) => partShown(IL, "downloads.hero", i);
   const c = dict.downloadsPage;
 
   return (
     <section className="[--u:1px] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
       <style>{CSS}</style>
+      {on(0) && (
+<>
       <div className="bg-[#fcfcfa] px-4 pb-10 pt-12 sm:px-6 md:pb-14 md:pt-[3.75rem] xl:px-0 xl:pb-[calc(60*var(--u))] xl:pt-[calc(76*var(--u))]">
         <div className="mx-auto max-w-[75rem] xl:max-w-[calc(1200*var(--u))]">
           <Reveal as="p" className="mb-3 text-[11px] font-semibold uppercase tracking-[0.13em] text-brand-navy rtl:tracking-normal xl:mb-[calc(8*var(--u))] xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))]">
@@ -39,7 +45,11 @@ export default function DownloadsHero({ dict }) {
           <span aria-hidden="true" className="dh-line mt-6 block h-[2px] w-16 bg-brand-orange xl:mt-[calc(28*var(--u))] xl:w-[calc(72*var(--u))]" />
         </div>
       </div>
+</>
+      )}
 
+      {on(1) && (
+<>
       <div className="dh-wipe relative h-[13.75rem] w-full overflow-hidden bg-[#e9e6df] sm:h-[20rem] lg:aspect-[1920/709] lg:h-auto">
         <div className="dh-par absolute inset-0">
           <Image
@@ -52,6 +62,8 @@ export default function DownloadsHero({ dict }) {
           />
         </div>
       </div>
+</>
+      )}
     </section>
   );
 }

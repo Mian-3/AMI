@@ -1,4 +1,6 @@
 import Roll from "@/components/Roll";
+import { getItemLayout } from "@/lib/itemLayoutServer";
+import { arrange, partShown } from "@/lib/itemLayout";
 import Image from "next/image";
 import Mx from "@/components/Mx";
 import MxText from "@/components/MxText";
@@ -12,12 +14,13 @@ function getSteps(dict) {
     { number: "04", title: dict.process.steps.qc.title, desc: dict.process.steps.qc.desc, tint: "from-emerald-500 via-emerald-500/70 to-transparent", ring: "hover:ring-emerald-300/40" },
   ];
 }
-export default function Process({ dict }) {
-  const steps = getSteps(dict);
+export default async function Process({ dict }) {
+  const IL = await getItemLayout();
+  const steps = arrange(IL, "home.process", getSteps(dict)).map((x) => x.item);
 
   return (
     <Mx as="section" className="relative overflow-hidden bg-brand-navy px-4 py-16 text-white sm:px-6 md:py-20 xl:px-0">
-      <Image src="/images/process/process-bg.png" alt="" fill sizes="100vw" className="mx-parallax object-cover animate-slow-zoom motion-reduce:animate-none" />
+      {partShown(IL, "home.processBg", 0) ? <Image src="/images/process/process-bg.png" alt="" fill sizes="100vw" className="mx-parallax object-cover animate-slow-zoom motion-reduce:animate-none" /> : null}
       <div className="absolute inset-0 bg-gradient-to-b from-brand-navy/80 via-black/20 to-brand-navy/70" aria-hidden="true" />
       <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/50 to-transparent" aria-hidden="true" />
 

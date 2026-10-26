@@ -1,4 +1,6 @@
 import AboutReveal from "@/components/AboutReveal";
+import { getItemLayout } from "@/lib/itemLayoutServer";
+import { arrange, partShown } from "@/lib/itemLayout";
 
 /*
   Design artboard 1920. At xl+ every size is calc(N * var(--u)) with a floor,
@@ -7,12 +9,16 @@ import AboutReveal from "@/components/AboutReveal";
 const P = "text-[14px] leading-[22px] text-ink/60 xl:max-w-[calc(1170*var(--u))] xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]";
 const BOX = "flex min-h-[5rem] items-center bg-[#f28b33] px-6 py-5 text-[14px] font-medium text-white transition duration-300 hover:-translate-y-1 hover:shadow-lg lg:px-9 xl:h-[max(76px,calc(103*var(--u)))] xl:px-[calc(36*var(--u))] xl:py-0 xl:text-[max(15px,calc(20*var(--u)))] xl:leading-[calc(30*var(--u))]";
 
-export default function AboutMeaning({ dict }) {
+export default async function AboutMeaning({ dict }) {
+  const IL = await getItemLayout();
+  const on = (i) => partShown(IL, "about.meaning", i);
   const t = dict.about;
 
   return (
     <section id="meaning" className="scroll-mt-28 bg-white py-14 [--u:1px] sm:py-20 lg:pb-[8.5rem] lg:pt-24 xl:pb-[calc(133*var(--u))] xl:pt-[calc(84*var(--u))] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
       <div className="mx-auto max-w-[75rem] px-4 sm:px-6 xl:max-w-[calc(1200*var(--u))] xl:px-0">
+      {on(0) && (
+<>
         <AboutReveal>
           <p className="text-[11px] font-semibold uppercase tracking-[0.13em] text-brand-navy/80 xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(24*var(--u))] xl:tracking-[0.13em]">{t.meaningEyebrow}</p>
         </AboutReveal>
@@ -22,7 +28,11 @@ export default function AboutMeaning({ dict }) {
         <AboutReveal delay={200}>
           <p className={`mt-4 max-w-[69rem] xl:mt-[calc(12*var(--u))] ${P}`}>{t.meaningParagraph}</p>
         </AboutReveal>
+</>
+      )}
 
+      {on(1) && (
+<>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:mt-10 lg:gap-6 xl:mt-[calc(36*var(--u))] xl:gap-[calc(26*var(--u))]">
           <AboutReveal from="start" delay={150}>
             <div className={BOX}>{t.meaningA}</div>
@@ -31,10 +41,16 @@ export default function AboutMeaning({ dict }) {
             <div className={BOX}>{t.meaningM}</div>
           </AboutReveal>
         </div>
+</>
+      )}
 
+      {on(0) && (
+<>
         <AboutReveal delay={200}>
           <p className={`mt-8 max-w-[69rem] lg:mt-12 xl:mt-[calc(29*var(--u))] ${P}`}>{t.meaningClosing}</p>
         </AboutReveal>
+</>
+      )}
       </div>
     </section>
   );

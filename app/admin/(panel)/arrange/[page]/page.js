@@ -26,7 +26,7 @@ export default async function ArrangePage({ params }) {
       const saved = (IL.order[l.listId] || []).filter((i) => i < l.items.length);
       const rest = l.items.map((x) => x.i).filter((i) => !saved.includes(i));
       const items = [...saved, ...rest].map((i) => ({ ...l.items[i], state: stateOf(i) }));
-      return { listId: l.listId, label: l.label, items };
+      return { listId: l.listId, label: l.label, fixed: l.fixed, items };
     }),
   }));
 

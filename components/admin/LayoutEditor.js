@@ -61,14 +61,14 @@ function ItemList({ list, onError }) {
 
   return (
     <div className="mt-2">
-      <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-ink/45">{list.label} <span className="font-normal normal-case tracking-normal">({live.filter((x) => x.state !== "hidden").length} visible of {items.length})</span></p>
+      <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-ink/45">{list.label}{list.fixed ? "" : " "}{list.fixed ? null : <span className="font-normal normal-case tracking-normal">({live.filter((x) => x.state !== "hidden").length} visible of {items.length})</span>}</p>
       <ul className="space-y-1.5">
         {live.map((x, pos) => {
           const hidden = x.state === "hidden";
           return (
             <li
               key={x.i}
-              draggable
+              draggable={!list.fixed}
               onDragStart={() => (dragFrom.current = pos)}
               onDragOver={(e) => {
                 e.preventDefault();
@@ -83,15 +83,19 @@ function ItemList({ list, onError }) {
               }}
               className={`flex items-center gap-2 rounded-lg border bg-white px-2 py-1.5 transition ${hidden ? "border-black/5 opacity-55" : "border-black/10"}`}
             >
-              <span className="cursor-grab touch-none px-1 text-ink/30 active:cursor-grabbing" title="Drag to reorder"><Grip /></span>
+              {list.fixed ? <span className="w-1" /> : <span className="cursor-grab touch-none px-1 text-ink/30 active:cursor-grabbing" title="Drag to reorder"><Grip /></span>}
               {x.thumb ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={x.thumb} alt="" className="h-8 w-12 shrink-0 rounded bg-black/[0.04] object-contain" loading="lazy" />
               ) : null}
               <span className={`min-w-0 flex-1 truncate text-[13px] ${hidden ? "text-ink/50 line-through" : "text-ink"}`}>{x.label}</span>
               <span className="flex shrink-0 items-center">
-                <button type="button" disabled={pos === 0} onClick={() => persistOrder(move(pos, pos - 1) || items)} className={iconBtn} aria-label="Move up"><Icon n="up" /></button>
-                <button type="button" disabled={pos === live.length - 1} onClick={() => persistOrder(move(pos, pos + 1) || items)} className={iconBtn} aria-label="Move down"><Icon n="down" /></button>
+                {list.fixed ? null : (
+                  <>
+                    <button type="button" disabled={pos === 0} onClick={() => persistOrder(move(pos, pos - 1) || items)} className={iconBtn} aria-label="Move up"><Icon n="up" /></button>
+                    <button type="button" disabled={pos === live.length - 1} onClick={() => persistOrder(move(pos, pos + 1) || items)} className={iconBtn} aria-label="Move down"><Icon n="down" /></button>
+                  </>
+                )}
                 <button type="button" disabled={pending} onClick={() => setState(x.i, hidden ? "shown" : "hidden")} className={iconBtn} aria-label={hidden ? "Show" : "Hide"} title={hidden ? "Show on website" : "Hide from website"}><Icon n={hidden ? "eyeOff" : "eye"} /></button>
                 <button type="button" disabled={pending} onClick={() => setState(x.i, "deleted")} className={`${iconBtn} hover:!bg-red-50 hover:!text-red-600`} aria-label="Delete" title="Delete"><Icon n="trash" /></button>
               </span>
