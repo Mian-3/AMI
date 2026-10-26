@@ -68,12 +68,18 @@
 
 html {
   scroll-behavior: smooth;
+  /* No sideways scrolling: animated or oversized pieces never widen the page. clip keeps the sticky header working. */
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
   background: #ffffff;
   color: #000000;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 ::selection {
   background: var(--color-brand-orange);
