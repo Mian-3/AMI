@@ -69,10 +69,10 @@ export default async function Footer({ dict, locale }) {
   ];
 
   return (
-    <footer className={inter.className + " bg-cream [--u:1px] xl:[--u:clamp(0.667px,0.0520833vw,1px)]"}>
+    <footer className={inter.className + " w-full max-w-full overflow-x-clip bg-cream [--u:1px] xl:[--u:clamp(0.667px,0.0520833vw,1px)]"}>
       <style>{CSS}</style>
       <div className="mx-auto max-w-[1200px] px-4 py-16 sm:px-6 md:py-20 xl:max-w-[calc(1600*var(--u))] xl:px-0 xl:pb-[41px] xl:pt-[54px]">
-        <div className="grid grid-cols-1 gap-10 xl:grid-cols-[1fr_calc(637*var(--u))] xl:gap-0">
+        <div className="grid grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_calc(637*var(--u))] xl:gap-0">
           <div className="ft-rise">
             <Image
               src="/images/logo/am-international-logo.png"
@@ -83,7 +83,7 @@ export default async function Footer({ dict, locale }) {
             />
             <p className={HEAD + " mt-5 xl:mt-[28px]"}>{dict.footer.contactLabel}</p>
             <ul className="mt-3 space-y-3 text-[12px] text-[#5f6663] xl:mt-[10px] xl:space-y-[calc(9*var(--u))] xl:text-[max(11.5px,calc(13*var(--u)))] xl:leading-[calc(19*var(--u))]">
-              <li className="xl:max-w-[300px]">{dict.footer.address}</li>
+              <li className="xl:max-w-[calc(300*var(--u))]">{dict.footer.address}</li>
               {contact.emails.map((email) => (
                 <li key={email}>
                   <a href={"mailto:" + email} dir="ltr" className={LINK}><Roll tint>{email}</Roll></a>
@@ -97,7 +97,7 @@ export default async function Footer({ dict, locale }) {
             </ul>
           </div>
 
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 xl:grid-cols-[252px_277px_1fr] xl:gap-0 xl:pt-[71px]">
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 xl:grid-cols-[calc(252*var(--u))_calc(277*var(--u))_minmax(0,1fr)] xl:gap-0 xl:pt-[71px]">
             {columns.map((col, ci) => (
               <div key={col.heading} className={"ft-rise " + ["ft-d1", "ft-d2", "ft-d3"][ci]}>
                 <p className={HEAD}>{col.heading}</p>
