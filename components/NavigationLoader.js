@@ -170,10 +170,10 @@ export default function NavigationLoader({ children }) {
           }`}
         >
           <Image
-  src="/images/logo/am-international-logo.svg"
+  src="/images/logo/am-international-logo.png"
   alt="A.M International"
-  width={1184}
-  height={329}
+  width={1600}
+  height={429}
   priority
   className="w-[160px] h-auto"
 />

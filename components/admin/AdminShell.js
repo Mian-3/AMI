@@ -152,7 +152,7 @@ function Sidebar({ groups, pathname, user, logoutAction, onNavigate, onSearch, i
     <div className="flex h-full flex-col">
       <div className="flex h-14 shrink-0 items-center px-4">
         <Link href="/admin" onClick={onNavigate} className="flex h-9 items-center rounded-lg bg-white px-2.5 transition-opacity hover:opacity-90" aria-label="A.M International admin home">
-          <Image src="/images/logo/am-international-logo.svg" alt="A.M International" width={1184} height={329} priority className="h-[26px] w-auto" />
+          <Image src="/images/logo/am-international-logo.png" alt="A.M International" width={1600} height={429} priority className="h-[26px] w-auto" />
         </Link>
       </div>
 
@@ -384,7 +384,7 @@ export default function AdminShell({ user, sections = [], isOwner = true, logout
           <Icon name="menu" />
         </button>
         <Link href="/admin" className="flex h-8 items-center rounded-md bg-white px-2">
-          <Image src="/images/logo/am-international-logo.svg" alt="A.M International" width={1184} height={329} className="h-[22px] w-auto" />
+          <Image src="/images/logo/am-international-logo.png" alt="A.M International" width={1600} height={429} className="h-[22px] w-auto" />
         </Link>
         <button type="button" onClick={() => setPalette(true)} aria-label="Search" className="flex h-10 w-10 items-center justify-center rounded-lg text-white transition-colors hover:bg-white/10">
           <Icon name="search" />

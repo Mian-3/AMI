@@ -75,10 +75,10 @@ export default async function Footer({ dict, locale }) {
         <div className="grid grid-cols-1 gap-10 xl:grid-cols-[1fr_637px] xl:gap-0">
           <div className="ft-rise">
             <Image
-              src="/images/logo/am-international-logo.svg"
+              src="/images/logo/am-international-logo.png"
               alt="A.M International"
-              width={1184}
-              height={329}
+              width={1600}
+              height={429}
               className="ft-logo h-10 w-auto xl:h-[54px]"
             />
             <p className={HEAD + " mt-5 xl:mt-[28px]"}>{dict.footer.contactLabel}</p>
