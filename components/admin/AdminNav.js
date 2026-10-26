@@ -14,6 +14,7 @@ const ITEMS = [
   { href: "/admin/media", label: "Media and links", ready: true, section: "media" },
   { href: "/admin/team", label: "Team and access", ready: true, ownerOnly: true },
   { href: "/admin/activity", label: "Activity", ready: true, ownerOnly: true },
+  { href: "/admin/reports", label: "Reports", ready: true, ownerOnly: true },
 ];
 
 export default function AdminNav({ sections = [], isOwner = true }) {

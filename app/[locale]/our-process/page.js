@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import { getLayout, shown } from "@/lib/sectionLayout";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ProcessHero from "@/components/ProcessHero";
@@ -20,6 +21,7 @@ export async function generateMetadata({ params }) {
 export default async function OurProcessPage({ params }) {
   const { locale } = await params;
   const dict = await getDictionary(locale);
+  const L = await getLayout();
 
   return (
     <>
@@ -29,8 +31,8 @@ export default async function OurProcessPage({ params }) {
         <noscript>
           <style>{`.pr-a,.pr-wipe,.pr-wipe-img,.pr-bar,.pr-digits-in{opacity:1!important;transform:none!important;clip-path:none!important}`}</style>
         </noscript>
-        <ProcessHero dict={dict} />
-        <ProcessSteps dict={dict} />
+        {shown(L, "process.hero") && <ProcessHero dict={dict} />}
+        {shown(L, "process.steps") && <ProcessSteps dict={dict} />}
       </main>
       <Footer dict={dict} locale={locale} />
       <WhatsAppButton dict={dict} />

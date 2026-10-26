@@ -171,6 +171,7 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
   const dirRef = useRef("f");
   const tabRefs = useRef([]);
   const fmtRefs = useRef([]);
+  const sectionRef = useRef(null);
 
   const items = section.items.map((item, i) => ({ ...item, ...(meta[i] || { formats: ["liquid", "powder"], href: null }), orig: i }));
   const visible = items.filter((item) => item.formats.includes(format));
@@ -214,11 +215,30 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
     tabRefs.current[next]?.focus();
   }
 
+  // A link like /flavours-fragrances#food-2 (from the Industries on the home page) opens that tab here.
+  useEffect(() => {
+    function openFromHash() {
+      const m = /^#(food|fragrance)-(\d+)$/.exec(window.location.hash);
+      if (!m || m[1] !== kind) return;
+      const idx = Number(m[2]);
+      const target = items[idx];
+      if (!target) return;
+      if (!target.formats.includes(format)) setFormat(target.formats[0] || DEFAULT_FORMAT);
+      setActiveOrig(idx);
+      // wait a moment so the page has finished laying out, then bring the section into view
+      setTimeout(() => sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 250);
+    }
+    openFromHash();
+    window.addEventListener("hashchange", openFromHash);
+    return () => window.removeEventListener("hashchange", openFromHash);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [kind]);
+
   const slide = tabSlide.ready ? "fs-slide" : "";
   const eyebrow = "text-[11px] font-semibold uppercase tracking-[0.16em] text-brand-navy xl:text-[max(12px,calc(16*var(--u)))]";
 
   return (
-    <section className={`${tint ? "bg-[#f9f8f5]" : "bg-white"} py-14 sm:py-16 xl:py-[calc(96*var(--u))]`}>
+    <section ref={sectionRef} id={kind} className={`${tint ? "bg-[#f9f8f5]" : "bg-white"} scroll-mt-[90px] py-14 sm:py-16 xl:scroll-mt-[calc(110*var(--u))] xl:py-[calc(96*var(--u))]`}>
       <style>{CSS}</style>
       <div className={COL}>
         {/* Heading and format switch */}

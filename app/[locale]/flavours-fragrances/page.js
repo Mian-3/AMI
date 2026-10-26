@@ -2,6 +2,7 @@ import { getDictionary } from "@/lib/getDictionary";
 import { getFlavoursMeta } from "@/lib/flavoursMeta";
 import { toCardMeta } from "@/lib/flavoursData";
 import Header from "@/components/Header";
+import { getLayout, shown } from "@/lib/sectionLayout";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import FlavoursHero from "@/components/FlavoursHero";
@@ -24,6 +25,7 @@ export async function generateMetadata({ params }) {
 export default async function FlavoursFragrancesPage({ params }) {
   const { locale } = await params;
   const dict = await getDictionary(locale);
+  const L = await getLayout();
   const meta = await getFlavoursMeta();
   const t = dict.flavoursPage;
   const cta = dict.buttons?.requestSample || "Request for Sample";
@@ -32,9 +34,9 @@ export default async function FlavoursFragrancesPage({ params }) {
     <>
       <Header dict={dict} locale={locale} active="flavours" />
       <main className="bg-white [--u:1px] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
-        <FlavoursHero dict={dict} />
-        <FlavoursSection kind="food" section={t.food} heading={t.heroHeading} meta={toCardMeta(meta.food, locale)} locale={locale} cta={cta} />
-        <FlavoursSection kind="fragrance" section={t.fragrance} heading={t.heroHeading} meta={toCardMeta(meta.fragrance, locale)} locale={locale} cta={cta} tint flip />
+        {shown(L, "flavours.hero") && <FlavoursHero dict={dict} />}
+        {shown(L, "flavours.food") && <FlavoursSection kind="food" section={t.food} heading={t.heroHeading} meta={toCardMeta(meta.food, locale)} locale={locale} cta={cta} />}
+        {shown(L, "flavours.fragrance") && <FlavoursSection kind="fragrance" section={t.fragrance} heading={t.heroHeading} meta={toCardMeta(meta.fragrance, locale)} locale={locale} cta={cta} tint flip />}
       </main>
       <Footer dict={dict} locale={locale} />
       <WhatsAppButton dict={dict} />

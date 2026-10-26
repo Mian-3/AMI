@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import { getLayout, shown } from "@/lib/sectionLayout";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import DownloadsHero from "@/components/DownloadsHero";
@@ -18,15 +19,16 @@ export async function generateMetadata({ params }) {
 export default async function DownloadsPage({ params }) {
   const { locale } = await params;
   const dict = await getDictionary(locale);
+  const L = await getLayout();
   const items = await getLiveDownloads(locale);
 
   return (
     <>
       <Header dict={dict} locale={locale} active="downloads" />
       <main>
-        <DownloadsHero dict={dict} />
-        <DownloadsLibrary dict={dict} items={items} />
-        <DownloadsCta dict={dict} locale={locale} />
+        {shown(L, "downloads.hero") && <DownloadsHero dict={dict} />}
+        {shown(L, "downloads.library") && <DownloadsLibrary dict={dict} items={items} />}
+        {shown(L, "downloads.cta") && <DownloadsCta dict={dict} locale={locale} />}
       </main>
       <Footer dict={dict} locale={locale} />
       <WhatsAppButton dict={dict} />

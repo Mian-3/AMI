@@ -1,5 +1,6 @@
 import ScrollFx from "@/components/ScrollFx";
 import Header from "@/components/Header";
+import { getLayout, shown } from "@/lib/sectionLayout";
 import { getDictionary } from "@/lib/getDictionary";
 import Hero from "@/components/Hero";
 import Intro from "@/components/Intro";
@@ -22,6 +23,7 @@ export const revalidate = 60;
 export default async function Home({ params }) {
   const { locale } = await params;
   const dict = await getDictionary(locale);
+  const L = await getLayout();
   const insightPosts = await getLatestPosts(locale, 4);
   const stats = await getHomeStats(locale, dict);
 
@@ -30,16 +32,16 @@ export default async function Home({ params }) {
       <Header dict={dict} locale={locale} />
 
       <main>
-        <Hero dict={dict} locale={locale} />
-        <Intro dict={dict} />
-        <Stats dict={dict} items={stats} />
-        <Clients dict={dict} locale={locale} />
-        <Expertise dict={dict} />
-        <Process dict={dict} />
-        <Industries dict={dict} />
-        <Events dict={dict} locale={locale} />
-        <Insights dict={dict} locale={locale} posts={insightPosts} />
-        <Certifications dict={dict} />
+        {shown(L, "home.hero") && <Hero dict={dict} locale={locale} />}
+        {shown(L, "home.intro") && <Intro dict={dict} />}
+        {shown(L, "home.stats") && <Stats dict={dict} items={stats} />}
+        {shown(L, "home.clients") && <Clients dict={dict} locale={locale} />}
+        {shown(L, "home.expertise") && <Expertise dict={dict} />}
+        {shown(L, "home.process") && <Process dict={dict} />}
+        {shown(L, "home.industries") && <Industries dict={dict} />}
+        {shown(L, "home.events") && <Events dict={dict} locale={locale} />}
+        {shown(L, "home.insights") && <Insights dict={dict} locale={locale} posts={insightPosts} />}
+        {shown(L, "home.certifications") && <Certifications dict={dict} />}
         <WhatsAppButton dict={dict} />
       </main>
 

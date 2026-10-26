@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import { getLayout, shown } from "@/lib/sectionLayout";
 import InsightsHero from "@/components/InsightsHero";
 import BlogExplorer from "@/components/BlogExplorer";
 import Footer from "@/components/Footer";
@@ -19,14 +20,15 @@ export async function generateMetadata({ params }) {
 export default async function InsightsPage({ params }) {
   const { locale } = await params;
   const dict = await getDictionary(locale);
+  const L = await getLayout();
   const posts = await getAllPosts(locale);
 
   return (
     <>
       <Header dict={dict} locale={locale} active="insights" />
       <main>
-        <InsightsHero dict={dict} />
-        <BlogExplorer dict={dict} posts={posts} />
+        {shown(L, "insights.hero") && <InsightsHero dict={dict} />}
+        {shown(L, "insights.explorer") && <BlogExplorer dict={dict} posts={posts} />}
       </main>
       <Footer dict={dict} locale={locale} />
       <WhatsAppButton dict={dict} />

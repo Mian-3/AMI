@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import { getLayout, shown } from "@/lib/sectionLayout";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import EventsHero from "@/components/EventsHero";
@@ -19,14 +20,15 @@ export async function generateMetadata({ params }) {
 export default async function EventsPage({ params }) {
   const { locale } = await params;
   const dict = await getDictionary(locale);
+  const L = await getLayout();
   const events = await getLiveEvents(locale);
 
   return (
     <>
       <Header dict={dict} locale={locale} active="events" />
       <main>
-        {events[0] ? <EventsHero event={events[0]} locale={locale} dict={dict} /> : null}
-        <EventsGrid events={events} dict={dict} locale={locale} />
+        {events[0] && shown(L, "events.hero") ? <EventsHero event={events[0]} locale={locale} dict={dict} /> : null}
+        {shown(L, "events.grid") && <EventsGrid events={events} dict={dict} locale={locale} />}
       </main>
       <Footer dict={dict} locale={locale} />
       <WhatsAppButton dict={dict} />

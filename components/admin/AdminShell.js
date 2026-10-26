@@ -51,6 +51,12 @@ const P = {
     </>
   ),
   activity: <path d="M2.8 10.4h3l2-5.6 3.4 10.2 2-4.6h3.9" />,
+  reports: (
+    <>
+      <path d="M5 2.8h7l3.2 3.2v10.2a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V3.8a1 1 0 0 1 1-1Z" />
+      <path d="M12 2.8V6h3.2M7 10.5h6M7 13.5h4" />
+    </>
+  ),
   search: (
     <>
       <circle cx="9" cy="9" r="5" />
@@ -79,6 +85,7 @@ const TOP = [
 const ADMIN = [
   { href: "/admin/team", label: "Team and access", icon: "team", ownerOnly: true },
   { href: "/admin/activity", label: "Activity", icon: "activity", ownerOnly: true },
+  { href: "/admin/reports", label: "Reports", icon: "reports", ownerOnly: true },
 ];
 
 // Sidebar model: flat links, plus "tree" entries for pages (a page and its sections).

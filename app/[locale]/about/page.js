@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import { getLayout, shown } from "@/lib/sectionLayout";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import AboutHero from "@/components/AboutHero";
@@ -18,16 +19,17 @@ export async function generateMetadata({ params }) {
 export default async function AboutPage({ params }) {
   const { locale } = await params;
   const dict = await getDictionary(locale);
+  const L = await getLayout();
 
   return (
     <>
       <Header dict={dict} locale={locale} active="about" />
       <main>
-        <AboutHero dict={dict} />
-        <AboutJourney dict={dict} />
-        <AboutMeaning dict={dict} />
-        <AboutMissionVision dict={dict} />
-        <AboutLeadership dict={dict} />
+        {shown(L, "about.hero") && <AboutHero dict={dict} />}
+        {shown(L, "about.journey") && <AboutJourney dict={dict} />}
+        {shown(L, "about.meaning") && <AboutMeaning dict={dict} />}
+        {shown(L, "about.missionVision") && <AboutMissionVision dict={dict} />}
+        {shown(L, "about.leadership") && <AboutLeadership dict={dict} />}
       </main>
       <Footer dict={dict} locale={locale} />
       <WhatsAppButton dict={dict} />
