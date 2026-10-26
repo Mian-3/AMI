@@ -1,4 +1,3 @@
-import Image from "next/image";
 import AboutReveal from "@/components/AboutReveal";
 import { eventHref } from "@/lib/eventsData";
 
@@ -28,9 +27,11 @@ export default function EventsHero({ event, locale, dict }) {
     <section className="[--u:1px] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
       <Tag
         {...linkProps}
-        className="group relative block h-[340px] overflow-hidden bg-ink sm:h-[420px] xl:h-[calc(672*var(--u))]"
+        className="group relative block overflow-hidden bg-ink"
       >
-        <Image src={event.heroImage} alt="" fill priority sizes="100vw" className="animate-about-zoom object-cover object-[50%_72%] motion-reduce:animate-none" />
+        {/* The whole picture is shown, never cropped: it keeps its own proportions at full width. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={event.heroImage} alt="" className="block h-auto w-full" fetchPriority="high" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/0" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-black/0 to-black/0 rtl:bg-gradient-to-l" />
 
