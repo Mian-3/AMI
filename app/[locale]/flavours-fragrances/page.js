@@ -1,6 +1,7 @@
 import { getDictionary } from "@/lib/getDictionary";
 import { getFlavoursMeta } from "@/lib/flavoursMeta";
 import { toCardMeta } from "@/lib/flavoursData";
+import { getItemLayout } from "@/lib/itemLayoutServer";
 import Header from "@/components/Header";
 import { getLayout, shown } from "@/lib/sectionLayout";
 import Footer from "@/components/Footer";
@@ -26,6 +27,8 @@ export default async function FlavoursFragrancesPage({ params }) {
   const { locale } = await params;
   const dict = await getDictionary(locale);
   const L = await getLayout();
+  const IL = await getItemLayout();
+  const off = (list) => [...IL.hidden, ...IL.deleted].filter((id) => id.startsWith(`flavours.${list}.`)).map((id) => Number(id.split(".")[2]));
   const meta = await getFlavoursMeta();
   const t = dict.flavoursPage;
   const cta = dict.buttons?.requestSample || "Request for Sample";
@@ -35,8 +38,8 @@ export default async function FlavoursFragrancesPage({ params }) {
       <Header dict={dict} locale={locale} active="flavours" />
       <main className="bg-white [--u:1px] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
         {shown(L, "flavours.hero") && <FlavoursHero dict={dict} />}
-        {shown(L, "flavours.food") && <FlavoursSection kind="food" section={t.food} heading={t.heroHeading} meta={toCardMeta(meta.food, locale)} locale={locale} cta={cta} />}
-        {shown(L, "flavours.fragrance") && <FlavoursSection kind="fragrance" section={t.fragrance} heading={t.heroHeading} meta={toCardMeta(meta.fragrance, locale)} locale={locale} cta={cta} tint flip />}
+        {shown(L, "flavours.food") && <FlavoursSection kind="food" section={t.food} heading={t.heroHeading} meta={toCardMeta(meta.food, locale)} hide={off("food")} order={IL.order["flavours.food"] || []} locale={locale} cta={cta} />}
+        {shown(L, "flavours.fragrance") && <FlavoursSection kind="fragrance" section={t.fragrance} heading={t.heroHeading} meta={toCardMeta(meta.fragrance, locale)} hide={off("fragrance")} order={IL.order["flavours.fragrance"] || []} locale={locale} cta={cta} tint flip />}
       </main>
       <Footer dict={dict} locale={locale} />
       <WhatsAppButton dict={dict} />

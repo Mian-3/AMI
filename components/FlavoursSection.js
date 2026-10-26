@@ -164,7 +164,7 @@ function RequestButton({ href, locale, label }) {
 }
 
 // One block of the page: heading, format switch, category tabs and the detail panel.
-export default function FlavoursSection({ kind = "food", section, heading, meta, locale = "en", cta = "Request for Sample", tint = false, flip = false }) {
+export default function FlavoursSection({ kind = "food", section, heading, meta, locale = "en", cta = "Request for Sample", tint = false, flip = false, hide = [], order = [] }) {
   const [format, setFormat] = useState(DEFAULT_FORMAT);
   const [activeOrig, setActiveOrig] = useState(0);
   const prevPos = useRef(0);
@@ -173,7 +173,10 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
   const fmtRefs = useRef([]);
   const sectionRef = useRef(null);
 
-  const items = section.items.map((item, i) => ({ ...item, ...(meta[i] || { formats: ["liquid", "powder"], href: null }), orig: i }));
+  const all = section.items.map((item, i) => ({ ...item, ...(meta[i] || { formats: ["liquid", "powder"], href: null }), orig: i }));
+  // Cards hidden or deleted in the admin leave the tabs; the admin can also reorder them.
+  const rank = (o) => { const at = order.indexOf(o); return at === -1 ? order.length + o : at; };
+  const items = all.filter((c) => !hide.includes(c.orig)).sort((a, b) => rank(a.orig) - rank(b.orig));
   const visible = items.filter((item) => item.formats.includes(format));
   const activePos = Math.max(0, visible.findIndex((v) => v.orig === activeOrig));
   const current = visible[activePos] || visible[0];
@@ -221,7 +224,7 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
       const m = /^#(food|fragrance)-(\d+)$/.exec(window.location.hash);
       if (!m || m[1] !== kind) return;
       const idx = Number(m[2]);
-      const target = items[idx];
+      const target = items.find((c) => c.orig === idx);
       if (!target) return;
       if (!target.formats.includes(format)) setFormat(target.formats[0] || DEFAULT_FORMAT);
       setActiveOrig(idx);

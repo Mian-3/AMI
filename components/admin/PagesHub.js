@@ -2,11 +2,17 @@ import Link from "next/link";
 import { getSession } from "@/lib/auth";
 import { allowedPages } from "@/lib/adminPages";
 import { getOverrides } from "@/lib/siteContent";
+import { getLayout } from "@/lib/sectionLayout";
+import { LAYOUT_PAGES } from "@/lib/sectionRegistry";
+import SectionLayout from "@/components/admin/SectionLayout";
 
 export default async function PagesHub() {
   const session = await getSession();
   const pages = allowedPages(session?.sections || [], Boolean(session?.isOwner));
   const overrides = await getOverrides();
+  const layout = await getLayout();
+  const canLayout = Boolean(session?.isOwner) || (session?.sections || []).includes("content");
+  const layoutState = Object.fromEntries([...layout.hidden.map((i) => [i, "hidden"]), ...layout.deleted.map((i) => [i, "deleted"])]);
   const edited = (href) => {
     const m = href.match(/^\/admin\/content\/(.+)$/);
     return m ? Boolean(overrides[m[1]]) : false;
@@ -20,12 +26,12 @@ export default async function PagesHub() {
       <div className="flex items-start justify-between gap-3">
         <h3 className="text-[17px] font-bold text-brand-navy">{page.label}</h3>
         <span className="shrink-0 rounded-full bg-black/[0.05] px-2.5 py-1 text-[11px] font-medium text-ink/60">
-          {page.sections.length} {page.sections.length === 1 ? "section" : "sections"}
+          {page.sections.filter((x) => !x.href.startsWith("/admin/arrange")).length} sections
         </span>
       </div>
       <p className="mt-1.5 text-[13px] leading-5 text-ink/60">{page.blurb}</p>
       <ul className="mt-4 flex flex-wrap gap-1.5">
-        {page.sections.map((s) => (
+        {page.sections.filter((x) => !x.href.startsWith("/admin/arrange")).map((s) => (
           <li key={s.href}>
             <Link
               href={s.href}
@@ -37,8 +43,11 @@ export default async function PagesHub() {
           </li>
         ))}
       </ul>
+      {canLayout && LAYOUT_PAGES.find((l) => l.id === page.id) ? (
+        <SectionLayout page={LAYOUT_PAGES.find((l) => l.id === page.id)} initial={layoutState} />
+      ) : null}
       <div className="mt-5 flex items-center gap-2 pt-1">
-        <Link href={page.sections[0].href} className="rounded-lg bg-brand-navy px-3.5 py-2 text-[13px] font-medium text-white transition hover:opacity-90">
+        <Link href={(page.sections.find((x) => !x.href.startsWith("/admin/arrange")) || page.sections[0]).href} className="rounded-lg bg-brand-navy px-3.5 py-2 text-[13px] font-medium text-white transition hover:opacity-90">
           Edit page
         </Link>
         {page.id !== "sitewide" ? (

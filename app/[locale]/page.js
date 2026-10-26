@@ -16,6 +16,8 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import Footer from "@/components/Footer";
 import { getLatestPosts } from "@/lib/insightsDb";
 import { getHomeStats } from "@/lib/homeStatsServer";
+import { getItemLayout } from "@/lib/itemLayoutServer";
+import { arrange } from "@/lib/itemLayout";
 
 // Safety net: home refreshes at least once a minute even if a manual refresh is missed.
 export const revalidate = 60;
@@ -26,6 +28,8 @@ export default async function Home({ params }) {
   const L = await getLayout();
   const insightPosts = await getLatestPosts(locale, 4);
   const stats = await getHomeStats(locale, dict);
+  const IL = await getItemLayout();
+  const statCards = arrange(IL, "home.stats", stats).map((x) => x.item);
 
   return (
     <>
@@ -34,11 +38,11 @@ export default async function Home({ params }) {
       <main>
         {shown(L, "home.hero") && <Hero dict={dict} locale={locale} />}
         {shown(L, "home.intro") && <Intro dict={dict} />}
-        {shown(L, "home.stats") && <Stats dict={dict} items={stats} />}
+        {shown(L, "home.stats") && statCards.length > 0 && <Stats dict={dict} items={statCards} />}
         {shown(L, "home.clients") && <Clients dict={dict} locale={locale} />}
         {shown(L, "home.expertise") && <Expertise dict={dict} />}
         {shown(L, "home.process") && <Process dict={dict} />}
-        {shown(L, "home.industries") && <Industries dict={dict} />}
+        {shown(L, "home.industries") && <Industries dict={dict} layout={IL} />}
         {shown(L, "home.events") && <Events dict={dict} locale={locale} />}
         {shown(L, "home.insights") && <Insights dict={dict} locale={locale} posts={insightPosts} />}
         {shown(L, "home.certifications") && <Certifications dict={dict} />}

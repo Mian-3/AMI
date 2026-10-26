@@ -8,6 +8,7 @@ import Mx from "@/components/Mx";
 import MxText from "@/components/MxText";
 import CatalogueDownloadLink from "@/components/CatalogueDownloadLink";
 import LocaleLink from "@/components/LocaleLink";
+import { arrange } from "@/lib/itemLayout";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -114,8 +115,8 @@ function IndustryCell({ item, cellRef }) {
   );
 }
 
-export default function Industries({ dict }) {
-  const industries = getIndustries(dict);
+export default function Industries({ dict, layout }) {
+  const industries = arrange(layout, "home.industries", getIndustries(dict)).map((x) => x.item);
   const gridRef = useRef(null);
   const cellRefs = useRef([]);
 
@@ -161,7 +162,9 @@ export default function Industries({ dict }) {
       tl.scrollTrigger?.kill();
       tl.kill();
     };
-  }, [dict]);
+  }, [dict, industries.length]);
+
+  if (!industries.length) return null;
 
   return (
     <Mx as="section" className="bg-[#fcfcfa] px-4 py-16 [--u:1px] sm:px-6 md:py-20 xl:px-0 xl:pb-[calc(110*var(--u))] xl:pt-[calc(87*var(--u))] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">

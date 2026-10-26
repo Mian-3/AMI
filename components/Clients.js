@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Mx from "@/components/Mx";
 import { getMedia } from "@/lib/media";
+import { getItemLayout } from "@/lib/itemLayoutServer";
+import { arrange } from "@/lib/itemLayout";
 
 const repeats = [0, 1];
 
@@ -29,7 +31,9 @@ className="marquee-item flex h-[52px] shrink-0 items-center justify-center overf
 export default async function Clients({ dict, locale }) {
   const isRtl = locale === "ar";
   // The logos are managed in the admin under Media and links.
-  const { clients } = await getMedia();
+  const { clients: all } = await getMedia();
+  const clients = arrange(await getItemLayout(), "home.clients", all).map((x) => x.item);
+  if (!clients.length) return null;
 
   return (
     <Mx as="section" className="bg-cream pb-14 pt-6">

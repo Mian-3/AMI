@@ -3,10 +3,13 @@ import Mx from "@/components/Mx";
 import MxText from "@/components/MxText";
 import CertificateLink from "@/components/CertificateLink";
 import { getMedia } from "@/lib/media";
+import { getItemLayout } from "@/lib/itemLayoutServer";
+import { arrange } from "@/lib/itemLayout";
 
 // The badges (image, PDF certificate and name) are managed in the admin under Media and links.
 export default async function Certifications({ dict }) {
-  const { certifications: badges } = await getMedia();
+  const { certifications: all } = await getMedia();
+  const badges = arrange(await getItemLayout(), "home.certifications", all).map((x) => x.item);
   if (!badges.length) return null;
 
   return (
