@@ -27,7 +27,7 @@ export default function EventsPrevious({ events, dict, locale }) {
   const t = dict.eventsPage;
 
   return (
-    <Mx as="section" className="bg-white px-4 py-16 sm:px-6 md:py-20 xl:px-0">
+    <Mx as="section" className="border-t border-black/5 bg-white px-4 pb-16 pt-12 sm:px-6 md:pb-20 md:pt-14 xl:px-0">
       <div className="mx-auto max-w-[900px]">
         <div className="flex flex-col items-start">
           {t.previousEyebrow ? <p className="mx-eyebrow mb-3 text-[11px] font-medium uppercase tracking-[0.08em] text-brand-orange">{t.previousEyebrow}</p> : null}
