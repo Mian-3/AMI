@@ -310,7 +310,7 @@ function Palette({ open, onClose, flat }) {
 }
 
 /* ---------- shell ---------- */
-export default function AdminShell({ user, sections = [], isOwner = true, logoutAction, children }) {
+export default function AdminShell({ user, sections = [], isOwner = true, logoutAction, layoutState = {}, canLayout = false, children }) {
   const pathname = usePathname();
   const [drawer, setDrawer] = useState(false);
   const [palette, setPalette] = useState(false);
@@ -422,7 +422,7 @@ export default function AdminShell({ user, sections = [], isOwner = true, logout
           </header>
           <main className="p-4 md:p-8">
             {wsPage ? (
-              <PageWorkspace page={wsPage} sections={wsPage.sections} activeHref={owner.section.href}>
+              <PageWorkspace page={wsPage} sections={wsPage.sections} activeHref={owner.section.href} layoutState={layoutState} canLayout={canLayout}>
                 {children}
               </PageWorkspace>
             ) : (

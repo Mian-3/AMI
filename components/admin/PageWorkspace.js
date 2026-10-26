@@ -1,9 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import SectionLayout from "@/components/admin/SectionLayout";
+import { LAYOUT_PAGES } from "@/lib/sectionRegistry";
 
 // Wraps an editor with its page context: a section list on the left (a scrolling row on phones).
-export default function PageWorkspace({ page, sections, activeHref, children }) {
+export default function PageWorkspace({ page, sections, activeHref, layoutState = {}, canLayout = false, children }) {
+  const layoutPage = canLayout ? LAYOUT_PAGES.find((l) => l.id === page.id) : null;
   return (
     <div className="lg:grid lg:grid-cols-[210px_minmax(0,1fr)] lg:gap-8">
       <aside className="mb-6 lg:mb-0">
@@ -52,6 +55,7 @@ export default function PageWorkspace({ page, sections, activeHref, children }) 
               })}
             </ul>
           </nav>
+          {layoutPage ? <SectionLayout key={page.id} page={layoutPage} initial={layoutState} compact defaultOpen /> : null}
         </div>
       </aside>
       <div className="min-w-0">{children}</div>
