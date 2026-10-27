@@ -110,7 +110,7 @@ function IndustryCell({ item, cellRef }) {
         {item.icon}
       </span>
       <LocaleLink href={item.href} aria-label={item.label} className="absolute inset-0 z-20 rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-orange" />
-      <span ref={labelRef} className="relative text-[13px] font-medium text-ink transition-colors duration-300 group-hover:text-brand-orange xl:text-[max(13px,calc(19*var(--u)))] xl:font-semibold xl:leading-[calc(26*var(--u))] xl:text-[#9aa3b4] xl:group-hover:text-brand-orange">{item.label}</span>
+      <span ref={labelRef} className="relative text-[13px] font-semibold text-ink transition-colors duration-300 group-hover:text-brand-orange xl:text-[max(13px,calc(19*var(--u)))] xl:font-bold xl:leading-[calc(26*var(--u))] xl:text-[#8a93a6] xl:group-hover:text-brand-orange">{item.label}</span>
     </div>
   );
 }

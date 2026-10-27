@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import { getLayout, shown } from "@/lib/sectionLayout";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import EventsBanner from "@/components/EventsBanner";
+import EventsTopBanner from "@/components/EventsTopBanner";
 import { getMedia } from "@/lib/media";
 import EventsGrid from "@/components/EventsGrid";
 import EventsPrevious from "@/components/EventsPrevious";
@@ -33,7 +33,7 @@ export default async function EventsPage({ params }) {
     <>
       <Header dict={dict} locale={locale} active="events" />
       <main>
-        {shown(L, "events.banner") && <EventsBanner banner={media.eventsBanner} locale={locale} dict={dict} />}
+        {shown(L, "events.banner") && <EventsTopBanner banner={media.eventsBanner} locale={locale} dict={dict} />}
         {shown(L, "events.grid") && <EventsGrid events={upcoming} dict={dict} locale={locale} fit={media.eventsCards.fit} />}
         {shown(L, "events.previous") && <EventsPrevious events={past} dict={dict} locale={locale} fit={media.eventsCards.fit} />}
       </main>

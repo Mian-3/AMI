@@ -141,23 +141,46 @@ export default function MediaForm({ initial, labels }) {
         <ImageField label="Banner image for phones (optional)" value={m.eventsBanner.imageMobile} onChange={(v) => setPath("eventsBanner", "imageMobile", v)} hint="Optional. A squarer or taller version for small screens. If empty, the desktop image is used." />
         <label className="flex items-center gap-2 text-sm text-ink/80">
           <input type="checkbox" checked={m.eventsBanner.showText !== false} onChange={(e) => setPath("eventsBanner", "showText", e.target.checked)} />
-          Show the text over the banner (Eyebrow, heading and paragraph). Edit the words in Site content, Events page.
+          Show the text over the banner (Eyebrow, heading and paragraph). Edit the words below.
         </label>
-        <div>
-          <label className="flex items-center gap-2 text-sm text-ink/80">
-            <input type="checkbox" checked={!m.eventsBanner.maxHeight} onChange={(e) => setPath("eventsBanner", "maxHeight", e.target.checked ? 0 : 480)} />
-            Show the whole picture at full width, no height limit (no side gaps)
-          </label>
-          {m.eventsBanner.maxHeight ? (
-            <div className="mt-3">
-              <label className={LABEL}>Maximum height on computer: {m.eventsBanner.maxHeight}px</label>
-              <input type="range" min="200" max="1000" step="20" value={m.eventsBanner.maxHeight} onChange={(e) => setPath("eventsBanner", "maxHeight", Number(e.target.value))} className="w-full accent-[#f58220]" />
-              <p className="mt-1 text-xs text-ink/50">Shorter banner, picture scaled down whole. If the picture is taller than this, soft blur fills the sides. For no gaps at all, upload a wide picture (for example 1920 x 600) or tick the box above.</p>
-            </div>
-          ) : (
-            <p className="mt-1 text-xs text-ink/50">Banner height follows the picture. A wide picture (for example 1920 x 600) keeps it short.</p>
-          )}
+        <div className="space-y-2">
+          {[
+            ["fill", "Full width, fixed height (like the home page)", "The picture fills the whole banner width and the height below. A wide picture (for example 1920 x 600) shows completely. A taller picture is trimmed top and bottom; use the position slider to choose which part stays."],
+            ["whole", "Whole picture, never trimmed", "Nothing is cut. A tall picture is scaled down and soft blur fills the sides."],
+          ].map(([v, title, note]) => (
+            <label key={v} className={`flex cursor-pointer items-start gap-3 rounded-lg border p-3 ${m.eventsBanner.fit === v ? "border-brand-orange bg-brand-orange/5" : "border-black/10"}`}>
+              <input type="radio" name="eventsBannerFit" checked={m.eventsBanner.fit === v} onChange={() => setPath("eventsBanner", "fit", v)} className="mt-1" />
+              <span><span className="block text-sm font-medium text-brand-navy">{title}</span><span className="block text-xs text-ink/60">{note}</span></span>
+            </label>
+          ))}
         </div>
+        <div>
+          <label className={LABEL}>Banner height on computer: {m.eventsBanner.maxHeight || 620}px</label>
+          <input type="range" min="240" max="900" step="20" value={m.eventsBanner.maxHeight || 620} onChange={(e) => setPath("eventsBanner", "maxHeight", Number(e.target.value))} className="w-full accent-[#f58220]" />
+        </div>
+        {m.eventsBanner.fit !== "whole" ? (
+          <div>
+            <label className={LABEL}>Which part of the picture to keep: {m.eventsBanner.focus ?? 50}% (0 = top, 100 = bottom)</label>
+            <input type="range" min="0" max="100" step="5" value={m.eventsBanner.focus ?? 50} onChange={(e) => setPath("eventsBanner", "focus", Number(e.target.value))} className="w-full accent-[#f58220]" />
+          </div>
+        ) : null}
+        {[["en", "English text"], ["ar", "Arabic text"]].map(([lang, title]) => (
+          <div key={lang} className="space-y-3 rounded-lg border border-black/10 p-3" dir={lang === "ar" ? "rtl" : "ltr"}>
+            <p className="text-sm font-medium text-brand-navy">{title}</p>
+            <div>
+              <label className={LABEL}>Eyebrow (small line)</label>
+              <input value={m.eventsBanner[lang]?.eyebrow || ""} onChange={(e) => setM((st) => ({ ...st, eventsBanner: { ...st.eventsBanner, [lang]: { ...st.eventsBanner[lang], eyebrow: e.target.value } } }))} className={FIELD} />
+            </div>
+            <div>
+              <label className={LABEL}>Heading (H1)</label>
+              <textarea rows={2} value={m.eventsBanner[lang]?.heading || ""} onChange={(e) => setM((st) => ({ ...st, eventsBanner: { ...st.eventsBanner, [lang]: { ...st.eventsBanner[lang], heading: e.target.value } } }))} className={FIELD + " h-auto py-2"} />
+            </div>
+            <div>
+              <label className={LABEL}>Subtext</label>
+              <textarea rows={4} value={m.eventsBanner[lang]?.text || ""} onChange={(e) => setM((st) => ({ ...st, eventsBanner: { ...st.eventsBanner, [lang]: { ...st.eventsBanner[lang], text: e.target.value } } }))} className={FIELD + " h-auto py-2"} />
+            </div>
+          </div>
+        ))}
         <div>
           <label className={LABEL}>Description of the image (for screen readers)</label>
           <input value={m.eventsBanner.alt} onChange={(e) => setPath("eventsBanner", "alt", e.target.value)} className={FIELD} />

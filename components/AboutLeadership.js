@@ -17,7 +17,7 @@ export default async function AboutLeadership({ dict }) {
   const paragraphs = [t.leadershipP1, t.leadershipP2, t.leadershipP3, t.leadershipP4].filter((p) => p && String(p).trim());
 
   return (
-    <section className="bg-white pb-16 pt-14 [--u:1px] sm:pb-24 sm:pt-20 lg:pb-[12.5rem] lg:pt-[6.9rem] xl:pb-[calc(250*var(--u))] xl:pt-[calc(97*var(--u))] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
+    <section id="leadership" className="scroll-mt-24 bg-white pb-16 pt-14 [--u:1px] sm:pb-24 sm:pt-20 lg:pb-[12.5rem] lg:pt-[6.9rem] xl:pb-[calc(250*var(--u))] xl:pt-[calc(97*var(--u))] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
       <div className="mx-auto max-w-[75rem] px-4 sm:px-6 xl:max-w-[calc(1200*var(--u))] xl:px-0">
       {on(0) && (
 <>
