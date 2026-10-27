@@ -138,7 +138,7 @@ export default async function Header({ dict, locale, active = "home" }) {
             <CatalogueDownloadLink
               label={dict.buttons.downloadCatalogueArrow}
               icon="none"
-              className="hd-btn flex h-9 items-center justify-center whitespace-nowrap rounded-md border border-brand-navy/20 px-4 text-[12px] font-medium text-brand-navy xl:h-[max(36px,calc(48*var(--u)))] xl:w-[calc(191*var(--u))] xl:min-w-[140px] xl:px-0 xl:text-[max(12px,calc(14*var(--u)))] transition duration-200 hover:-translate-y-0.5 hover:bg-brand-navy/5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+              className="hd-btn flex h-9 items-center justify-center whitespace-nowrap rounded-md border border-brand-navy/20 px-4 text-[12px] font-medium text-brand-navy xl:h-[max(36px,calc(48*var(--u)))] xl:w-auto xl:min-w-[max(140px,calc(191*var(--u)))] xl:px-[calc(22*var(--u))] xl:text-[max(12px,calc(14*var(--u)))] transition duration-200 hover:-translate-y-0.5 hover:bg-brand-navy/5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
             />
           </div>
 

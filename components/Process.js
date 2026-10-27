@@ -31,7 +31,7 @@ export default async function Process({ dict }) {
             <p style={{ "--d": "350ms" }} className="mx-fade mt-2 max-w-[420px] text-[14px] text-white/70">{dict.process.tagline}</p>
           </div>
           <div className="mx-fade" style={{ "--d": "500ms" }}>
-            <LocaleLink href="/our-process" className="flex h-9 shrink-0 items-center whitespace-nowrap rounded-md bg-white px-4 text-[12px] font-medium text-brand-navy transition duration-200 hover:-translate-y-0.5 hover:bg-white/90 motion-reduce:transition-none motion-reduce:hover:translate-y-0"><Roll>{dict.buttons.exploreProcess}</Roll></LocaleLink>
+            <LocaleLink href="/our-process" className="flex h-9 shrink-0 items-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0"><Roll>{dict.buttons.exploreProcess}</Roll></LocaleLink>
           </div>
         </div>
 

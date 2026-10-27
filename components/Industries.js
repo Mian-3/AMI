@@ -194,7 +194,7 @@ export default function Industries({ dict, layout }) {
         </div>
 
         <div style={{ "--d": "300ms" }} className="mx-fade mt-9 flex flex-wrap items-center justify-center gap-3 xl:mt-[calc(69*var(--u))] xl:gap-[calc(29*var(--u))]">
-          <a href="#" className="flex h-9 items-center justify-center whitespace-nowrap rounded-md border border-brand-navy/15 bg-white px-4 text-[12px] font-medium text-brand-navy transition duration-200 hover:-translate-y-0.5 hover:border-brand-orange hover:text-brand-orange motion-reduce:transition-none motion-reduce:hover:translate-y-0 xl:h-[max(40px,calc(48*var(--u)))] xl:w-[calc(230*var(--u))] xl:min-w-[170px] xl:rounded-[calc(8*var(--u))] xl:px-0 xl:text-[max(12px,calc(14*var(--u)))]"><Roll>{dict.buttons.exploreIndustries}</Roll></a>
+          <LocaleLink href="/flavours-fragrances" className="flex h-9 items-center justify-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0 xl:h-[max(40px,calc(48*var(--u)))] xl:w-[calc(230*var(--u))] xl:min-w-[170px] xl:rounded-[calc(8*var(--u))] xl:px-0 xl:text-[max(12px,calc(14*var(--u)))]"><Roll>{dict.buttons.exploreIndustries}</Roll></LocaleLink>
           <CatalogueDownloadLink
             label={dict.buttons.downloadCatalogueArrow ?? dict.buttons.downloadCatalogue}
             icon="none"
