@@ -1,4 +1,4 @@
-import Image from "next/image";
+import FitImage, { fitBox } from "@/components/FitImage";
 import AboutReveal from "@/components/AboutReveal";
 import { eventHref } from "@/lib/eventsData";
 
@@ -19,7 +19,7 @@ function Arrow() {
   );
 }
 
-export default function EventsGrid({ events, dict, locale }) {
+export default function EventsGrid({ events, dict, locale, fit = "fill" }) {
   if (!events.length) return null;
   const hrefOf = (event) => eventHref(locale, event);
   return (
@@ -43,8 +43,8 @@ export default function EventsGrid({ events, dict, locale }) {
                 {...linkProps}
                 className="group box-border flex h-full flex-col overflow-hidden rounded-[20px] border border-black/10 bg-white shadow-sm transition duration-300 ease-out hover:-translate-y-1 hover:border-brand-orange hover:shadow-[0_20px_40px_-18px_rgba(251,160,31,0.35)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 xl:rounded-[max(20px,calc(28*var(--u)))]"
               >
-                <div className="relative h-[190px] w-full overflow-hidden sm:h-[210px] xl:h-[max(150px,calc(219*var(--u)))]">
-                  <Image src={event.image} alt="" fill sizes="(min-width: 1280px) 600px, (min-width: 768px) 50vw, 100vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 motion-reduce:transition-none" />
+                <div className={"relative w-full shrink-0 overflow-hidden " + fitBox(fit)}>
+                  <FitImage src={event.image} fit={fit} />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/10" />
                   <span className="absolute start-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/40 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-white backdrop-blur-md xl:start-[calc(20*var(--u))] xl:top-[calc(20*var(--u))] xl:gap-[calc(8*var(--u))] xl:px-[calc(16*var(--u))] xl:py-[calc(8*var(--u))] xl:text-[max(11px,calc(14*var(--u)))]">
                     <span className="h-1.5 w-1.5 rounded-full bg-[#fba01f] xl:h-[max(6px,calc(8*var(--u)))] xl:w-[max(6px,calc(8*var(--u)))]" />

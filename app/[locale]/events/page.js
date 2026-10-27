@@ -33,9 +33,9 @@ export default async function EventsPage({ params }) {
     <>
       <Header dict={dict} locale={locale} active="events" />
       <main>
-        {shown(L, "events.hero") && <EventsBanner banner={media.eventsBanner} locale={locale} />}
-        {shown(L, "events.grid") && <EventsGrid events={upcoming} dict={dict} locale={locale} />}
-        {shown(L, "events.previous") && <EventsPrevious events={past} dict={dict} locale={locale} />}
+        {shown(L, "events.banner") && <EventsBanner banner={media.eventsBanner} locale={locale} dict={dict} />}
+        {shown(L, "events.grid") && <EventsGrid events={upcoming} dict={dict} locale={locale} fit={media.eventsCards.fit} />}
+        {shown(L, "events.previous") && <EventsPrevious events={past} dict={dict} locale={locale} fit={media.eventsCards.fit} />}
       </main>
       <Footer dict={dict} locale={locale} />
       <WhatsAppButton dict={dict} />

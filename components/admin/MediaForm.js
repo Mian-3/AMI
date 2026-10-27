@@ -121,9 +121,43 @@ export default function MediaForm({ initial, labels }) {
         <FileField label="Catalogue PDF" value={m.catalogue.pdf} onChange={(v) => setPath("catalogue", "pdf", v)} accept="application/pdf" hint="Upload a PDF, or paste a link." />
       </Card>
 
+      <Card title="Event card pictures" note="How the picture sits inside every event card (Events page and home page). Pick one look for all cards.">
+        <div className="space-y-2">
+          {[
+            ["fill", "Same size, picture fills the box", "All cards are the same height, no gaps. The picture edges may be trimmed a little."],
+            ["whole", "Same size, whole picture", "All cards are the same height and nothing is cut, but a soft blur fills spare space around wider or taller pictures."],
+            ["natural", "Natural size, whole picture", "Nothing is cut and there are no gaps, but cards can have different picture heights. Use pictures of one size for equal cards."],
+          ].map(([v, title, note]) => (
+            <label key={v} className={`flex cursor-pointer items-start gap-3 rounded-lg border p-3 ${m.eventsCards.fit === v ? "border-brand-orange bg-brand-orange/5" : "border-black/10"}`}>
+              <input type="radio" name="eventsCardsFit" checked={m.eventsCards.fit === v} onChange={() => setPath("eventsCards", "fit", v)} className="mt-1" />
+              <span><span className="block text-sm font-medium text-brand-navy">{title}</span><span className="block text-xs text-ink/60">{note}</span></span>
+            </label>
+          ))}
+        </div>
+      </Card>
+
       <Card title="Events page: top banner" note="The big banner at the very top of the Events page. It is not linked to any event: add or remove events freely and the banner stays. The whole picture is shown at full width, never cropped. Leave empty to hide it. Use Layout and visibility to hide or show it.">
         <ImageField label="Banner image (desktop)" value={m.eventsBanner.image} onChange={(v) => setPath("eventsBanner", "image", v)} hint="Wide, at least 1920 px. It is shown in full, so any proportion works." />
         <ImageField label="Banner image for phones (optional)" value={m.eventsBanner.imageMobile} onChange={(v) => setPath("eventsBanner", "imageMobile", v)} hint="Optional. A squarer or taller version for small screens. If empty, the desktop image is used." />
+        <label className="flex items-center gap-2 text-sm text-ink/80">
+          <input type="checkbox" checked={m.eventsBanner.showText !== false} onChange={(e) => setPath("eventsBanner", "showText", e.target.checked)} />
+          Show the text over the banner (Eyebrow, heading and paragraph). Edit the words in Site content, Events page.
+        </label>
+        <div>
+          <label className="flex items-center gap-2 text-sm text-ink/80">
+            <input type="checkbox" checked={!m.eventsBanner.maxHeight} onChange={(e) => setPath("eventsBanner", "maxHeight", e.target.checked ? 0 : 480)} />
+            Show the whole picture at full width, no height limit (no side gaps)
+          </label>
+          {m.eventsBanner.maxHeight ? (
+            <div className="mt-3">
+              <label className={LABEL}>Maximum height on computer: {m.eventsBanner.maxHeight}px</label>
+              <input type="range" min="200" max="1000" step="20" value={m.eventsBanner.maxHeight} onChange={(e) => setPath("eventsBanner", "maxHeight", Number(e.target.value))} className="w-full accent-[#f58220]" />
+              <p className="mt-1 text-xs text-ink/50">Shorter banner, picture scaled down whole. If the picture is taller than this, soft blur fills the sides. For no gaps at all, upload a wide picture (for example 1920 x 600) or tick the box above.</p>
+            </div>
+          ) : (
+            <p className="mt-1 text-xs text-ink/50">Banner height follows the picture. A wide picture (for example 1920 x 600) keeps it short.</p>
+          )}
+        </div>
         <div>
           <label className={LABEL}>Description of the image (for screen readers)</label>
           <input value={m.eventsBanner.alt} onChange={(e) => setPath("eventsBanner", "alt", e.target.value)} className={FIELD} />

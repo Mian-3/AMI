@@ -1,7 +1,8 @@
 import Roll from "@/components/Roll";
-import { getItemLayout } from "@/lib/itemLayoutServer";
-import { arrange, partShown } from "@/lib/itemLayout";
-import Image from "next/image";
+import { getLiveEvents } from "@/lib/eventsServer";
+import { splitEvents, eventHref } from "@/lib/eventsData";
+import FitImage, { fitBox } from "@/components/FitImage";
+import { getMedia } from "@/lib/media";
 import Mx from "@/components/Mx";
 import MxText from "@/components/MxText";
 
@@ -31,24 +32,23 @@ function ArrowIcon() {
   );
 }
 
-function getEvents(dict) {
-  return [
-    { date: dict.events.items.event1.date, title: dict.events.items.event1.title, venue: dict.events.items.event1.venue, src: "/images/events/in-1.png" },
-    { date: dict.events.items.event2.date, title: dict.events.items.event2.title, venue: dict.events.items.event2.venue, src: "/images/events/Rectangle 240649825.png" },
-  ];
-}
-
+// Home page shows two real events from Admin > Events: the next upcoming ones (soonest first).
+// When fewer than two are coming up, the most recently finished events fill the gap.
 export default async function Events({ dict, locale }) {
-  const IL = await getItemLayout();
-  const events = arrange(IL, "home.events", getEvents(dict)).map((x) => x.item);
+  const all = await getLiveEvents(locale);
+  const fit = (await getMedia()).eventsCards?.fit || "fill";
+  const { upcoming, past } = splitEvents(all, undefined, false);
+  const events = [...upcoming, ...past].slice(0, 2);
+  if (!events.length) return null;
   const eventsHref = `/${locale}/events`;
+  const eyebrow = upcoming.length ? (dict.events.upcomingEyebrow || dict.events.eyebrow) : (dict.events.recentEyebrow || dict.events.eyebrow);
 
   return (
     <Mx as="section" className="bg-ink px-4 py-16 sm:px-6 md:py-20 xl:px-0">
       <div className="mx-auto max-w-[900px]">
         <div className="flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
           <div>
-            <p className="mx-eyebrow mb-3 text-[11px] font-medium uppercase tracking-[0.08em] text-brand-orange">{dict.events.eyebrow}</p>
+            <p className="mx-eyebrow mb-3 text-[11px] font-medium uppercase tracking-[0.08em] text-brand-orange">{eyebrow}</p>
             <MxText as="h2" delay={150} className="text-[26px] font-semibold leading-[1.25] text-white md:text-[32px] md:leading-[40px]">{dict.events.heading}</MxText>
             <p style={{ "--d": "450ms" }} className="mx-fade mt-4 max-w-[460px] text-[14px] leading-[22px] text-white/60">{dict.events.paragraph}</p>
           </div>
@@ -59,16 +59,16 @@ export default async function Events({ dict, locale }) {
 
         <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
           {events.map((event, index) => (
-            <div key={event.title} className="mx-curtain" style={{ "--d": `${400 + index * 180}ms`, "--mx-r": "12px" }}>
-              <a href={eventsHref} className="group block overflow-hidden rounded-xl border border-white/10 transition-colors duration-300 hover:border-white/20">
-                <div className="mx-media relative h-[180px] w-full sm:h-[210px]" style={{ "--d": `${400 + index * 180}ms` }}>
-                  <Image src={event.src} alt={event.title} fill sizes="(min-width: 768px) 580px, 100vw" className="object-cover transition duration-500 group-hover:scale-105 motion-reduce:transition-none" />
+            <div key={event.id ?? index} className="mx-curtain h-full" style={{ "--d": `${400 + index * 180}ms`, "--mx-r": "12px" }}>
+              <a href={eventHref(locale, event) !== "#" ? eventHref(locale, event) : eventsHref} className="group flex h-full flex-col overflow-hidden rounded-xl border border-white/10 transition-colors duration-300 hover:border-white/20">
+                <div className={"mx-media relative w-full shrink-0 " + fitBox(fit)} style={{ "--d": `${400 + index * 180}ms` }}>
+                  <FitImage src={event.image} alt={event.title} fit={fit} tone="bg-white/5" />
                 </div>
-                <div className="flex items-center justify-between gap-3 p-4">
+                <div className="flex flex-1 items-center justify-between gap-3 p-4">
                   <div className="min-w-0">
-                    <p className="text-[11px] font-medium text-brand-orange">{event.date}</p>
+                    <p className="text-[11px] font-medium text-brand-orange">{event.dateShort}</p>
                     <h3 className="mt-0.5 text-[16px] font-semibold text-white">{event.title}</h3>
-                    <p className="mt-1 flex items-center gap-1.5 text-[12px] text-white/50"><PinIcon />{event.venue}</p>
+                    <p className="mt-1 flex items-center gap-1.5 text-[12px] text-white/50"><PinIcon />{event.location}</p>
                   </div>
                   <span className="mx-pop flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-orange text-white transition-transform duration-300 ease-out group-hover:rotate-45 rtl:group-hover:-rotate-45 motion-reduce:transition-none motion-reduce:group-hover:rotate-0"><ArrowIcon /></span>
                 </div>

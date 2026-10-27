@@ -1,4 +1,4 @@
-import Image from "next/image";
+import FitImage, { fitBox } from "@/components/FitImage";
 import Mx from "@/components/Mx";
 import MxText from "@/components/MxText";
 import { eventHref } from "@/lib/eventsData";
@@ -22,7 +22,7 @@ function ArrowIcon() {
 
 // Finished events, in the same dark style as the Events block on the Home page.
 // The headings come from Admin > Pages > Events > Page text.
-export default function EventsPrevious({ events, dict, locale }) {
+export default function EventsPrevious({ events, dict, locale, fit = "fill" }) {
   if (!events.length) return null;
   const t = dict.eventsPage;
 
@@ -44,8 +44,8 @@ export default function EventsPrevious({ events, dict, locale }) {
             return (
               <div key={event.id ?? index} className="mx-curtain h-full" style={{ "--d": `${400 + (index % 2) * 180}ms`, "--mx-r": "12px" }}>
                 <Tag {...linkProps} className="group flex h-full flex-col overflow-hidden rounded-xl border border-black/10 bg-white shadow-sm transition duration-300 hover:border-brand-orange/40 hover:shadow-md">
-                  <div className="mx-media relative h-[180px] w-full sm:h-[210px]" style={{ "--d": `${400 + (index % 2) * 180}ms` }}>
-                    <Image src={event.image} alt="" fill sizes="(min-width: 768px) 440px, 100vw" className="object-cover transition duration-500 group-hover:scale-105 motion-reduce:transition-none" />
+                  <div className={"mx-media relative w-full shrink-0 " + fitBox(fit)} style={{ "--d": `${400 + (index % 2) * 180}ms` }}>
+                    <FitImage src={event.image} fit={fit} />
                   </div>
                   <div className="flex flex-1 items-center justify-between gap-3 p-4">
                     <div className="min-w-0">
