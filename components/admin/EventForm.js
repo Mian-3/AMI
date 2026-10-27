@@ -78,7 +78,6 @@ export default function EventForm({ event }) {
         </div>
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           <ImageField label="Card image *" value={form.imageUrl} onChange={(url) => setForm((f) => ({ ...f, imageUrl: url }))} hint="Landscape, at least 1200 px wide." />
-          <ImageField label="Banner image (optional)" value={form.heroImage} onChange={(url) => setForm((f) => ({ ...f, heroImage: url }))} hint="Used in the big top banner when this is the first event. Wide, at least 1920 px. If empty, the card image is used." />
         </div>
       </section>
 

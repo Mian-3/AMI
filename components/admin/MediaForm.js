@@ -121,6 +121,19 @@ export default function MediaForm({ initial, labels }) {
         <FileField label="Catalogue PDF" value={m.catalogue.pdf} onChange={(v) => setPath("catalogue", "pdf", v)} accept="application/pdf" hint="Upload a PDF, or paste a link." />
       </Card>
 
+      <Card title="Events page: top banner" note="The big banner at the very top of the Events page. It is not linked to any event: add or remove events freely and the banner stays. The whole picture is shown at full width, never cropped. Leave empty to hide it. Use Layout and visibility to hide or show it.">
+        <ImageField label="Banner image (desktop)" value={m.eventsBanner.image} onChange={(v) => setPath("eventsBanner", "image", v)} hint="Wide, at least 1920 px. It is shown in full, so any proportion works." />
+        <ImageField label="Banner image for phones (optional)" value={m.eventsBanner.imageMobile} onChange={(v) => setPath("eventsBanner", "imageMobile", v)} hint="Optional. A squarer or taller version for small screens. If empty, the desktop image is used." />
+        <div>
+          <label className={LABEL}>Description of the image (for screen readers)</label>
+          <input value={m.eventsBanner.alt} onChange={(e) => setPath("eventsBanner", "alt", e.target.value)} className={FIELD} />
+        </div>
+        <div>
+          <label className={LABEL}>Link when clicked (optional)</label>
+          <input value={m.eventsBanner.link} onChange={(e) => setPath("eventsBanner", "link", e.target.value)} className={FIELD} placeholder="https://... or /{locale}/contact" />
+        </div>
+      </Card>
+
       <Card title="Home page hero" note="Video plays muted in the background. The poster image shows while it loads, and on devices that block autoplay.">
         <FileField label="Background video (mp4)" value={m.hero.video} onChange={(v) => setPath("hero", "video", v)} accept="video/mp4,video/webm" hint="Keep it under about 10 MB and 15 seconds for fast loading." />
         <ImageField label="Poster image" value={m.hero.poster} onChange={(v) => setPath("hero", "poster", v)} />

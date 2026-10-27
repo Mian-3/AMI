@@ -38,10 +38,10 @@ export default function EventsGrid({ events, dict, locale }) {
             const Tag = linked ? "a" : "div";
             const linkProps = linked ? { href, "aria-label": `${dict.eventsPage.view}: ${event.title}` } : {};
             return (
-            <AboutReveal key={event.id ?? index} delay={(index % 2) * 120}>
+            <AboutReveal key={event.id ?? index} delay={(index % 2) * 120} className="h-full">
               <Tag
                 {...linkProps}
-                className="group box-border block overflow-hidden rounded-[20px] border border-black/10 bg-white shadow-sm transition duration-300 ease-out hover:-translate-y-1 hover:border-brand-orange hover:shadow-[0_20px_40px_-18px_rgba(251,160,31,0.35)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 xl:rounded-[max(20px,calc(28*var(--u)))]"
+                className="group box-border flex h-full flex-col overflow-hidden rounded-[20px] border border-black/10 bg-white shadow-sm transition duration-300 ease-out hover:-translate-y-1 hover:border-brand-orange hover:shadow-[0_20px_40px_-18px_rgba(251,160,31,0.35)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 xl:rounded-[max(20px,calc(28*var(--u)))]"
               >
                 <div className="relative h-[190px] w-full overflow-hidden sm:h-[210px] xl:h-[max(150px,calc(219*var(--u)))]">
                   <Image src={event.image} alt="" fill sizes="(min-width: 1280px) 600px, (min-width: 768px) 50vw, 100vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 motion-reduce:transition-none" />
@@ -51,7 +51,7 @@ export default function EventsGrid({ events, dict, locale }) {
                     {event.dateShort}
                   </span>
                 </div>
-                <div className="flex items-center justify-between gap-4 px-5 py-5 xl:min-h-[max(96px,calc(130*var(--u)))] xl:gap-[calc(20*var(--u))] xl:px-[calc(28*var(--u))] xl:py-[calc(24*var(--u))]">
+                <div className="flex flex-1 items-center justify-between gap-4 px-5 py-5 xl:min-h-[max(96px,calc(130*var(--u)))] xl:gap-[calc(20*var(--u))] xl:px-[calc(28*var(--u))] xl:py-[calc(24*var(--u))]">
                   <div className="min-w-0">
                     <h3 className="text-[18px] font-semibold leading-[1.3] text-brand-navy xl:text-[max(17px,calc(24*var(--u)))] xl:leading-[max(24px,calc(32*var(--u)))]">{event.title}</h3>
                     <p className="mt-2 flex items-center gap-2 text-[14px] text-ink/55 xl:mt-[calc(10*var(--u))] xl:gap-[calc(8*var(--u))] xl:text-[max(14px,calc(17*var(--u)))]">

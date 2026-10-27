@@ -2,7 +2,8 @@ import Header from "@/components/Header";
 import { getLayout, shown } from "@/lib/sectionLayout";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import EventsHero from "@/components/EventsHero";
+import EventsBanner from "@/components/EventsBanner";
+import { getMedia } from "@/lib/media";
 import EventsGrid from "@/components/EventsGrid";
 import EventsPrevious from "@/components/EventsPrevious";
 import { getDictionary } from "@/lib/getDictionary";
@@ -24,14 +25,15 @@ export default async function EventsPage({ params }) {
   const dict = await getDictionary(locale);
   const L = await getLayout();
   const events = await getLiveEvents(locale);
-  // Next event to happen = banner, then the other upcoming ones by date, and finished events at the bottom.
-  const { hero, upcoming, past, showHero } = splitEvents(events, undefined, shown(L, "events.hero"));
+  const media = await getMedia();
+  // The banner is its own picture from the admin. Every event stays in the cards below.
+  const { upcoming, past } = splitEvents(events, undefined, false);
 
   return (
     <>
       <Header dict={dict} locale={locale} active="events" />
       <main>
-        {hero && showHero ? <EventsHero event={hero} locale={locale} dict={dict} /> : null}
+        {shown(L, "events.hero") && <EventsBanner banner={media.eventsBanner} locale={locale} />}
         {shown(L, "events.grid") && <EventsGrid events={upcoming} dict={dict} locale={locale} />}
         {shown(L, "events.previous") && <EventsPrevious events={past} dict={dict} locale={locale} />}
       </main>

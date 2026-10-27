@@ -42,12 +42,12 @@ export default function EventsPrevious({ events, dict, locale }) {
             const Tag = linked ? "a" : "div";
             const linkProps = linked ? { href, "aria-label": `${t.view}: ${event.title}` } : {};
             return (
-              <div key={event.id ?? index} className="mx-curtain" style={{ "--d": `${400 + (index % 2) * 180}ms`, "--mx-r": "12px" }}>
-                <Tag {...linkProps} className="group block overflow-hidden rounded-xl border border-black/10 bg-white shadow-sm transition duration-300 hover:border-brand-orange/40 hover:shadow-md">
+              <div key={event.id ?? index} className="mx-curtain h-full" style={{ "--d": `${400 + (index % 2) * 180}ms`, "--mx-r": "12px" }}>
+                <Tag {...linkProps} className="group flex h-full flex-col overflow-hidden rounded-xl border border-black/10 bg-white shadow-sm transition duration-300 hover:border-brand-orange/40 hover:shadow-md">
                   <div className="mx-media relative h-[180px] w-full sm:h-[210px]" style={{ "--d": `${400 + (index % 2) * 180}ms` }}>
                     <Image src={event.image} alt="" fill sizes="(min-width: 768px) 440px, 100vw" className="object-cover transition duration-500 group-hover:scale-105 motion-reduce:transition-none" />
                   </div>
-                  <div className="flex items-center justify-between gap-3 p-4">
+                  <div className="flex flex-1 items-center justify-between gap-3 p-4">
                     <div className="min-w-0">
                       <p className="text-[11px] font-medium text-brand-orange">{event.dateShort}</p>
                       <h3 className="mt-0.5 text-[16px] font-semibold text-brand-navy">{event.title}</h3>
