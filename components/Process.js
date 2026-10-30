@@ -12,7 +12,8 @@ function getSteps(dict) {
     { number: "02", title: dict.process.steps.application.title, desc: dict.process.steps.application.desc, tint: "from-fuchsia-500 via-fuchsia-500/70 to-transparent", ring: "hover:ring-fuchsia-300/40" },
     { number: "03", title: dict.process.steps.production.title, desc: dict.process.steps.production.desc, tint: "from-sky-500 via-sky-500/70 to-transparent", ring: "hover:ring-sky-300/40" },
     { number: "04", title: dict.process.steps.qc.title, desc: dict.process.steps.qc.desc, tint: "from-emerald-500 via-emerald-500/70 to-transparent", ring: "hover:ring-emerald-300/40" },
-  ];
+    { number: "05", title: dict.process.steps.sales?.title, desc: dict.process.steps.sales?.desc, tint: "from-rose-500 via-rose-500/70 to-transparent", ring: "hover:ring-rose-300/40" },
+  ].filter((x) => x.title);
 }
 export default async function Process({ dict }) {
   const IL = await getItemLayout();
@@ -35,7 +36,7 @@ export default async function Process({ dict }) {
           </div>
         </div>
 
-                      <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                      <div className={"mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 " + (steps.length > 4 ? "lg:grid-cols-5" : "lg:grid-cols-4")}>
           {steps.map((step, index) => (
             <div key={step.number} className="mx-curtain" style={{ "--d": `${450 + index * 140}ms` }}>
               <div data-spot className={"group relative flex h-full min-h-[190px] flex-col overflow-hidden rounded-2xl border border-white/20 bg-brand-navy p-5 pt-11 shadow-lg ring-1 ring-transparent backdrop-blur-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl motion-reduce:transition-none motion-reduce:hover:translate-y-0 " + step.ring}>
