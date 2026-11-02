@@ -1,17 +1,23 @@
-import { DM_Sans, IBM_Plex_Sans_Arabic } from "next/font/google";
+import localFont from "next/font/local";
 import "../globals.css";
 import NavigationLoader from "@/components/NavigationLoader";
 import ScrollToTop from "@/components/ScrollToTop";
 
-const dmSans = DM_Sans({
-  subsets: ["latin"],
+// Self-hosted fonts (lib/fontfiles), so the build never needs Google Fonts.
+const dmSans = localFont({
+  src: "../../lib/fontfiles/dm-sans-latin-wght-normal.woff2",
+  weight: "100 1000",
   display: "swap",
   variable: "--font-en",
 });
 
-const ibmPlexArabic = IBM_Plex_Sans_Arabic({
-  subsets: ["arabic"],
-  weight: ["400", "500", "600", "700"],
+const ibmPlexArabic = localFont({
+  src: [
+    { path: "../../lib/fontfiles/ibm-plex-sans-arabic-arabic-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "../../lib/fontfiles/ibm-plex-sans-arabic-arabic-500-normal.woff2", weight: "500", style: "normal" },
+    { path: "../../lib/fontfiles/ibm-plex-sans-arabic-arabic-600-normal.woff2", weight: "600", style: "normal" },
+    { path: "../../lib/fontfiles/ibm-plex-sans-arabic-arabic-700-normal.woff2", weight: "700", style: "normal" },
+  ],
   display: "swap",
   variable: "--font-ar",
 });
