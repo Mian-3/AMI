@@ -21,6 +21,46 @@ function Card({ title, note, children }) {
   );
 }
 
+
+const PAGE_CHOICES = [
+  ["Home", "/{locale}"],
+  ["About Us", "/{locale}/about"],
+  ["About Us: Leadership", "/{locale}/about#leadership"],
+  ["Flavours & Fragrances", "/{locale}/flavours-fragrances"],
+  ["Our Process", "/{locale}/our-process"],
+  ["Downloads", "/{locale}/downloads"],
+  ["Events", "/{locale}/events"],
+  ["Insights", "/{locale}/insights"],
+  ["Contact Us", "/{locale}/contact"],
+];
+
+const NAV_NAMES = { home: "Home", about: "About Us", flavours: "Flavours & Fragrances", process: "Our Process", downloads: "Downloads", events: "Events", insights: "Insights", contact: "Contact Us" };
+
+// Pick a page of the website, upload a PDF, or paste any link.
+function LinkPicker({ value, onChange, hint }) {
+  const known = PAGE_CHOICES.some(([, v]) => v === value);
+  return (
+    <div className="space-y-2">
+      <select value={known ? value : ""} onChange={(e) => e.target.value && onChange(e.target.value)} className={FIELD} aria-label="Pick a page">
+        <option value="">Custom link or PDF (type below)</option>
+        {PAGE_CHOICES.map(([name, v]) => (
+          <option key={v} value={v}>{name}</option>
+        ))}
+      </select>
+      <FileField label="Link: a page above, an uploaded PDF, or any https:// link" value={value} onChange={onChange} accept="application/pdf" hint={hint || "To open a PDF, click Upload file or paste its link."} />
+    </div>
+  );
+}
+
+function Toggle({ checked, onChange, children }) {
+  return (
+    <label className="flex cursor-pointer items-center gap-2 text-sm text-ink/80">
+      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="h-4 w-4 accent-[#0f1f4b]" />
+      {children}
+    </label>
+  );
+}
+
 export default function MediaForm({ initial, labels }) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
@@ -41,6 +81,16 @@ export default function MediaForm({ initial, labels }) {
       [next[i], next[j]] = [next[j], next[i]];
       return { ...st, certifications: next };
     });
+  const setNav = (i, patch) => setM((st) => ({ ...st, header: { ...st.header, nav: st.header.nav.map((x, j) => (j === i ? { ...x, ...patch } : x)) } }));
+  const moveNav = (i, d) =>
+    setM((st) => {
+      const j = i + d;
+      if (j < 0 || j >= st.header.nav.length) return st;
+      const next = [...st.header.nav];
+      [next[i], next[j]] = [next[j], next[i]];
+      return { ...st, header: { ...st.header, nav: next } };
+    });
+  const setHeaderBtn = (key, patch) => setM((st) => ({ ...st, header: { ...st.header, [key]: { ...st.header[key], ...patch } } }));
   const setClients = (next) => setM((s) => ({ ...s, clients: next }));
   const moveClient = (i, d) => {
     const j = i + d;
@@ -244,6 +294,88 @@ export default function MediaForm({ initial, labels }) {
 
       <Card title="Buttons" note="Use /{locale}/contact style links for pages on this site ({locale} becomes en or ar). Use a full https:// link for other sites. # means no link yet.">
         {linkRow("links", "requestSample", "Request for Sample button")}
+      </Card>
+
+      <Card title="Header" note="The menu links and the two header buttons, in the website header and the phone menu. Leave a text box empty to keep the wording from Site content. Each link can go to a page, a PDF or any outside link.">
+        <ul className="space-y-3">
+          {m.header.nav.map((n, i) => (
+            <li key={n.id + i} className={`rounded-lg border border-black/10 bg-[#fafafa] p-3 ${n.show ? "" : "opacity-60"}`}>
+              <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+                <p className="text-sm font-medium text-brand-navy">{NAV_NAMES[n.id] || "Added link"}</p>
+                <div className="flex flex-wrap items-center gap-3">
+                  <Toggle checked={n.show} onChange={(v) => setNav(i, { show: v })}>Show</Toggle>
+                  <button type="button" onClick={() => moveNav(i, -1)} disabled={i === 0} className="h-8 rounded-md border border-black/10 bg-white px-2.5 text-xs disabled:opacity-40">Up</button>
+                  <button type="button" onClick={() => moveNav(i, 1)} disabled={i === m.header.nav.length - 1} className="h-8 rounded-md border border-black/10 bg-white px-2.5 text-xs disabled:opacity-40">Down</button>
+                  {!NAV_NAMES[n.id] ? (
+                    <button type="button" onClick={() => setM((st) => ({ ...st, header: { ...st.header, nav: st.header.nav.filter((_, j) => j !== i) } }))} className="h-8 rounded-md px-2.5 text-xs text-red-600 hover:bg-red-50">Remove</button>
+                  ) : null}
+                </div>
+              </div>
+              <div className="grid gap-3 md:grid-cols-2">
+                <div>
+                  <label className={LABEL}>Text (English)</label>
+                  <input value={n.en} onChange={(e) => setNav(i, { en: e.target.value })} placeholder={NAV_NAMES[n.id] || "Link text"} className={FIELD} />
+                </div>
+                <div>
+                  <label className={LABEL}>Text (Arabic)</label>
+                  <input dir="rtl" value={n.ar} onChange={(e) => setNav(i, { ar: e.target.value })} className={FIELD} />
+                </div>
+              </div>
+              <div className="mt-3">
+                <LinkPicker value={n.href} onChange={(v) => setNav(i, { href: v })} />
+              </div>
+            </li>
+          ))}
+        </ul>
+        {m.header.nav.length < 14 ? (
+          <button type="button" onClick={() => setM((st) => ({ ...st, header: { ...st.header, nav: [...st.header.nav, { id: `custom-${st.header.nav.length}`, en: "New link", ar: "", href: "/{locale}", show: true }] } }))} className="h-10 rounded-lg border border-black/10 bg-white px-4 text-sm font-medium text-brand-navy hover:bg-black/5">Add a menu link</button>
+        ) : null}
+
+        <div className="rounded-lg border border-black/10 bg-[#fafafa] p-3">
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <p className="text-sm font-medium text-brand-navy">Button: Request for Sample</p>
+            <Toggle checked={m.header.requestSample.show} onChange={(v) => setHeaderBtn("requestSample", { show: v })}>Show</Toggle>
+          </div>
+          <div className="grid gap-3 md:grid-cols-2">
+            <div>
+              <label className={LABEL}>Text (English)</label>
+              <input value={m.header.requestSample.en} onChange={(e) => setHeaderBtn("requestSample", { en: e.target.value })} placeholder="Request for Sample" className={FIELD} />
+            </div>
+            <div>
+              <label className={LABEL}>Text (Arabic)</label>
+              <input dir="rtl" value={m.header.requestSample.ar} onChange={(e) => setHeaderBtn("requestSample", { ar: e.target.value })} className={FIELD} />
+            </div>
+          </div>
+          <div className="mt-3 space-y-2">
+            {[["enquiry", "Opens the enquiry form"], ["link", "Goes to a link"]].map(([v, l]) => (
+              <label key={v} className="flex cursor-pointer items-center gap-2 text-sm text-ink/80">
+                <input type="radio" name="rq-mode" checked={m.header.requestSample.mode === v} onChange={() => setHeaderBtn("requestSample", { mode: v })} className="accent-[#0f1f4b]" />
+                {l}
+              </label>
+            ))}
+            {m.header.requestSample.mode === "link" ? <LinkPicker value={m.header.requestSample.href} onChange={(v) => setHeaderBtn("requestSample", { href: v })} /> : null}
+          </div>
+        </div>
+
+        <div className="rounded-lg border border-black/10 bg-[#fafafa] p-3">
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <p className="text-sm font-medium text-brand-navy">Button: Download Catalogue</p>
+            <Toggle checked={m.header.catalogue.show} onChange={(v) => setHeaderBtn("catalogue", { show: v })}>Show</Toggle>
+          </div>
+          <div className="grid gap-3 md:grid-cols-2">
+            <div>
+              <label className={LABEL}>Text (English)</label>
+              <input value={m.header.catalogue.en} onChange={(e) => setHeaderBtn("catalogue", { en: e.target.value })} placeholder="Download Catalogue" className={FIELD} />
+            </div>
+            <div>
+              <label className={LABEL}>Text (Arabic)</label>
+              <input dir="rtl" value={m.header.catalogue.ar} onChange={(e) => setHeaderBtn("catalogue", { ar: e.target.value })} className={FIELD} />
+            </div>
+          </div>
+          <div className="mt-3">
+            <LinkPicker value={m.header.catalogue.href} onChange={(v) => setHeaderBtn("catalogue", { href: v })} hint="Leave empty to use the Catalogue PDF set at the top of this page. A PDF link downloads it." />
+          </div>
+        </div>
       </Card>
 
       <Card title="Social links" note="The social icons in the header and footer, in this order. Add the platforms you use, remove the ones you do not. Use a full https:// link.">

@@ -26,11 +26,15 @@ function DocIcon() {
   );
 }
 
-export default function CatalogueDownloadLink({ label, className = "", icon = "download" }) {
-  // The file is set in the admin under Media and links.
-  const PDF_URL = useMedia().catalogue.pdf;
+export default function CatalogueDownloadLink({ label, className = "", icon = "download", href = "" }) {
+  // The file is set in the admin under Media and links. A header button can point to its own link instead.
+  const mediaPdf = useMedia().catalogue.pdf;
+  const PDF_URL = href || mediaPdf;
+  const isFile = !href || /\.pdf(\?.*)?$/i.test(href);
+  const external = /^https?:\/\//.test(PDF_URL);
 
   function handleClick(e) {
+    if (!isFile) return; // a normal page or outside link: let the browser follow it
     e.preventDefault();
     window.open(PDF_URL, "_blank", "noopener,noreferrer");
     const a = document.createElement("a");
@@ -42,7 +46,7 @@ export default function CatalogueDownloadLink({ label, className = "", icon = "d
   }
 
   return (
-    <a href={PDF_URL} onClick={handleClick} className={className}>
+    <a href={PDF_URL} onClick={handleClick} {...(!isFile && external ? { target: "_blank", rel: "noopener noreferrer" } : {})} className={className}>
       {icon === "download" && <DownloadIcon />}
       {icon === "doc" && <DocIcon />}
       <Roll>{label}</Roll>

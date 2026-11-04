@@ -8,19 +8,9 @@ import SiteSearch from "@/components/SiteSearch";
 import SocialGlyph from "@/components/SocialIcons";
 import { getMedia } from "@/lib/media";
 import { SOCIAL_PLATFORMS, resolveHref, isExternal } from "@/lib/mediaShared";
+import { buildHeader } from "@/lib/headerView";
 
-function getNavItems(dict, locale, active) {
-  return [
-    { label: dict.nav.home, href: `/${locale}`, active: active === "home" },
-    { label: dict.nav.about, href: `/${locale}/about`, active: active === "about" },
-    { label: dict.nav.flavoursFragrances, href: `/${locale}/flavours-fragrances`, active: active === "flavours" },
-    { label: dict.nav.process, href: `/${locale}/our-process`, active: active === "process" },
-    { label: dict.nav.downloads, href: `/${locale}/downloads`, active: active === "downloads" },
-    { label: dict.nav.events, href: `/${locale}/events`, active: active === "events" },
-    { label: dict.nav.insights, href: `/${locale}/insights`, active: active === "insights" },
-    { label: dict.nav.contact, href: `/${locale}/contact`, active: active === "contact" },
-  ];
-}
+const NEW_TAB = { target: "_blank", rel: "noopener noreferrer" };
 
 function Icon({ children }) {
   return (
@@ -59,7 +49,11 @@ function Social({ label, href, i, children }) {
 
 export default async function Header({ dict, locale, active = "home" }) {
   const media = await getMedia();
-  const navItems = getNavItems(dict, locale, active);
+  const hv = buildHeader(dict, media, locale, active);
+  const navItems = hv.nav;
+  const rq = hv.request;
+  const ct = hv.catalogue;
+  const rqProps = { ...(rq.enquiry ? { "data-enquiry": "" } : {}), ...(rq.external ? NEW_TAB : {}) };
 
   return (
     <>
@@ -67,18 +61,24 @@ export default async function Header({ dict, locale, active = "home" }) {
       {/* Utility bar */}
       <div className="hidden bg-brand-navy text-white xl:block">
         <div className="mx-auto flex h-10 max-w-[1200px] items-center justify-end gap-5 px-4 text-[11px] sm:px-6 xl:h-[calc(40*var(--u))] xl:max-w-[calc(1600*var(--u))] xl:gap-[calc(28*var(--u))] xl:px-0 xl:text-[max(11px,calc(16*var(--u)))]">
-          <a data-enquiry
-            href={`/${locale}/contact`}
-            className="hd-ul hidden items-center gap-2 sm:inline-flex"
-          >
-            <PenIcon />
-            <Roll>{dict.buttons.requestSample}</Roll>
-          </a>
-          <CatalogueDownloadLink
-            label={dict.buttons.downloadCatalogue}
-            icon="doc"
-            className="hd-ul hidden items-center gap-2 sm:inline-flex"
-          />
+          {rq.show ? (
+            <a
+              {...rqProps}
+              href={rq.href}
+              className="hd-ul hidden items-center gap-2 sm:inline-flex"
+            >
+              <PenIcon />
+              <Roll>{rq.label}</Roll>
+            </a>
+          ) : null}
+          {ct.show ? (
+            <CatalogueDownloadLink
+              label={ct.label}
+              href={ct.href}
+              icon="doc"
+              className="hd-ul hidden items-center gap-2 sm:inline-flex"
+            />
+          ) : null}
           <div className="flex items-center gap-3">
             <style>{SOCIAL_CSS}</style>
             <LanguageSwitcher variant="dark" />
@@ -109,9 +109,10 @@ export default async function Header({ dict, locale, active = "home" }) {
           <nav aria-label="Main navigation" className="ms-3 hidden xl:ms-[calc(40*var(--u))] xl:block">
             <ul className="flex items-center gap-[17px] text-[13px] text-ink xl:gap-[calc(11*var(--u))] xl:text-[max(12px,calc(16*var(--u)))]">
               {navItems.map((item) => (
-                <li key={item.label} className="hd-in" style={{ "--i": navItems.indexOf(item) }}>
+                <li key={item.label + item.href} className="hd-in" style={{ "--i": navItems.indexOf(item) }}>
                   <a
                     href={item.href}
+                    {...(item.external ? NEW_TAB : {})}
                     className={
                       item.active
                         ? "block whitespace-nowrap border-b-2 border-brand-orange pb-[21px] pt-[23px] font-medium text-brand-orange xl:border-b-[calc(4*var(--u))] xl:px-[calc(6.5*var(--u))] xl:pb-[calc(26*var(--u))] xl:pt-[calc(28*var(--u))]"
@@ -128,22 +129,27 @@ export default async function Header({ dict, locale, active = "home" }) {
           </nav>
 
           <div className="ms-auto hidden shrink-0 items-center gap-2 xl:flex xl:gap-[calc(14*var(--u))]">
+            {rq.show ? (
             <a
-              data-enquiry
-              href={`/${locale}/contact`}
+              {...rqProps}
+              href={rq.href}
               className="hd-btn flex h-9 items-center justify-center whitespace-nowrap rounded-md bg-brand-orange px-4 text-[12px] font-medium text-white xl:h-[max(36px,calc(48*var(--u)))] xl:w-[calc(180*var(--u))] xl:min-w-[130px] xl:px-0 xl:text-[max(12px,calc(14*var(--u)))] transition duration-200 hover:-translate-y-0.5 hover:opacity-90 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
             >
-              <Roll>{dict.buttons.requestSample}</Roll>
+              <Roll>{rq.label}</Roll>
             </a>
+            ) : null}
+            {ct.show ? (
             <CatalogueDownloadLink
-              label={dict.buttons.downloadCatalogueArrow}
+              label={ct.labelArrow}
+              href={ct.href}
               icon="none"
               className="hd-btn flex h-9 items-center justify-center whitespace-nowrap rounded-md border border-brand-navy/20 px-4 text-[12px] font-medium text-brand-navy xl:h-[max(36px,calc(48*var(--u)))] xl:w-auto xl:min-w-[max(140px,calc(191*var(--u)))] xl:px-[calc(22*var(--u))] xl:text-[max(12px,calc(14*var(--u)))] transition duration-200 hover:-translate-y-0.5 hover:bg-brand-navy/5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
             />
+            ) : null}
           </div>
 
           <div className="ms-auto xl:hidden">
-            <MobileMenu items={navItems} dict={dict} />
+            <MobileMenu items={navItems} request={rq} catalogue={ct} />
           </div>
         </div>
       </div>

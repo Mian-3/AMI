@@ -29,7 +29,7 @@ function getItems(dict, media) {
 function ExpertiseCard({ item, tint }) {
   return (
     <LocaleLink href="/flavours-fragrances" className="group relative block aspect-[3/4] transform-gpu overflow-hidden rounded-2xl bg-brand-navy outline-none [-webkit-tap-highlight-color:transparent] sm:aspect-[4/3] xl:aspect-[587/447] xl:rounded-[calc(32*var(--u))]">
-      <div className="xp-media absolute inset-0">
+      <div className="xp-media absolute inset-0 xl:top-[calc(-194*var(--u))]">
       {item.video ? (
         <video key={item.video} src={item.video} poster={item.src} autoPlay muted loop playsInline preload="metadata" aria-label={item.title} className="absolute inset-0 h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transition-none" />
       ) : (
