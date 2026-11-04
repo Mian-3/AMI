@@ -46,7 +46,7 @@ export default async function Home({ params }) {
         {shown(L, "home.events") && <Events dict={dict} locale={locale} />}
         {shown(L, "home.insights") && <Insights dict={dict} locale={locale} posts={insightPosts} />}
         {shown(L, "home.certifications") && <Certifications dict={dict} />}
-        <WhatsAppButton dict={dict} />
+        <WhatsAppButton dict={dict} video />
       </main>
 
       <Footer dict={dict} locale={locale} />
