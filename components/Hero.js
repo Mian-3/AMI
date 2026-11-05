@@ -9,6 +9,7 @@ import { resolveHref } from "@/lib/mediaShared";
 
 // Short intro (about 2 seconds) that plays first, then the hero video starts from the beginning.
 // The file lives in the website itself (public/videos), so it does not use Blob storage.
+const HERO_VIDEO = "/videos/hero-2.mp4";
 const INTRO_SRC = "/videos/hero-intro.mp4";
 
 /*
@@ -136,7 +137,7 @@ export default function Hero({ dict, locale }) {
 
   return (
     <section className="relative flex min-h-[480px] items-end overflow-hidden bg-brand-navy text-white [--u:1px] md:h-[625px] xl:h-[calc(818*var(--u))] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
-      <video ref={mainRef} key={media.hero.video} src={media.hero.video} poster={media.hero.poster} muted loop playsInline preload="auto" aria-hidden="true" className={"absolute inset-0 h-full w-full object-cover " + (introDone ? "hero-video" : "")} />
+      <video ref={mainRef} key={HERO_VIDEO} src={HERO_VIDEO} poster={media.hero.poster} muted loop playsInline preload="auto" aria-hidden="true" className={"absolute inset-0 h-full w-full object-cover " + (introDone ? "hero-video" : "")} />
       <div className="absolute inset-0 bg-black/20" aria-hidden="true" />
       <div className={"absolute inset-0 " + (isRtl ? "bg-gradient-to-l" : "bg-gradient-to-r") + " from-black/60 via-black/20 to-transparent"} aria-hidden="true" />
 
@@ -195,7 +196,7 @@ export default function Hero({ dict, locale }) {
         <div role="dialog" aria-modal="true" aria-label={videoLabel} onClick={() => setOpen(false)} className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4 animate-[fadeIn_.25s_ease-out]">
           <div onClick={(e) => e.stopPropagation()} className="relative w-full max-w-[1100px]">
             <button type="button" onClick={() => setOpen(false)} aria-label="Close" className="absolute -top-10 end-0 text-3xl leading-none text-white transition-opacity hover:opacity-70">×</button>
-            <video src={media.hero.video} poster={media.hero.poster} controls autoPlay playsInline className="aspect-video w-full rounded-lg bg-black" />
+            <video src={HERO_VIDEO} poster={media.hero.poster} controls autoPlay playsInline className="aspect-video w-full rounded-lg bg-black" />
           </div>
         </div>
       )}

@@ -129,27 +129,13 @@ export default function MediaForm({ initial, labels }) {
     </div>
   );
 
-  const cardMedia = (key, title) => {
-    const mode = m.expertise[`${key}Mode`];
-    return (
-      <div key={key} className="rounded-lg border border-black/10 bg-[#fafafa] p-4">
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <p className="text-sm font-medium text-brand-navy">{title}</p>
-          <div className="inline-flex overflow-hidden rounded-lg border border-black/10">
-            {[["image", "Image"], ["video", "Video"]].map(([v, l]) => (
-              <button key={v} type="button" onClick={() => setPath("expertise", `${key}Mode`, v)} className={`h-9 px-4 text-sm font-medium transition ${mode === v ? "bg-brand-navy text-white" : "bg-white text-ink/70 hover:bg-black/5"}`}>{l}</button>
-            ))}
-          </div>
-        </div>
-        <div className="space-y-4">
-          {mode === "video" ? (
-            <FileField label="Card video (mp4)" value={m.expertise[`${key}Video`]} onChange={(v) => setPath("expertise", `${key}Video`, v)} accept="video/mp4,video/webm" hint="Plays muted on a loop. Keep it under about 10 MB and 15 seconds." />
-          ) : null}
-          <ImageField label={mode === "video" ? "Poster image (shows while the video loads)" : "Card photo"} value={m.expertise[key]} onChange={(v) => setPath("expertise", key, v)} />
-        </div>
-      </div>
-    );
-  };
+  const cardMedia = (key, title) => (
+    <div key={key} className="rounded-lg border border-black/10 bg-[#fafafa] p-4">
+      <p className="mb-3 text-sm font-medium text-brand-navy">{title}</p>
+      <ImageField label="Card photo (shows while the card video loads)" value={m.expertise[key]} onChange={(v) => setPath("expertise", key, v)} />
+      <p className="mt-2 text-xs text-ink/50">The card video is part of the website files (public/videos), not set here.</p>
+    </div>
+  );
 
   const footerList = (list, title) => (
     <div key={list}>
@@ -241,8 +227,7 @@ export default function MediaForm({ initial, labels }) {
         </div>
       </Card>
 
-      <Card title="Home page hero" note="Video plays muted in the background. The poster image shows while it loads, and on devices that block autoplay.">
-        <FileField label="Background video (mp4)" value={m.hero.video} onChange={(v) => setPath("hero", "video", v)} accept="video/mp4,video/webm" hint="Keep it under about 10 MB and 15 seconds for fast loading." />
+      <Card title="Home page hero" note="The hero video is part of the website files (public/videos). Here you can change the poster image, which shows while the video loads and on devices that block autoplay.">
         <ImageField label="Poster image" value={m.hero.poster} onChange={(v) => setPath("hero", "poster", v)} />
       </Card>
 
@@ -256,23 +241,17 @@ export default function MediaForm({ initial, labels }) {
         {cardMedia("fragrances", "Fragrances card")}
       </Card>
 
-      <Card title="Home page: Flavours and Fragrances section background" note="Optional background behind the whole section. Choose Image or Video: only the chosen one shows, the other is hidden. Text can be edited in Site content, Expertise.">
+      <Card title="Home page: Flavours and Fragrances section background" note="Optional background behind the whole section. Choose None or Image. Text can be edited in Site content, Expertise.">
         <div>
           <label className={LABEL}>Background</label>
           <div className="inline-flex overflow-hidden rounded-lg border border-black/10">
-            {[["none", "None"], ["image", "Image"], ["video", "Video"]].map(([v, l]) => (
+            {[["none", "None"], ["image", "Image"]].map(([v, l]) => (
               <button key={v} type="button" onClick={() => setPath("expertise", "bgMode", v)} className={`h-10 px-5 text-sm font-medium transition ${m.expertise.bgMode === v ? "bg-brand-navy text-white" : "bg-white text-ink/70 hover:bg-black/5"}`}>{l}</button>
             ))}
           </div>
         </div>
         {m.expertise.bgMode === "image" ? (
           <ImageField label="Background image" value={m.expertise.bgImage} onChange={(v) => setPath("expertise", "bgImage", v)} />
-        ) : null}
-        {m.expertise.bgMode === "video" ? (
-          <>
-            <FileField label="Background video (mp4)" value={m.expertise.bgVideo} onChange={(v) => setPath("expertise", "bgVideo", v)} accept="video/mp4,video/webm" hint="Plays muted on a loop. Keep it under about 10 MB and 15 seconds." />
-            <ImageField label="Poster image (shows while loading)" value={m.expertise.bgPoster} onChange={(v) => setPath("expertise", "bgPoster", v)} />
-          </>
         ) : null}
         {m.expertise.bgMode !== "none" ? (
           <>

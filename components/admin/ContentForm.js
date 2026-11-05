@@ -81,8 +81,8 @@ export default function ContentForm({ section, defaults, initial, hasOverrides }
               label={nice(key)}
               value={current}
               onChange={(url) => updateBoth(path, url)}
-              accept="video/mp4,video/webm"
-              hint="Upload an MP4 (keep it small, about 10 MB), or paste a YouTube link. Leave empty for no video. Used on both English and Arabic pages."
+              noUpload
+              hint="Videos are not uploaded here. Paste a YouTube link, or a file path from the website files such as /videos/name.mp4. Leave empty for no video. Used on both English and Arabic pages."
             />
           </div>
         );

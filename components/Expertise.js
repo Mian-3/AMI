@@ -19,10 +19,14 @@ function ArrowIcon() {
   );
 }
 
+// The two card videos live in the website itself (public/videos), so they do not use Blob storage.
+// If a file is missing the card simply keeps its photo.
+const CARD_VIDEOS = { flavours: "/videos/flavours-card.mp4", fragrances: "/videos/fragrances-card.mp4" };
+
 function getItems(dict, media) {
   return [
-    { title: dict.expertise.items.flavours.title, desc: dict.expertise.items.flavours.desc, src: media.expertise.flavours, video: media.expertise.flavoursMode === "video" ? media.expertise.flavoursVideo : "" },
-    { title: dict.expertise.items.fragrances.title, desc: dict.expertise.items.fragrances.desc, src: media.expertise.fragrances, video: media.expertise.fragrancesMode === "video" ? media.expertise.fragrancesVideo : "" },
+    { title: dict.expertise.items.flavours.title, desc: dict.expertise.items.flavours.desc, src: media.expertise.flavours, video: CARD_VIDEOS.flavours },
+    { title: dict.expertise.items.fragrances.title, desc: dict.expertise.items.fragrances.desc, src: media.expertise.fragrances, video: CARD_VIDEOS.fragrances },
   ];
 }
 
@@ -61,7 +65,7 @@ export default async function Expertise({ dict }) {
   const processCta = dict.expertise?.processCta ?? (dict.nav?.process === "Our Process" ? "Explore Our Process →" : dict.nav?.process);
 
   const ex = media.expertise;
-  const mode = !partShown(IL, "home.expertiseBg", 0) ? "none" : ex.bgMode === "video" && ex.bgVideo ? "video" : ex.bgMode === "image" && ex.bgImage ? "image" : "none";
+  const mode = !partShown(IL, "home.expertiseBg", 0) ? "none" : ex.bgMode === "image" && ex.bgImage ? "image" : "none";
   const dark = mode !== "none" && ex.bgOverlay === "dark";
   const overlayRgb = dark ? "11,23,54" : "252,252,250";
 

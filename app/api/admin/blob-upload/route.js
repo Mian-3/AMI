@@ -14,7 +14,7 @@ export async function POST(request) {
         const session = await getSession(["insights","content","media","events","downloads"]);
         if (!session) throw new Error("You are signed out. Please log in again.");
         return {
-          allowedContentTypes: ["application/pdf", "video/mp4", "video/webm", "image/jpeg", "image/png", "image/webp", "image/avif"],
+          allowedContentTypes: ["application/pdf", "image/jpeg", "image/png", "image/webp", "image/avif"],
           maximumSizeInBytes: 200 * 1024 * 1024,
           addRandomSuffix: true,
         };
