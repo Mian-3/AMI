@@ -39,6 +39,11 @@ export default function NavigationLoader({ children }) {
   const timers = useRef([]);
   const lastPath = useRef(pathname);
 
+  // Lets other parts of the page (the hero intro video) wait until the loader is gone.
+  useEffect(() => {
+    document.documentElement.dataset.amiLoading = active ? "1" : "0";
+  }, [active]);
+
   const clearTimers = useCallback(() => {
     timers.current.forEach(clearTimeout);
     timers.current = [];

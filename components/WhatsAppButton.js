@@ -1,6 +1,8 @@
 import VideoFab from "@/components/VideoFab";
 
 const WHATSAPP_NUMBER = "923228445661";
+// Home page video button. The file lives in the website itself (public/videos/promo.mp4), so it does not use Blob storage.
+const PROMO_VIDEO = "/videos/promo.mp4";
 
 function WhatsAppIcon() {
   return (
@@ -17,7 +19,7 @@ export default function WhatsAppButton({ dict, video = false }) {
     <>
       {video ? (
         <VideoFab
-          video={dict.whatsapp.promoVideo}
+          video={PROMO_VIDEO}
           label={dict.whatsapp.videoLabel || "Watch our video"}
           closeLabel={dict.whatsapp.videoClose || "Close video"}
           fullscreenLabel={dict.whatsapp.videoFullscreen || "Full screen"}

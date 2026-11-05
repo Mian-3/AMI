@@ -1,11 +1,15 @@
 "use client";
 
 import Roll from "@/components/Roll";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import CatalogueDownloadLink from "@/components/CatalogueDownloadLink";
 import { useMedia } from "@/components/MediaProvider";
 import { resolveHref } from "@/lib/mediaShared";
+
+// Short intro (about 2 seconds) that plays first, then the hero video starts from the beginning.
+// The file lives in the website itself (public/videos), so it does not use Blob storage.
+const INTRO_SRC = "/videos/hero-intro.mp4";
 
 /*
   Design artboard 1920. At xl+ every size is calc(N * var(--u)) with a floor,
@@ -20,6 +24,14 @@ export default function Hero({ dict, locale }) {
   const buttonsRef = useRef(null);
   const videoBtnRef = useRef(null);
   const [open, setOpen] = useState(false);
+  const mainRef = useRef(null);
+  const tlRef = useRef(null);
+  const playingRef = useRef(false);
+  const introRef = useRef(null);
+  const [introGo, setIntroGo] = useState(false);
+  const [introDone, setIntroDone] = useState(false);
+  const [introGone, setIntroGone] = useState(false);
+  const finishIntro = useCallback(() => setIntroDone(true), []);
 
   useEffect(() => {
     const wraps = [eyebrowWrapRef.current, headingWrapRef.current];
@@ -35,7 +47,8 @@ export default function Hero({ dict, locale }) {
     gsap.set(innerEls, { yPercent: 110 });
     gsap.set(fades, { opacity: 0, y: 16 });
 
-    const tl = gsap.timeline({ delay: 0.05 });
+    const tl = gsap.timeline({ delay: 0.05, paused: true });
+    tlRef.current = tl;
     tl.to(innerEls[0], { yPercent: 0, duration: 0.45, ease: "power4.out" })
       .to(innerEls[1], { yPercent: 0, duration: 0.55, ease: "power4.out" }, "-=0.5")
       .to(fades[0], { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, "-=0.35")
@@ -43,6 +56,69 @@ export default function Hero({ dict, locale }) {
       .to(fades[2], { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, "-=0.45");
     return () => tl.kill();
   }, []);
+
+  // The page loader (NavigationLoader) remounts the page once it has finished, so the intro must not start before
+  // the loader is gone, otherwise it plays once hidden and then again. Wait for the loader, then play once.
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      finishIntro();
+      return undefined;
+    }
+    const root = document.documentElement;
+    let timer;
+    const check = () => {
+      if (root.dataset.amiLoading !== "0") return false;
+      observer.disconnect();
+      timer = setTimeout(() => setIntroGo(true), 350); // let the loader finish fading out
+      return true;
+    };
+    const observer = new MutationObserver(check);
+    if (root.dataset.amiLoading === "0") {
+      setIntroGo(true);
+    } else {
+      observer.observe(root, { attributes: true, attributeFilter: ["data-ami-loading"] });
+    }
+    const giveUp = setTimeout(() => setIntroGo(true), 12000); // loader never reported: start anyway
+    return () => {
+      observer.disconnect();
+      clearTimeout(timer);
+      clearTimeout(giveUp);
+    };
+  }, [finishIntro]);
+
+  // Intro starts: if it cannot play (blocked autoplay, slow network, error) the hero starts straight away.
+  useEffect(() => {
+    if (!introGo || introDone) return undefined;
+    const v = introRef.current;
+    if (v) {
+      try {
+        v.currentTime = 0;
+      } catch {}
+      v.play?.().catch(finishIntro);
+    }
+    const startTimer = setTimeout(() => {
+      if (!playingRef.current) finishIntro();
+    }, 3000);
+    const capTimer = setTimeout(finishIntro, 6500);
+    return () => {
+      clearTimeout(startTimer);
+      clearTimeout(capTimer);
+    };
+  }, [introGo, introDone, finishIntro]);
+
+  useEffect(() => {
+    if (!introDone) return undefined;
+    const v = mainRef.current;
+    if (v) {
+      try {
+        v.currentTime = 0;
+      } catch {}
+      v.play?.().catch(() => {});
+    }
+    tlRef.current?.play();
+    const t = setTimeout(() => setIntroGone(true), 900);
+    return () => clearTimeout(t);
+  }, [introDone]);
 
   useEffect(() => {
     if (!open) return;
@@ -60,7 +136,7 @@ export default function Hero({ dict, locale }) {
 
   return (
     <section className="relative flex min-h-[480px] items-end overflow-hidden bg-brand-navy text-white [--u:1px] md:h-[625px] xl:h-[calc(818*var(--u))] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
-      <video key={media.hero.video} src={media.hero.video} poster={media.hero.poster} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" className="hero-video absolute inset-0 h-full w-full object-cover" />
+      <video ref={mainRef} key={media.hero.video} src={media.hero.video} poster={media.hero.poster} muted loop playsInline preload="auto" aria-hidden="true" className={"absolute inset-0 h-full w-full object-cover " + (introDone ? "hero-video" : "")} />
       <div className="absolute inset-0 bg-black/20" aria-hidden="true" />
       <div className={"absolute inset-0 " + (isRtl ? "bg-gradient-to-l" : "bg-gradient-to-r") + " from-black/60 via-black/20 to-transparent"} aria-hidden="true" />
 
@@ -97,6 +173,24 @@ export default function Hero({ dict, locale }) {
         </button>
       </div>
 
+      {!introGone && (
+        <div className={"hero-intro absolute inset-0 z-20 bg-[#fcfcfa] transition-opacity duration-700 ease-out " + (introDone ? "pointer-events-none opacity-0" : "opacity-100")} aria-hidden="true">
+          <video
+            ref={introRef}
+            src={INTRO_SRC}
+            muted
+            playsInline
+            preload="auto"
+            onPlaying={() => {
+              playingRef.current = true;
+            }}
+            onEnded={finishIntro}
+            onError={finishIntro}
+            className="h-full w-full object-cover"
+          />
+        </div>
+      )}
+
       {open && (
         <div role="dialog" aria-modal="true" aria-label={videoLabel} onClick={() => setOpen(false)} className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4 animate-[fadeIn_.25s_ease-out]">
           <div onClick={(e) => e.stopPropagation()} className="relative w-full max-w-[1100px]">
@@ -105,7 +199,7 @@ export default function Hero({ dict, locale }) {
           </div>
         </div>
       )}
-      <style>{"@keyframes fadeIn{from{opacity:0}to{opacity:1}}"}</style>
+      <style>{"@keyframes fadeIn{from{opacity:0}to{opacity:1}} @keyframes hero-intro-out{to{opacity:0;visibility:hidden}} .hero-intro{animation:hero-intro-out .6s ease 8s forwards}"}</style>
     </section>
   );
 }
