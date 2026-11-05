@@ -1,41 +1,37 @@
-import Image from "next/image";
-import Reveal from "@/components/Reveal";
+import AboutReveal from "@/components/AboutReveal";
 
-function ArrowIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-5 w-5 rtl:-scale-x-100 xl:h-6 xl:w-6">
-      <path d="M7 17 17 7M7 7h10v10" />
-    </svg>
-  );
-}
+// Insights page banner. Same look as the Events page banner: the picture is shown whole at full width,
+// never cropped. Text sits over the picture on computers and under it on phones.
+// The picture is a website file (public/images/insights/insights-banner.webp). Text comes from the admin.
+const INSIGHTS_BANNER = "/images/insights/insights-banner.webp";
 
 export default function InsightsHero({ dict }) {
   const t = dict.insightsPage;
+  const copy = (
+    <div className="max-w-[640px] text-white xl:max-w-[calc(780*var(--u))]">
+      {t.heroEyebrow ? (
+        <AboutReveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.12em] rtl:tracking-normal xl:mb-[calc(16*var(--u))] xl:text-[max(12px,calc(15*var(--u)))]">{t.heroEyebrow}</p></AboutReveal>
+      ) : null}
+      {t.heroHeading ? (
+        <AboutReveal delay={100}><h1 className="text-[30px] font-semibold leading-[1.15] md:text-[38px] md:leading-[44px] xl:text-[max(38px,calc(52*var(--u)))] xl:leading-[calc(60*var(--u))]">{t.heroHeading}</h1></AboutReveal>
+      ) : null}
+      {t.heroParagraph ? (
+        <AboutReveal delay={200}><p className="mt-3 text-[14px] font-medium leading-[1.6] md:text-[16px] xl:mt-[calc(20*var(--u))] xl:text-[max(15px,calc(19*var(--u)))] xl:leading-[calc(30*var(--u))]">{t.heroParagraph}</p></AboutReveal>
+      ) : null}
+    </div>
+  );
 
   return (
-    <section className="relative isolate flex min-h-[440px] items-end overflow-hidden bg-brand-navy md:min-h-[480px] xl:min-h-[520px]">
-      <Image src="/images/hero/hero-bg.jpg" alt="" fill priority sizes="100vw" className="-z-20 animate-about-zoom object-cover motion-reduce:animate-none" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/80 via-black/45 to-black/10 rtl:bg-gradient-to-l" aria-hidden="true" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/55 via-transparent to-transparent" aria-hidden="true" />
-
-      <div className="relative mx-auto w-full max-w-[1200px] px-4 pb-14 pt-24 sm:px-6 md:pb-16 xl:px-0 xl:pb-16">
-        <Reveal as="p" className="mb-4 flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.16em] text-white rtl:tracking-normal xl:mb-4 xl:text-[13px]">
-          <span className="h-[2px] w-8 bg-brand-orange" aria-hidden="true" />
-          {t.heroEyebrow}
-        </Reveal>
-        <Reveal as="h1" delay={100} className="max-w-[820px] text-[22px] font-bold leading-[1.25] text-white sm:text-[32px] md:text-[36px] md:leading-[44px] xl:text-[20px] xl:leading-[48px]">{t.heroHeading}</Reveal>
-        <Reveal as="p" delay={220} className="mt-4 max-w-[640px] text-[12px] leading-[1.7] text-white/90 xl:text-[14px] xl:leading-[30px]">{t.heroParagraph}</Reveal>
-
-        <a
-          href="#blog-list"
-          aria-label={t.bandHeading}
-          className="group absolute bottom-12 end-4 hidden h-14 w-14 items-center justify-center rounded-full bg-white text-brand-orange shadow-lg outline-none transition duration-300 hover:bg-brand-orange hover:text-white focus-visible:ring-2 focus-visible:ring-white sm:end-6 sm:flex md:bottom-14 xl:bottom-16 xl:end-0 xl:h-16 xl:w-16"
-        >
-          <span className="transition-transform duration-300 group-hover:rotate-45 rtl:group-hover:-rotate-45 motion-reduce:transition-none">
-            <ArrowIcon />
-          </span>
-        </a>
+    <section className="bg-white [--u:1px] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
+      <div className="relative overflow-hidden bg-ink">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={INSIGHTS_BANNER} alt="" className="relative mx-auto block h-auto w-full" fetchPriority="high" />
+        <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-t from-black/70 via-black/25 to-black/0 md:block" />
+        <div className="absolute inset-x-0 bottom-0 hidden md:block">
+          <div className="mx-auto w-full max-w-[1200px] px-6 pb-12 xl:max-w-[calc(1600*var(--u))] xl:px-0 xl:pb-[calc(70*var(--u))]">{copy}</div>
+        </div>
       </div>
+      <div className="bg-brand-navy px-4 py-10 sm:px-6 md:hidden"><div className="mx-auto max-w-[1200px]">{copy}</div></div>
     </section>
   );
 }

@@ -67,6 +67,8 @@ export default function ContentForm({ section, defaults, initial, hasOverrides }
     if (typeof node === "string") {
       // Flavours & Fragrances category photos and logos are part of the website files (lib/flavoursImages.js).
       if (section === "flavoursPage" && (key === "image" || /^logo\d+Image$/.test(String(key)))) return null;
+      // About page team photos are part of the website files (lib/teamImages.js).
+      if (section === "about" && path.includes("team") && key === "image") return null;
       if (/image$/i.test(String(key))) {
         const current = getIn(values.en, path) || "";
         return (

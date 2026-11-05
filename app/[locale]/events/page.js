@@ -10,6 +10,9 @@ import { getDictionary } from "@/lib/getDictionary";
 import { getLiveEvents } from "@/lib/eventsServer";
 import { splitEvents } from "@/lib/eventsData";
 
+// The Events page banner picture comes from the website files, shown whole and never cropped, full width (no side bars).
+const EVENTS_BANNER_IMAGE = "/images/events/events-banner.webp";
+
 // Events can change from the admin, so always render fresh data.
 export const dynamic = "force-dynamic";
 
@@ -33,7 +36,7 @@ export default async function EventsPage({ params }) {
     <>
       <Header dict={dict} locale={locale} active="events" />
       <main>
-        {shown(L, "events.banner") && <EventsTopBanner banner={media.eventsBanner} locale={locale} dict={dict} />}
+        {shown(L, "events.banner") && <EventsTopBanner banner={{ ...media.eventsBanner, image: EVENTS_BANNER_IMAGE, imageMobile: "", fit: "whole", maxHeight: 0 }} locale={locale} dict={dict} />}
         {shown(L, "events.grid") && <EventsGrid events={upcoming} dict={dict} locale={locale} fit={media.eventsCards.fit} />}
         {shown(L, "events.previous") && <EventsPrevious events={past} dict={dict} locale={locale} fit={media.eventsCards.fit} />}
       </main>

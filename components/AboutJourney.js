@@ -2,7 +2,6 @@ import Roll from "@/components/Roll";
 import { getItemLayout } from "@/lib/itemLayoutServer";
 import { arrange, partShown } from "@/lib/itemLayout";
 import AboutReveal from "@/components/AboutReveal";
-import CertificateLink from "@/components/CertificateLink";
 import CatalogueDownloadLink from "@/components/CatalogueDownloadLink";
 
 const CERTS = [
@@ -70,14 +69,12 @@ export default async function AboutJourney({ dict }) {
           {CERTS.map((c, i) => (
             <li key={c.n} className="h-full">
               <AboutReveal delay={i * 90} className="h-full">
-                <CertificateLink
-                  pdfSrc={`/documents/certificates/cert-${c.n}.pdf`}
-                  downloadName={`${c.label}.pdf`}
-                  className="flex h-[7.5rem] flex-col justify-between rounded-3xl border border-white/30 bg-white/20 p-4 text-white transition duration-300 hover:-translate-y-1 hover:bg-white/30 lg:p-5 xl:h-[max(110px,calc(143*var(--u)))] xl:rounded-[calc(32*var(--u))] xl:p-[calc(22*var(--u))] xl:pb-[calc(22*var(--u))]"
+                <div
+                  className="group flex h-[7.5rem] cursor-default flex-col justify-between rounded-3xl border border-white/30 bg-white/20 p-4 text-white transition duration-300 hover:-translate-y-1 hover:border-white/60 hover:bg-white/30 hover:shadow-lg lg:p-5 xl:h-[max(110px,calc(143*var(--u)))] xl:rounded-[calc(32*var(--u))] xl:p-[calc(22*var(--u))] xl:pb-[calc(22*var(--u))]"
                 >
-                  <MedalIcon />
+                  <span className="inline-block origin-left transition-transform duration-300 group-hover:scale-110"><MedalIcon /></span>
                   <span className="text-[0.8125rem] font-semibold uppercase xl:text-[max(12px,calc(16*var(--u)))] xl:leading-[calc(20*var(--u))]">{c.label}</span>
-                </CertificateLink>
+                </div>
               </AboutReveal>
             </li>
           ))}

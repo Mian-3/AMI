@@ -1,5 +1,6 @@
 "use client";
 
+import { CERT_IMAGES } from "@/lib/certImages";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import ImageField from "@/components/admin/ImageField";
@@ -379,7 +380,7 @@ export default function MediaForm({ initial, labels }) {
         {footerList("quick", "Quick links")}
       </Card>
 
-      <Card title="Home page: Certifications" note="The round certification badges at the bottom of the home page. Change the picture, add the PDF certificate it opens, reorder, add or remove badges. A badge with no PDF is just a picture.">
+      <Card title="Home page: Certifications" note="The round certification badges at the bottom of the home page. The first five pictures are part of the website files. Add the PDF certificate it opens, reorder, add or remove badges. A badge with no PDF is just a picture.">
         <ul className="space-y-3">
           {m.certifications.map((c, i) => (
             <li key={i} className="rounded-lg border border-black/10 bg-[#fafafa] p-3">
@@ -392,7 +393,7 @@ export default function MediaForm({ initial, labels }) {
                 </span>
               </div>
               <div className="space-y-4">
-                <ImageField label="Badge picture" value={c.image} onChange={(v) => setCert(i, { image: v })} />
+                {i < CERT_IMAGES.length ? null : <ImageField label="Badge picture" value={c.image} onChange={(v) => setCert(i, { image: v })} />}
                 <FileField label="Certificate PDF (opens when the badge is clicked)" value={c.pdf} onChange={(v) => setCert(i, { pdf: v })} accept="application/pdf" hint="Upload a PDF, or paste a link. Leave empty for a badge that is only a picture." />
                 <div>
                   <label className={LABEL}>Name (for screen readers and the download file name)</label>
