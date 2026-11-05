@@ -227,10 +227,6 @@ export default function MediaForm({ initial, labels }) {
         </div>
       </Card>
 
-      <Card title="Home page hero" note="The hero video is part of the website files (public/videos). Here you can change the poster image, which shows while the video loads and on devices that block autoplay.">
-        <ImageField label="Poster image" value={m.hero.poster} onChange={(v) => setPath("hero", "poster", v)} />
-      </Card>
-
       <Card title="Home page: Flavours and Fragrances cards" note="The two photo cards in the Flavours and Fragrances section of the home page. Each card can show a photo or a looping video. Both open the Flavours and Fragrances page. Their text is in Site content, Expertise.">
         <div>
           <label className={LABEL}>Card overlay (text clarity): {m.expertise.cardOverlay}%</label>

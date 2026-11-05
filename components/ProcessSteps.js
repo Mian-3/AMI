@@ -4,6 +4,16 @@ import StepNumber from "@/components/StepNumber";
 import { getItemLayout } from "@/lib/itemLayoutServer";
 import { arrange, partShown } from "@/lib/itemLayout";
 
+// One video per step, in step order. They are part of the website files (public/videos).
+// Put "" for a step that has no video.
+const PROCESS_VIDEOS = [
+  "/videos/process-1.mp4",
+  "/videos/process-2.mp4",
+  "/videos/process-3.mp4",
+  "/videos/process-4.mp4",
+  "/videos/process-5.mp4",
+];
+
 export default async function ProcessSteps({ dict }) {
   const t = dict.processPage;
   const IL = await getItemLayout();
@@ -53,7 +63,7 @@ export default async function ProcessSteps({ dict }) {
 
             {part(orig, 3) ? (
               <div className="pr-mediawrap pr-a" data-from={mediaFrom} style={{ "--d": "200ms" }}>
-                <ProcessMedia image={step.image} video={step.video} playLabel={t.playLabel} title={step.title} />
+                <ProcessMedia image={step.image} video={PROCESS_VIDEOS[orig] ?? step.video} playLabel={t.playLabel} title={step.title} />
               </div>
             ) : null}
           </ProcessScene>
