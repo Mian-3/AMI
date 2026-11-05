@@ -2,7 +2,6 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import ImageField from "@/components/admin/ImageField";
 import { saveEvent } from "@/app/admin/(panel)/events/actions";
 
 const FIELD =
@@ -77,7 +76,7 @@ export default function EventForm({ event }) {
           </div>
         </div>
         <div className="mt-4 grid gap-4 md:grid-cols-2">
-          <ImageField label="Card image *" value={form.imageUrl} onChange={(url) => setForm((f) => ({ ...f, imageUrl: url }))} hint="Landscape, at least 1200 px wide." />
+          <p className="text-sm text-ink/60 md:col-span-2">The event photo is part of the website files (public/images/events and lib/eventImages.js), not set here. Only the text, dates and visibility are edited in the admin.</p>
         </div>
       </section>
 
