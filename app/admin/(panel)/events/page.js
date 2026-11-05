@@ -4,6 +4,7 @@ import { getDb, schema } from "@/db";
 import { deleteEvent, importDefaultEvents } from "./actions";
 import DeleteButton from "@/components/admin/DeleteButton";
 import { todayIso } from "@/lib/eventsData";
+import { eventImage } from "@/lib/eventImages";
 
 export const dynamic = "force-dynamic";
 
@@ -71,7 +72,7 @@ export default async function EventsAdminPage() {
             {rows.map((row) => (
               <li key={row.id} className="flex flex-wrap items-center gap-3 px-4 py-4 sm:px-5">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                {row.imageUrl ? <img src={row.imageUrl} alt="" className="h-12 w-20 rounded-md object-cover" /> : <div className="h-12 w-20 rounded-md bg-black/5" />}
+                {(eventImage(row.slug, row.data?.en?.title) || row.imageUrl) ? <img src={eventImage(row.slug, row.data?.en?.title) || row.imageUrl} alt="" className="h-12 w-20 rounded-md object-cover" /> : <div className="h-12 w-20 rounded-md bg-black/5" />}
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-medium text-brand-navy">{row.data?.en?.title || "(no title)"}</p>
                   <p className="mt-0.5 truncate text-xs text-ink/50">
