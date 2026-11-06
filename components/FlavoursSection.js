@@ -189,7 +189,8 @@ export default function FlavoursSection({ kind = "food", section, heading, meta,
     ? [1, 2, 3, 4, 5, 6].map((n) => current[`logo${n}Image`]).filter((src) => typeof src === "string" && src.trim())
     : [];
   const industryBase = (current?.industry || current?.title || "").trim();
-  const clientsWord = (section.clientsLabel || (locale === "ar" ? "العملاء" : "Clients")).trim();
+  // The word after the industry name is fixed in the code for every category: "Major Clients".
+  const clientsWord = locale === "ar" ? "أبرز العملاء" : "Major Clients";
   const addClients = !industryBase.toLowerCase().includes(clientsWord.toLowerCase());
   const panelEyebrow = flip ? chips.find((c) => c.key === format)?.label || section.eyebrow : section.eyebrow;
   const fmtIndex = chips.findIndex((c) => c.key === format);
