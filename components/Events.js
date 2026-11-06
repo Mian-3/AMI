@@ -36,7 +36,7 @@ function ArrowIcon() {
 // When fewer than two are coming up, the most recently finished events fill the gap.
 export default async function Events({ dict, locale }) {
   const all = await getLiveEvents(locale);
-  const fit = (await getMedia()).eventsCards?.fit || "fill";
+  const fit = "fill"; // same 2:1 picture box on every card; event pictures are prepared at 2:1
   const { upcoming, past } = splitEvents(all, undefined, false);
   const events = [...upcoming, ...past].slice(0, 2);
   if (!events.length) return null;

@@ -1,11 +1,11 @@
 // Event card pictures. One admin setting (Photos and links > Event card pictures) picks the look:
 //  "fill"    every card has the same 2:1 picture box and the picture fills it (no gap, edges may be trimmed)
-//  "whole"   same 3:2 box, whole picture, spare space filled with a soft blur
+//  "whole"   same wide 12:5 box for every card, whole picture, never cropped, spare space filled with a soft blur
 //  "natural" whole picture in its own proportions, no gap, picture heights may differ between cards
 export const CARD_FITS = ["fill", "whole", "natural"];
 
 export function fitBox(fit) {
-  if (fit === "whole") return "aspect-[3/2]";
+  if (fit === "whole") return "aspect-[12/5]";
   if (fit === "natural") return "";
   return "aspect-[2/1]";
 }

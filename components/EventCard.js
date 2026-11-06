@@ -19,7 +19,10 @@ function Arrow() {
 
 // One event card, used by Upcoming and Previous so every card has the same height,
 // text sizes and arrow size. Titles are limited to 3 lines so rows never differ in height.
-export default function EventCard({ event, href, label, fit = "fill" }) {
+export default function EventCard({ event, href, label }) {
+  // Every event card has the same 2:1 picture box. The event pictures in public/images/events are all
+  // prepared at exactly 2:1, so they fill the box fully with no gaps and no cropping.
+  const fit = "fill";
   const linked = href && href !== "#";
   const Tag = linked ? "a" : "div";
   const linkProps = linked ? { href, "aria-label": label } : {};
