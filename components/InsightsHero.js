@@ -1,10 +1,6 @@
 import AboutReveal from "@/components/AboutReveal";
 
-// Insights page banner. Full width with no gaps on every screen. On computers the banner has a fixed,
-// height of 80% of the screen: the bottom of the picture is always kept and only a little of the top is trimmed.
-// On phones the whole picture is shown. Text sits over the picture on computers and under it on phones.
-// The picture is a website file (public/images/insights/insights-banner.webp). Text comes from the admin.
-const INSIGHTS_BANNER = "/images/insights/insights-banner.webp";
+// Insights page banner: text only on a navy background (no picture). The text comes from the admin.
 
 export default function InsightsHero({ dict }) {
   const t = dict.insightsPage;
@@ -23,17 +19,8 @@ export default function InsightsHero({ dict }) {
   );
 
   return (
-    <section className="bg-white [--u:1px] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
-      <div className="relative overflow-hidden bg-ink md:h-[80vh] md:min-h-[420px]">
-        {/* Full width, no gaps. The bottom of the picture is kept and a little of the top is trimmed on computers. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={INSIGHTS_BANNER} alt="" className="relative block h-auto w-full md:absolute md:inset-0 md:h-full md:object-cover md:object-bottom" fetchPriority="high" />
-        <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-t from-black/70 via-black/25 to-black/0 md:block" />
-        <div className="absolute inset-x-0 bottom-0 hidden md:block">
-          <div className="mx-auto w-full max-w-[1200px] px-6 pb-12 xl:max-w-[calc(1600*var(--u))] xl:px-0 xl:pb-[calc(70*var(--u))]">{copy}</div>
-        </div>
-      </div>
-      <div className="bg-brand-navy px-4 py-10 sm:px-6 md:hidden"><div className="mx-auto max-w-[1200px]">{copy}</div></div>
+    <section className="bg-brand-navy [--u:1px] xl:[--u:clamp(0.667px,0.0520833vw,1px)]">
+      <div className="mx-auto w-full max-w-[1200px] px-4 py-16 sm:px-6 md:py-24 xl:max-w-[calc(1600*var(--u))] xl:px-0 xl:py-[calc(120*var(--u))]">{copy}</div>
     </section>
   );
 }
