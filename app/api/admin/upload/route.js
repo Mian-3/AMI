@@ -1,11 +1,13 @@
 import { put } from "@vercel/blob";
 import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
+import { UPLOADS_ENABLED, UPLOADS_OFF_MESSAGE } from "@/lib/uploadSwitch";
 
 const TYPES = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "image/avif": "avif" };
 const MAX_BYTES = 6 * 1024 * 1024;
 
 export async function POST(request) {
+  if (!UPLOADS_ENABLED) return NextResponse.json({ error: UPLOADS_OFF_MESSAGE }, { status: 403 });
   const session = await getSession(["insights","content","media","events"]);
   if (!session) return NextResponse.json({ error: "Please log in again." }, { status: 401 });
 

@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { upload } from "@vercel/blob/client";
+import { UPLOADS_ENABLED, UPLOADS_OFF_MESSAGE } from "@/lib/uploadSwitch";
 
 const INPUT =
   "h-10 w-full rounded-lg border border-black/10 bg-white px-3 text-sm text-ink outline-none transition focus:border-brand-orange focus:ring-4 focus:ring-brand-orange/15";
@@ -43,8 +44,12 @@ export default function FileField({ label, value, onChange, accept, hint, noUplo
             <button
               type="button"
               disabled={progress !== null}
-              onClick={() => inputRef.current?.click()}
-              className="h-10 rounded-lg border border-black/10 px-4 text-sm font-medium transition hover:bg-black/5 disabled:opacity-60"
+              aria-disabled={!UPLOADS_ENABLED}
+              onClick={() => {
+                if (!UPLOADS_ENABLED) { setError(UPLOADS_OFF_MESSAGE); return; }
+                inputRef.current?.click();
+              }}
+              className={"h-10 rounded-lg border border-black/10 px-4 text-sm font-medium transition disabled:opacity-60 " + (UPLOADS_ENABLED ? "hover:bg-black/5" : "cursor-not-allowed bg-black/5 text-ink/35")}
             >
               {progress !== null ? `Uploading ${progress}%` : "Upload file"}
             </button>

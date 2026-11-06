@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import { handleUpload } from "@vercel/blob/client";
 import { getSession } from "@/lib/auth";
+import { UPLOADS_ENABLED, UPLOADS_OFF_MESSAGE } from "@/lib/uploadSwitch";
 
 // Direct browser to Blob uploads, so large files (catalogue PDF, hero video) are not
 // limited by the 4.5 MB request size of server functions. Only signed in admins get a token.
 export async function POST(request) {
+  if (!UPLOADS_ENABLED) return NextResponse.json({ error: UPLOADS_OFF_MESSAGE }, { status: 403 });
   const body = await request.json();
   try {
     const json = await handleUpload({

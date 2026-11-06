@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { UPLOADS_ENABLED, UPLOADS_OFF_MESSAGE } from "@/lib/uploadSwitch";
 
 const MAX_SIDE = 2200; // longest side in pixels, plenty for full width hero images
 const QUALITY = 0.82; // WebP quality: visually the same as the original for photos and logos
@@ -82,9 +83,13 @@ export default function ImageField({ label, value, onChange, hint }) {
           <div className="flex flex-wrap gap-2">
             <button
               type="button"
-              onClick={() => inputRef.current?.click()}
+              onClick={() => {
+                if (!UPLOADS_ENABLED) { setError(UPLOADS_OFF_MESSAGE); return; }
+                inputRef.current?.click();
+              }}
               disabled={busy}
-              className="rounded-lg border border-black/10 px-3 py-1.5 text-sm transition hover:bg-black/5 disabled:opacity-60"
+              aria-disabled={!UPLOADS_ENABLED}
+              className={"rounded-lg border border-black/10 px-3 py-1.5 text-sm transition disabled:opacity-60 " + (UPLOADS_ENABLED ? "hover:bg-black/5" : "cursor-not-allowed bg-black/5 text-ink/35")}
             >
               {busy ? "Optimising and uploading..." : value ? "Replace image" : "Upload image"}
             </button>
